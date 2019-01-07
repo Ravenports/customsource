@@ -1,21 +1,42 @@
-# DEF[PORTVERSION]=	1.00
+DEF[PORTVERSION]=	0.5.0
+DEF[SOVERSION]=		2.0.27
 # ----------------------------------------------------------------------------
 
-NAMEBASE=		...
+NAMEBASE=		libsmi
 VERSION=		${PORTVERSION}
-KEYWORDS=		...
+KEYWORDS=		net_mgmt
 VARIANTS=		standard
-SDESC[standard]=	...
-HOMEPAGE=		none
-CONTACT=		Jay_Leno[jay@aarp.org]
+SDESC[standard]=	Library to access SMI management information
+HOMEPAGE=		https://www.ibr.cs.tu-bs.de/projects/libsmi/
+CONTACT=		nobody
 
 DOWNLOAD_GROUPS=	main
-SITES[main]=		http://www.example.com/
-DISTFILE[1]=		x-${PORTVERSION}.tar.gz:main
+SITES[main]=		https://www.ibr.cs.tu-bs.de/projects/libsmi/download/
+DISTFILE[1]=		libsmi-${PORTVERSION}.tar.gz:main
 
-SPKGS[standard]=	single
+SPKGS[standard]=	complete library tools
 
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
 
-FPC_EQUIVALENT=		...
+LICENSE=		MIT:library
+LICENSE_FILE=		MIT:{{WRKSRC}}/COPYING
+LICENSE_SCHEME=		solo
+
+FPC_EQUIVALENT=		net-mgmt/libsmi
+
+BUILD_DEPENDS=		wget:primary:standard
+EXRUN[tools]=		wget:primary:standard
+			libsmi:library:standard
+
+USES=			gmake libtool pkgconfig
+MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--with-data-dir={{PREFIX}}/share/smi
+			--with-pibdir={{PREFIX}}/share/smi/pibs
+			--with-mibdir={{PREFIX}}/share/smi/mibs
+INSTALL_TARGET=		install-strip
+SOVERSION=		${SOVERSION}
+
+post-install:
+	${RM} -r ${STAGEDIR}${PREFIX}/share/aclocal
+	${RM} -r ${STAGEDIR}${PREFIX}/share/yang/site
