@@ -658,6 +658,8 @@ lib/dovecot/lib20_virtual_plugin.a
 lib/dovecot/lib20_virtual_plugin.so
 lib/dovecot/lib20_zlib_plugin.a
 lib/dovecot/lib20_zlib_plugin.so
+lib/dovecot/lib21_fts_lucene_plugin.a
+lib/dovecot/lib21_fts_lucene_plugin.so
 lib/dovecot/lib21_fts_squat_plugin.a
 lib/dovecot/lib21_fts_squat_plugin.so
 lib/dovecot/lib30_imap_zlib_plugin.a
@@ -720,6 +722,8 @@ lib/dovecot/doveadm/lib10_doveadm_expire_plugin.a
 lib/dovecot/doveadm/lib10_doveadm_expire_plugin.so
 lib/dovecot/doveadm/lib10_doveadm_quota_plugin.a
 lib/dovecot/doveadm/lib10_doveadm_quota_plugin.so
+lib/dovecot/doveadm/lib20_doveadm_fts_lucene_plugin.a
+lib/dovecot/doveadm/lib20_doveadm_fts_lucene_plugin.so
 lib/dovecot/doveadm/lib20_doveadm_fts_plugin.a
 lib/dovecot/doveadm/lib20_doveadm_fts_plugin.so
 lib/dovecot/doveadm/libdoveadm_mail_crypt_plugin.a
@@ -764,7 +768,6 @@ libexec/dovecot/script-login
 libexec/dovecot/stats
 libexec/dovecot/submission
 libexec/dovecot/submission-login
-libexec/dovecot/tcpwrap
 libexec/dovecot/xml2text
 sbin/dovecot
 share/aclocal/dovecot.m4
