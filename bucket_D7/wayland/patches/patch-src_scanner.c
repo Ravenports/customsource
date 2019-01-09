@@ -1,6 +1,6 @@
---- src/scanner.c.orig	2018-07-20 17:34:56.204161000 +0300
-+++ src/scanner.c	2018-07-20 17:36:14.094594000 +0300
-@@ -1956,7 +1956,7 @@
+--- src/scanner.c.orig	2018-08-24 18:04:36 UTC
++++ src/scanner.c
+@@ -1951,7 +1951,7 @@ int main(int argc, char *argv[])
  		buf = XML_GetBuffer(ctx.parser, XML_BUFFER_SIZE);
  		len = fread(buf, 1, XML_BUFFER_SIZE, input);
  		if (len < 0) {

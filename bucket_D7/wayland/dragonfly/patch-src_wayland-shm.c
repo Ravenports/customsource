@@ -1,5 +1,5 @@
---- src/wayland-shm.c.orig	2018-07-20 13:58:03.525147000 +0300
-+++ src/wayland-shm.c	2018-07-20 15:20:10.858627000 +0300
+--- src/wayland-shm.c.orig	2018-08-24 18:04:36 UTC
++++ src/wayland-shm.c
 @@ -30,6 +30,10 @@
  
  #define _GNU_SOURCE
@@ -19,7 +19,7 @@
  
  #include "wayland-util.h"
  #include "wayland-private.h"
-@@ -59,6 +64,9 @@
+@@ -59,6 +64,9 @@ struct wl_shm_pool {
  	char *data;
  	int32_t size;
  	int32_t new_size;
@@ -29,7 +29,7 @@
  };
  
  struct wl_shm_buffer {
-@@ -84,7 +92,24 @@
+@@ -84,7 +92,24 @@ shm_pool_finish_resize(struct wl_shm_poo
  	if (pool->size == pool->new_size)
  		return;
  
@@ -55,7 +55,7 @@
  	if (data == MAP_FAILED) {
  		wl_resource_post_error(pool->resource,
  				       WL_SHM_ERROR_INVALID_FD,
-@@ -111,6 +136,9 @@
+@@ -111,6 +136,9 @@ shm_pool_unref(struct wl_shm_pool *pool,
  		return;
  
  	munmap(pool->data, pool->size);
@@ -65,7 +65,7 @@
  	free(pool);
  }
  
-@@ -235,6 +263,8 @@
+@@ -235,6 +263,8 @@ shm_pool_resize(struct wl_client *client
  				       "shrinking pool invalid");
  		return;
  	}
@@ -74,7 +74,7 @@
  
  	pool->new_size = size;
  
-@@ -276,21 +306,28 @@
+@@ -276,21 +306,28 @@ shm_create_pool(struct wl_client *client
  	pool->external_refcount = 0;
  	pool->size = size;
  	pool->new_size = size;
@@ -107,7 +107,7 @@
  		free(pool);
  		return;
  	}
-@@ -495,6 +532,14 @@
+@@ -495,6 +532,14 @@ sigbus_handler(int signum, siginfo_t *in
  	sigbus_data->fallback_mapping_used = 1;
  
  	/* This should replace the previous mapping */
@@ -122,7 +122,7 @@
  	if (mmap(pool->data, pool->size,
  		 PROT_READ | PROT_WRITE,
  		 MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS,
-@@ -502,6 +547,7 @@
+@@ -502,6 +547,7 @@ sigbus_handler(int signum, siginfo_t *in
  		reraise_sigbus();
  		return;
  	}

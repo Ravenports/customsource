@@ -1,4 +1,4 @@
---- src/wayland-util.c
+--- src/wayland-util.c.orig	2018-08-24 18:04:36 UTC
 +++ src/wayland-util.c
 @@ -29,6 +29,7 @@
  #include <stdio.h>

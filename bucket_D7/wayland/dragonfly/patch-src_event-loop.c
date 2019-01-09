@@ -1,5 +1,5 @@
---- src/event-loop.c.orig	2018-08-21 12:57:12.800360000 +0300
-+++ src/event-loop.c	2018-08-21 13:07:44.933192000 +0300
+--- src/event-loop.c.orig	2018-08-24 18:04:36 UTC
++++ src/event-loop.c
 @@ -25,6 +25,7 @@
  
  #include <stddef.h>
@@ -30,7 +30,7 @@
  	struct wl_list check_list;
  	struct wl_list idle_list;
  	struct wl_list destroy_list;
-@@ -56,7 +57,7 @@
+@@ -56,7 +57,7 @@ struct wl_event_loop {
  
  struct wl_event_source_interface {
  	int (*dispatch)(struct wl_event_source *source,
@@ -39,7 +39,7 @@
  };
  
  struct wl_event_source {
-@@ -77,22 +78,22 @@
+@@ -77,22 +78,22 @@ struct wl_event_source_fd {
  
  static int
  wl_event_source_fd_dispatch(struct wl_event_source *source,
@@ -68,7 +68,7 @@
  }
  
  struct wl_event_source_interface fd_source_interface = {
-@@ -103,30 +104,10 @@
+@@ -103,30 +104,10 @@ static struct wl_event_source *
  add_source(struct wl_event_loop *loop,
  	   struct wl_event_source *source, uint32_t mask, void *data)
  {
@@ -99,7 +99,7 @@
  	return source;
  }
  
-@@ -162,6 +143,9 @@
+@@ -162,6 +143,9 @@ wl_event_loop_add_fd(struct wl_event_loo
  {
  	struct wl_event_source_fd *source;
  
@@ -109,7 +109,7 @@
  	source = malloc(sizeof *source);
  	if (source == NULL)
  		return NULL;
-@@ -170,8 +154,35 @@
+@@ -170,8 +154,35 @@ wl_event_loop_add_fd(struct wl_event_loo
  	source->base.fd = wl_os_dupfd_cloexec(fd, 0);
  	source->func = func;
  	source->fd = fd;
@@ -146,7 +146,7 @@
  }
  
  /** Update a file descriptor source's event mask
-@@ -198,16 +209,22 @@
+@@ -198,16 +209,22 @@ WL_EXPORT int
  wl_event_source_fd_update(struct wl_event_source *source, uint32_t mask)
  {
  	struct wl_event_loop *loop = source->loop;
@@ -177,7 +177,7 @@
  }
  
  /** \cond INTERNAL */
-@@ -221,18 +238,13 @@
+@@ -221,18 +238,13 @@ struct wl_event_source_timer {
  
  static int
  wl_event_source_timer_dispatch(struct wl_event_source *source,
@@ -198,7 +198,7 @@
  	return timer_source->func(timer_source->base.data);
  }
  
-@@ -258,18 +270,20 @@
+@@ -258,18 +270,20 @@ wl_event_loop_add_timer(struct wl_event_
  			wl_event_loop_timer_func_t func,
  			void *data)
  {
@@ -223,7 +223,7 @@
  }
  
  /** Arm or disarm a timer
-@@ -291,14 +305,21 @@
+@@ -291,14 +305,21 @@ wl_event_loop_add_timer(struct wl_event_
  WL_EXPORT int
  wl_event_source_timer_update(struct wl_event_source *source, int ms_delay)
  {
@@ -251,7 +251,7 @@
  
  	return 0;
  }
-@@ -315,20 +336,14 @@
+@@ -315,20 +336,14 @@ struct wl_event_source_signal {
  
  static int
  wl_event_source_signal_dispatch(struct wl_event_source *source,
@@ -278,7 +278,7 @@
  }
  
  struct wl_event_source_interface signal_source_interface = {
-@@ -356,12 +371,13 @@
+@@ -356,12 +371,13 @@ struct wl_event_source_interface signal_
   */
  WL_EXPORT struct wl_event_source *
  wl_event_loop_add_signal(struct wl_event_loop *loop,
@@ -295,7 +295,7 @@
  
  	source = malloc(sizeof *source);
  	if (source == NULL)
-@@ -369,15 +385,26 @@
+@@ -369,15 +385,26 @@ wl_event_loop_add_signal(struct wl_event
  
  	source->base.interface = &signal_source_interface;
  	source->signal_number = signal_number;
@@ -325,7 +325,7 @@
  }
  
  /** \cond INTERNAL */
-@@ -474,15 +501,74 @@
+@@ -474,15 +501,74 @@ WL_EXPORT int
  wl_event_source_remove(struct wl_event_source *source)
  {
  	struct wl_event_loop *loop = source->loop;
@@ -405,7 +405,7 @@
  	wl_list_remove(&source->link);
  	wl_list_insert(&loop->destroy_list, &source->link);
  
-@@ -523,8 +609,8 @@
+@@ -523,8 +609,8 @@ wl_event_loop_create(void)
  	if (loop == NULL)
  		return NULL;
  
@@ -416,7 +416,7 @@
  		free(loop);
  		return NULL;
  	}
-@@ -556,22 +642,21 @@
+@@ -556,22 +642,21 @@ wl_event_loop_destroy(struct wl_event_lo
  	wl_signal_emit(&loop->destroy_signal, loop);
  
  	wl_event_loop_process_destroy_list(loop);
@@ -442,7 +442,7 @@
  		if (dispatch_result < 0) {
  			wl_log("Source dispatch function returned negative value!");
  			wl_log("This would previously accidentally suppress a follow-up dispatch");
-@@ -625,20 +710,27 @@
+@@ -625,20 +710,27 @@ wl_event_loop_dispatch_idle(struct wl_ev
  WL_EXPORT int
  wl_event_loop_dispatch(struct wl_event_loop *loop, int timeout)
  {
@@ -475,7 +475,7 @@
  	}
  
  	wl_event_loop_process_destroy_list(loop);
-@@ -669,7 +761,7 @@
+@@ -669,7 +761,7 @@ wl_event_loop_dispatch(struct wl_event_l
  WL_EXPORT int
  wl_event_loop_get_fd(struct wl_event_loop *loop)
  {

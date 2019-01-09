@@ -1,6 +1,6 @@
---- Makefile.am.orig	2018-07-20 12:31:32.488050000 +0300
-+++ Makefile.am	2018-07-20 16:58:29.771965000 +0300
-@@ -170,7 +170,6 @@
+--- Makefile.am.orig	2018-08-24 18:04:36 UTC
++++ Makefile.am
+@@ -170,7 +170,6 @@ built_test_programs =				\
  	interface-test				\
  	list-test				\
  	map-test				\
@@ -8,7 +8,7 @@
  	sanity-test				\
  	socket-test				\
  	queue-test				\
-@@ -223,7 +222,7 @@
+@@ -223,7 +222,7 @@ libtest_runner_la_LIBADD =			\
  	libwayland-util.la			\
  	libwayland-client.la			\
  	libwayland-server.la			\
@@ -17,7 +17,7 @@
  
  
  array_test_SOURCES = tests/array-test.c
-@@ -270,7 +269,6 @@
+@@ -270,7 +269,6 @@ protocol_logger_test_LDADD = libtest-run
  headers_test_SOURCES = tests/headers-test.c \
  		       tests/headers-protocol-test.c \
  		       tests/headers-protocol-core-test.c
@@ -25,7 +25,7 @@
  nodist_headers_test_SOURCES =			\
  	protocol/wayland-server-protocol-core.h	\
  	protocol/wayland-client-protocol-core.h
-@@ -282,9 +280,6 @@
+@@ -282,9 +280,6 @@ endif
  fixed_benchmark_SOURCES = tests/fixed-benchmark.c
  fixed_benchmark_LDADD = libtest-runner.la
  

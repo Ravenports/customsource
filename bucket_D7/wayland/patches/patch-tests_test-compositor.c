@@ -1,6 +1,6 @@
---- tests/test-compositor.c.orig	2017-07-25 14:34:46.337944000 +0300
-+++ tests/test-compositor.c	2017-07-25 14:33:46.687620000 +0300
-@@ -97,12 +97,33 @@
+--- tests/test-compositor.c.orig	2018-08-24 18:04:36 UTC
++++ tests/test-compositor.c
+@@ -97,12 +97,33 @@ handle_client_destroy(void *data)
  {
  	struct client_info *ci = data;
  	struct display *d;
@@ -36,7 +36,7 @@
  	switch (status.si_code) {
  	case CLD_KILLED:
  	case CLD_DUMPED:
-@@ -118,6 +139,7 @@
+@@ -118,6 +139,7 @@ handle_client_destroy(void *data)
  		ci->exit_code = status.si_status;
  		break;
  	}

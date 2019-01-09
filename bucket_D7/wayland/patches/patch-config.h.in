@@ -1,6 +1,6 @@
---- config.h.in.orig	2018-07-20 14:35:46.891108000 +0300
-+++ config.h.in	2018-07-20 14:44:04.086191000 +0300
-@@ -42,12 +42,18 @@
+--- config.h.in.orig	2018-08-24 18:04:43 UTC
++++ config.h.in
+@@ -36,12 +36,18 @@
  /* Define to 1 if you have the <string.h> header file. */
  #undef HAVE_STRING_H
  
