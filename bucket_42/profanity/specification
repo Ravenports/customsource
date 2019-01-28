@@ -27,6 +27,7 @@ FPC_EQUIVALENT=		net-im/profanity
 
 USES=			autoreconf libtool ncurses pkgconfig python readline ssl
 MUST_CONFIGURE=		gnu
+CFLAGS=			-I{{NCURSESINC}}
 CONFIGURE_ENV=		LIBS="{{CFLAGS}} -lcrypto"
 CONFIGURE_ARGS=		--enable-c-plugins
 			--enable-icons=no
@@ -49,6 +50,7 @@ BR_DEPS[netbsd]=	libdl:single:standard
 BR_DEPS[freebsd]=	libdl:single:standard
 BR_DEPS[sunos]=		libdl:single:standard
 BR_DEPS[darwin]=	libdl:single:standard
+INSTALL_TARGET=		install-strip
 
 post-patch:
 	${REINPLACE_CMD} "s,python,python${PYTHON_VER},g" \
