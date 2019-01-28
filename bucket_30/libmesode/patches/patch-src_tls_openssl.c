@@ -1,8 +1,8 @@
 diff --git src/tls_openssl.c src/tls_openssl.c
 index 83e52f9..20badd7 100644
---- src/tls_openssl.c
+--- src/tls_openssl.c.orig	2018-09-18 18:30:27 UTC
 +++ src/tls_openssl.c
-@@ -47,7 +47,7 @@ static void _tls_log_error(xmpp_ctx_t *ctx);
+@@ -47,7 +47,7 @@ static void _tls_log_error(xmpp_ctx_t *c
  
  void tls_initialize(void)
  {
