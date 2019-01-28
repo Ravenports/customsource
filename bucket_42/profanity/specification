@@ -43,12 +43,6 @@ BUILDRUN_DEPENDS=	curl:primary:standard
 			libnotify:primary:standard
 			libotr:single:standard
 			libuuid:single:standard
-BR_DEPS[dragonfly]=	libdl:single:standard
-BR_DEPS[openbsd]=	libdl:single:standard
-BR_DEPS[netbsd]=	libdl:single:standard
-BR_DEPS[freebsd]=	libdl:single:standard
-BR_DEPS[sunos]=		libdl:single:standard
-BR_DEPS[darwin]=	libdl:single:standard
 INSTALL_TARGET=		install-strip
 
 post-patch:
