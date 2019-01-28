@@ -34,7 +34,6 @@ CONFIGURE_ARGS=		--enable-c-plugins
 			--enable-notifications
 			--enable-otr
 			--enable-pgp
-			--enable-python-plugins
 			--with-xscreensaver=no
 GNOME_COMPONENTS=	glib
 BUILD_DEPENDS=		autoconf-archive:single:standard
