@@ -31,7 +31,7 @@ LICENSE_SCHEME=		multi
 
 FPC_EQUIVALENT=		security/libotr
 
-USES=			cpe libtool
+USES=			cclibs:single cpe libtool
 BUILDRUN_DEPENDS=	libgpg-error:single:standard
 			libgcrypt:single:standard
 MUST_CONFIGURE=		gnu
