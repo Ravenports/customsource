@@ -31,3 +31,7 @@ USES=			desktop-utils:single gmake pkgconfig
 BUILDRUN_DEPENDS=	webkit2:single:gtk3
 CFLAGS=			-D_BSD_SOURCE
 MAKE_ENV=		V=1
+
+post-install:
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/vimb
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/vimb/webext_main.so
