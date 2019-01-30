@@ -41,11 +41,11 @@ SHEBANG_FILES=		contrib/smime_keys_test.pl
 CFLAGS=			-I{{NCURSESINC}}
 MUST_CONFIGURE=		gnu
 CONFIGURE_ARGS=		--disable-debug
+			--disable-flock
 			--enable-compressed
-			--enable-gpgme
 			--enable-external_dotlock
 			--enable-fcntl
-			--enable-flock
+			--enable-gpgme
 			--enable-hcache
 			--enable-imap
 			--enable-nls
