@@ -36,7 +36,6 @@ bin/pgpewrap
 bin/smime_keys
 etc/Muttrc
 etc/Muttrc.dist
-etc/mime.types
 etc/mime.types.dist
 share/info/mutt.info
 share/man/man1/mutt.1.gz

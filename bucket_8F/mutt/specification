@@ -35,6 +35,7 @@ BUILDRUN_DEPENDS=	cyrus-sasl:primary:standard
 			gettext:runtime:standard
 			gpgme:primary:standard
 			libidn2:primary:standard
+RUN_DEPENDS=		mime-support:single:standard
 [NLS].BUILDRUN_DEPENDS_ON=		gdbm:single:nls
 [NLS].BUILDRUN_DEPENDS_OFF=		gdbm:single:standard
 
@@ -68,3 +69,6 @@ CONFIGURE_ARGS=		--disable-debug
 			--without-tokyocabinet
 			--without-qdbm
 [NLS].CONFIGURE_ENABLE_BOTH=		nls
+
+post-install:
+	rm ${STAGEDIR}${PREFIX}/etc/mime.types
