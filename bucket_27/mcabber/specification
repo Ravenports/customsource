@@ -28,7 +28,6 @@ LICENSE_SCHEME=		solo
 FPC_EQUIVALENT=		net-im/mcabber
 
 USES=			desktop-utils:single gettext-runtime iconv libtool ncurses pkgconfig
-CFLAGS=			-I{{NCURSESINC}}
 GNOME_COMPONENTS=	glib
 MUST_CONFIGURE=		gnu
 CONFIGURE_ARGS=		--disable-hgcset
