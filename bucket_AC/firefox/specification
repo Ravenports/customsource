@@ -108,9 +108,9 @@ BUILDRUN_DEPENDS=	bzip2:shared:standard
 VAR_OPSYS[freebsd]=	CONFIGURE_ARGS=--enable-jemalloc=4
 VAR_OPSYS[linux]=	QMAKE_ARGS=--disable-elf-hack
 
-SUB_FILES=		firefox.desktop
-			pkg-install-single
-			pkg-deinstall-single
+# SUB_FILES=		firefox.desktop
+# #			pkg-install-single
+# #			pkg-deinstall-single
 SUB_LIST=		FIREFOX_ICON=firefox.png
 			MOZILLA=firefox
 			MOZILLA_BIN=firefox-bin
