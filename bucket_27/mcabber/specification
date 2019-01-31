@@ -35,6 +35,7 @@ CONFIGURE_ARGS=		--disable-hgcset
 			--enable-gpgme
 			--enable-otr
 			--without-libidn
+# libidn2 can't be used, it depends on stringprep
 BUILDRUN_DEPENDS=	gpgme:primary:standard
 			loudmouth:single:standard
 			libotr:single:standard
