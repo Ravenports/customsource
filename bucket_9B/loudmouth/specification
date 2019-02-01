@@ -19,11 +19,12 @@ SPKGS[standard]=	single
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
 
-LICENSE=		LGPL21+:single
-LICENSE_FILE=		LGPL21+:{{WRKSRC}}/COPYING
+# $WRKSRC/COPYING license does not match terms, so use stock license
+LICENSE=		LGPL20+:single
+LICENSE_FILE=		LGPL20+:stock
 LICENSE_TERMS=		single:{{WRKDIR}}/TERMS
-LICENSE_AWK=		TERMS:"^\#include"
-LICENSE_SOURCE=		TERMS:{{WRKSRC}}/loudmouth/lm-dummy.c
+LICENSE_AWK=		TERMS:"^$$"
+LICENSE_SOURCE=		TERMS:{{WRKSRC}}/loudmouth/loudmouth.h
 LICENSE_SCHEME=		solo
 
 FPC_EQUIVALENT=		net-im/loudmouth
