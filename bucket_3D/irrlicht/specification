@@ -12,8 +12,7 @@ HOMEPAGE=		http://irrlicht.sourceforge.net/
 CONTACT=		Leonid_Bobrov[mazocomp@disroot.org]
 
 DOWNLOAD_GROUPS=	main
-# SF/irrlich doesn't work, John, you need a better SF script
-SITES[main]=		https://downloads.sourceforge.net/sourceforge/irrlicht/
+SITES[main]=		SF/irrlicht/Irrlicht%20SDK/${PORTVERSION:R}/${PORTVERSION}
 DISTFILE[1]=		irrlicht-${PORTVERSION}.zip:main
 
 SPKGS[standard]=	single
@@ -49,7 +48,9 @@ CPPFLAGS=		-DNO_IRR_USE_NON_SYSTEM_JPEG_LIB_
 			-DNO_IRR_COMPILE_WITH_JOYSTICK_EVENTS_
 
 MAKE_ENV=		DESTPREFIX={{STAGEDIR}}{{PREFIX}}
+
 [DEBUG].MAKE_ENV_OFF=			NDEBUG=1
+[DEBUG].MAKEFILE_ON=			WITH_DEBUG=yes
 
 post-patch-dragonfly:
 	${REINPLACE_CMD} "s/FreeBSD/DragonFly/" ${BUILD_WRKSRC}/*.*
