@@ -25,7 +25,7 @@ LICENSE_SCHEME=		solo
 
 FPC_EQUIVALENT=		archivers/snappy
 
-USES=			c++:single cclibs:single cmake:outsource
+USES=			c++:single cclibs:single cmake
 CMAKE_ARGS=		-DBUILD_SHARED_LIBS=ON
 			-DSNAPPY_BUILD_TESTS=OFF
 			-DSNAPPY_REQUIRE_AVX=ON
