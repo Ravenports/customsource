@@ -43,7 +43,6 @@ XORG_COMPONENTS=	x11 xext xxf86vm
 BUILD_DEPENDS=		bzip2:static:standard
 			doxygen:single:standard
 			gmp:static:standard
-# Optional buildrun dependency, not ported leveldb:single:standard
 BUILDRUN_DEPENDS=	bzip2:shared:standard
 			curl:primary:standard
 			freetype:primary:standard
@@ -51,6 +50,7 @@ BUILDRUN_DEPENDS=	bzip2:shared:standard
 			hiredis:single:standard
 			irrlicht:single:standard
 			jsoncpp:single:standard
+			leveldb:single:standard
 			libogg:primary:standard
 			libvorbis:primary:standard
 			luajit:single:standard
