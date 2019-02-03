@@ -28,7 +28,7 @@ LICENSE_NAME=		CUSTOM1:"Attribution-ShareAlike 3.0 Unported"
 LICENSE_FILE=		APACHE20:stock
 			CUSTOM1:{{FILESDIR}}/LICENSE_CC_BY_SA_30
 			LGPL21+:stock
-LICENSE_TERMS=		data:{{WRKSRC}}/README.txt
+LICENSE_TERMS=		data:{{WRKDIR}}/TERMS
 LICENSE_SCHEME=		multi
 
 FPC_EQUIVALENT=		games/minetest
@@ -59,6 +59,10 @@ BUILDRUN_DEPENDS=	bzip2:shared:standard
 			spatialindex:single:standard
 EXRUN[client]=		minetest:data:standard
 EXRUN[server]=		minetest:data:standard
+
+post-extract:
+	${AWK} '/^License of Minetest textures/,0' ${WRKSRC}/README.txt\
+		> ${WRKDIR}/TERMS
 
 post-install:
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/minetest*
