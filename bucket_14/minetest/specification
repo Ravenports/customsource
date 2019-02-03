@@ -21,8 +21,15 @@ SPKGS[standard]=	complete client server data docs
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
 
-# It's really hard for me to do this.
+LICENSE=		APACHE20:data
+			CUSTOM1:data
+			LGPL21+:data
+LICENSE_NAME=		CUSTOM1:"Attribution-ShareAlike 3.0 Unported"
+LICENSE_FILE=		APACHE20:stock
+			CUSTOM1:{{FILESDIR}}/LICENSE_CC_BY_SA_30
+			LGPL21+:stock
 LICENSE_TERMS=		data:{{WRKSRC}}/README.txt
+LICENSE_SCHEME=		multi
 
 FPC_EQUIVALENT=		games/minetest
 
