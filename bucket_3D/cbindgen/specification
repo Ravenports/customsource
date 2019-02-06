@@ -146,7 +146,3 @@ LICENSE_SCHEME=		solo
 FPC_EQUIVALENT=		devel/rust-cbindgen
 
 USES=			cargo cclibs:single
-
-# TBD: move into framework
-post-install:
-	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/cbindgen
