@@ -1,4 +1,4 @@
-DEF[PORTVERSION]=	65.0
+DEF[PORTVERSION]=	EXTRACT_INFO(FIREFOX_VERSION)
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		firefox
@@ -10,8 +10,7 @@ HOMEPAGE=		https://www.mozilla.org/en-US/firefox/
 CONTACT=		Leonid_Bobrov[mazocomp@disroot.org]
 
 DOWNLOAD_GROUPS=	main
-SITES[main]=		https://download.cdn.mozilla.net/pub/firefox/releases/${PORTVERSION}/source/
-			https://archive.mozilla.org/pub/firefox/releases/${PORTVERSION}/source/
+SITES[main]=		MOZILLA/firefox/releases/${PORTVERSION}/source
 DISTFILE[1]=		firefox-${PORTVERSION}.source.tar.xz:main
 
 SPKGS[standard]=	single
@@ -108,14 +107,26 @@ BUILDRUN_DEPENDS=	bzip2:shared:standard
 VAR_OPSYS[freebsd]=	CONFIGURE_ARGS=--enable-jemalloc=4
 VAR_OPSYS[linux]=	QMAKE_ARGS=--disable-elf-hack
 
-# SUB_FILES=		firefox.desktop
-# #			pkg-install-single
-# #			pkg-deinstall-single
+SUB_FILES=		pkg-install-single
+			pkg-deinstall-single
 SUB_LIST=		FIREFOX_ICON=firefox.png
 			MOZILLA=firefox
 			MOZILLA_BIN=firefox-bin
 			MOZILLA_NAME=Firefox
 			MOZDIR={{PREFIX}}/lib/firefox
+
+post-patch:
+	${REINPLACE_CMD} -e 's|%%LOCALBASE%%|${LOCALBASE}|g' \
+		${WRKSRC}/browser/app/nsBrowserApp.cpp
+	${REINPLACE_CMD} -e 's/%u/%U/' -e '/X-MultipleArgs/d' \
+		-e '/^Icon/s/=.*/=firefox/' \
+		${WRKSRC}/taskcluster/docker/firefox-snap/firefox.desktop
+	(cd ${WRKSRC}/gfx/angle/checkout/src/compiler/translator && \
+		${REINPLACE_CMD} -e 's|<math.h>|<cmath>|' \
+		InfoSink.h IntermNode.cpp)
+	# disable SCTP
+	${REINPLACE_CMD} -e 's|MOZ_SCTP|MOZ_DISABLE_SCTP|' \
+		${WRKSRC}/netwerk/moz.build
 
 pre-configure:
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf-2.13)
