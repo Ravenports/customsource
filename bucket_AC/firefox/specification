@@ -35,7 +35,6 @@ BUILD_DEPENDS=		autoconf213:single:standard
 			yasm:single:standard
 			zip:single:standard
 			clang:compiler:standard
-# remove llvm later (clang will pull it in)
 			llvm:single:standard
 BUILDRUN_DEPENDS=	bzip2:shared:standard
 			dbus-glib:primary:standard
@@ -83,7 +82,6 @@ QMAKE_ARGS=		--enable-application=browser
 			--disable-tests
 			--disable-updater
 			--disable-webrtc
-			--disable-nodejs
 			--prefix="{{PREFIX}}"
 			--with-intl-api
 			--with-system-bz2
