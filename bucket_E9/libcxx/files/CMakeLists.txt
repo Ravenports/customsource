@@ -6,6 +6,7 @@ set(PRJDIR "${LLVM_MAIN_SRC_DIR}/projects")
 set(LLVM_EXTERNAL_LIBCXX_SOURCE_DIR "${PRJDIR}/libcxx")
 set(LIBCXXABI_LIBCXX_PATH "${PRJDIR}/libcxx")
 set(LIBCXX_CXX_ABI_INCLUDE_PATHS "${PRJDIR}/libcxxabi/include")
+set(LIBCXXABI_USE_LLVM_UNWINDER TRUE)
 
 add_subdirectory(projects/libcxx)
 add_subdirectory(projects/libcxxabi)
