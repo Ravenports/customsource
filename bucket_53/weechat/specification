@@ -30,7 +30,7 @@ FPC_EQUIVALENT=		irc/weechat
 USES=			cmake gettext-tools gettext-runtime iconv libtool
 			lua ncurses perl pkgconfig python ruby tcl
 CMAKE_ARGS=		-DENABLE_PYTHON3=ON
-			-DPYTHON_LIBRARY:FILEPATH={{LOCALBASE}}/lib/libpython{{PYTHON_VER}}m.so
+			-DPYTHON_LIBRARY:FILEPATH={{LOCALBASE}}/lib/libpython{{PYTHON_VER}}{{PYTHON_ABIVER}}.so
 BUILD_DEPENDS=		zlib:static:standard
 BUILDRUN_DEPENDS=	aspell:single:standard
 			curl:primary:standard
