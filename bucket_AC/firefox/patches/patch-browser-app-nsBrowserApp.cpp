@@ -1,4 +1,4 @@
---- browser/app/nsBrowserApp.cpp.orig	2019-01-24 18:48:38 UTC
+--- browser/app/nsBrowserApp.cpp.orig	2019-02-27 22:18:20 UTC
 +++ browser/app/nsBrowserApp.cpp
 @@ -275,6 +275,9 @@ int main(int argc, char* argv[], char* e
    }

@@ -1,6 +1,6 @@
 diff --git a/build/moz.configure/init.configure b/build/moz.configure/init.configure
 index 855214a..1e91d51 100644
---- build/moz.configure/init.configure.orig	2019-01-24 18:48:38 UTC
+--- build/moz.configure/init.configure.orig	2019-02-27 22:18:21 UTC
 +++ build/moz.configure/init.configure
 @@ -204,6 +204,7 @@ option(env='PYTHON', nargs=1, help='Pyth
  @imports(_from='mozbuild.configure.util', _import='LineIO')

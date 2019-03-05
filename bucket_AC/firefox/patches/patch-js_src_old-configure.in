@@ -1,4 +1,4 @@
---- js/src/old-configure.in.orig	2019-01-24 18:48:42 UTC
+--- js/src/old-configure.in.orig	2019-02-27 22:18:23 UTC
 +++ js/src/old-configure.in
 @@ -953,7 +953,7 @@ dnl Checks for header files.
  dnl ========================================================

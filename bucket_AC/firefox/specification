@@ -82,6 +82,7 @@ QMAKE_ARGS=		--enable-application=browser
 			--disable-tests
 			--disable-updater
 			--disable-webrtc
+			--disable-hardening
 			--prefix="{{PREFIX}}"
 			--with-intl-api
 			--with-system-bz2
@@ -123,6 +124,8 @@ post-patch:
 		${ECHO_CMD} ".mozconfig <<  $$arg" ;\
 		${ECHO_CMD} ac_add_options $$arg >> ${WRKSRC}/.mozconfig ;\
 	done
+	@${ECHO_CMD} LDFLAGS=\"-Wl,-rpath,${PREFIX}/lib/firefox\" \
+		>> ${WRKSRC}/.mozconfig
 
 pre-configure:
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf-2.13)
@@ -131,7 +134,7 @@ pre-configure:
 post-install:
 	@${MKDIR} ${STAGEDIR}${PREFIX}/share/pixmaps \
 		${STAGEDIR}${PREFIX}/share/applications
-	${INSTALL_DATA} ${WRKDIR}/firefox.desktop \
+	${INSTALL_DATA} ${WRKSRC}/taskcluster/docker/firefox-snap/firefox.desktop \
 		${STAGEDIR}${PREFIX}/share/applications/
 	${LN} -sf ${PREFIX}/lib/firefox/browser/chrome/icons/default/default48.png \
 		${STAGEDIR}${PREFIX}/share/pixmaps/firefox.png

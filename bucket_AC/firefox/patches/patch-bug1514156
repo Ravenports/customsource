@@ -25,7 +25,7 @@ Date:   Thu Jan 3 22:36:09 2019 -0800
 
 diff --git gfx/gl/GLContextEGL.h gfx/gl/GLContextEGL.h
 index 95d5e0c02e23..adb37e59a9f7 100644
---- gfx/gl/GLContextEGL.h.orig	2019-01-24 18:48:40 UTC
+--- gfx/gl/GLContextEGL.h.orig	2019-02-27 22:18:23 UTC
 +++ gfx/gl/GLContextEGL.h
 @@ -91,6 +91,10 @@ class GLContextEGL : public GLContext {
        CreateContextFlags flags, const gfx::IntSize& size,
@@ -38,7 +38,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
   protected:
    friend class GLContextProviderEGL;
    friend class GLContextEGLFactory;
---- gfx/gl/GLContextProviderEGL.cpp.orig	2019-01-24 18:48:41 UTC
+--- gfx/gl/GLContextProviderEGL.cpp.orig	2019-02-27 22:18:23 UTC
 +++ gfx/gl/GLContextProviderEGL.cpp
 @@ -295,6 +295,36 @@ already_AddRefed<GLContext> GLContextEGL
    return gl.forget();
@@ -77,7 +77,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
  GLContextEGL::GLContextEGL(CreateContextFlags flags, const SurfaceCaps& caps,
                             bool isOffscreen, EGLConfig config,
                             EGLSurface surface, EGLContext context)
---- gfx/webrender_bindings/RenderCompositor.cpp.orig	2019-01-24 18:48:41 UTC
+--- gfx/webrender_bindings/RenderCompositor.cpp.orig	2019-02-27 22:18:23 UTC
 +++ gfx/webrender_bindings/RenderCompositor.cpp
 @@ -16,6 +16,10 @@
  #include "mozilla/webrender/RenderCompositorANGLE.h"
@@ -105,7 +105,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
    return RenderCompositorOGL::Create(std::move(aWidget));
  }
  
---- /dev/null	2019-02-07 15:21:41 UTC
+--- /dev/null	2019-03-05 04:43:25 UTC
 +++ gfx/webrender_bindings/RenderCompositorEGL.cpp
 @@ -0,0 +1,132 @@
 +/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
@@ -240,7 +240,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
 +
 +}  // namespace wr
 +}  // namespace mozilla
---- /dev/null	2019-02-07 15:21:41 UTC
+--- /dev/null	2019-03-05 04:43:25 UTC
 +++ gfx/webrender_bindings/RenderCompositorEGL.h
 @@ -0,0 +1,54 @@
 +/* -*- Mode: C++; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
@@ -297,7 +297,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
 +}  // namespace mozilla
 +
 +#endif  // MOZILLA_GFX_RENDERCOMPOSITOR_EGL_H
---- gfx/webrender_bindings/moz.build.orig	2019-01-24 18:48:41 UTC
+--- gfx/webrender_bindings/moz.build.orig	2019-02-27 22:18:23 UTC
 +++ gfx/webrender_bindings/moz.build
 @@ -67,6 +67,14 @@ if CONFIG['MOZ_ENABLE_D3D10_LAYER']:
          'RenderCompositorANGLE.cpp',
@@ -322,7 +322,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
 +
  if CONFIG['CC_TYPE'] == 'clang-cl':
      AllowCompilerWarnings()  # workaround for bug 1090497
---- widget/gtk/CompositorWidgetChild.cpp.orig	2019-01-24 18:48:56 UTC
+--- widget/gtk/CompositorWidgetChild.cpp.orig	2019-02-27 22:18:32 UTC
 +++ widget/gtk/CompositorWidgetChild.cpp
 @@ -35,5 +35,11 @@ void CompositorWidgetChild::NotifyClient
    Unused << SendNotifyClientSizeChanged(aClientSize);
@@ -336,7 +336,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
 +
  }  // namespace widget
  }  // namespace mozilla
---- widget/gtk/CompositorWidgetChild.h.orig	2019-01-24 18:48:58 UTC
+--- widget/gtk/CompositorWidgetChild.h.orig	2019-02-27 22:18:32 UTC
 +++ widget/gtk/CompositorWidgetChild.h
 @@ -24,7 +24,9 @@ class CompositorWidgetChild final : publ
    mozilla::ipc::IPCResult RecvUnobserveVsync() override;
@@ -349,7 +349,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
   private:
    RefPtr<CompositorVsyncDispatcher> mVsyncDispatcher;
    RefPtr<CompositorWidgetVsyncObserver> mVsyncObserver;
---- widget/gtk/CompositorWidgetParent.cpp.orig	2019-01-24 18:48:57 UTC
+--- widget/gtk/CompositorWidgetParent.cpp.orig	2019-02-27 22:18:32 UTC
 +++ widget/gtk/CompositorWidgetParent.cpp
 @@ -40,5 +40,13 @@ mozilla::ipc::IPCResult CompositorWidget
    return IPC_OK();
@@ -365,7 +365,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
 +
  }  // namespace widget
  }  // namespace mozilla
---- widget/gtk/CompositorWidgetParent.h.orig	2019-01-24 18:48:57 UTC
+--- widget/gtk/CompositorWidgetParent.h.orig	2019-02-27 22:18:32 UTC
 +++ widget/gtk/CompositorWidgetParent.h
 @@ -27,6 +27,8 @@ class CompositorWidgetParent final : pub
    mozilla::ipc::IPCResult RecvNotifyClientSizeChanged(
@@ -376,7 +376,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
   private:
    RefPtr<VsyncObserver> mVsyncObserver;
  };
---- widget/gtk/GtkCompositorWidget.cpp.orig	2019-01-24 18:48:57 UTC
+--- widget/gtk/GtkCompositorWidget.cpp.orig	2019-02-27 22:18:32 UTC
 +++ widget/gtk/GtkCompositorWidget.cpp
 @@ -85,6 +85,18 @@ void GtkCompositorWidget::NotifyClientSi
    mClientSize = aClientSize;
@@ -397,7 +397,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
  LayoutDeviceIntSize GtkCompositorWidget::GetClientSize() { return mClientSize; }
  
  uintptr_t GtkCompositorWidget::GetWidgetKey() {
---- widget/gtk/GtkCompositorWidget.h.orig	2019-01-24 18:48:57 UTC
+--- widget/gtk/GtkCompositorWidget.h.orig	2019-02-27 22:18:32 UTC
 +++ widget/gtk/GtkCompositorWidget.h
 @@ -20,6 +20,10 @@ class PlatformCompositorWidgetDelegate :
    virtual void NotifyClientSizeChanged(
@@ -429,7 +429,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
  
    Display* mXDisplay;
    Window mXWindow;
---- widget/gtk/PCompositorWidget.ipdl.orig	2019-01-24 18:48:56 UTC
+--- widget/gtk/PCompositorWidget.ipdl.orig	2019-02-27 22:18:32 UTC
 +++ widget/gtk/PCompositorWidget.ipdl
 @@ -19,6 +19,7 @@ parent:
    async __delete__();
@@ -439,7 +439,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
  
  child:
  
---- widget/gtk/mozcontainer.cpp.orig	2019-01-24 18:48:57 UTC
+--- widget/gtk/mozcontainer.cpp.orig	2019-02-27 22:18:32 UTC
 +++ widget/gtk/mozcontainer.cpp
 @@ -159,6 +159,7 @@ void moz_container_init(MozContainer *co
    // We can draw to x11 window any time.
@@ -478,7 +478,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
 +  return state;
 +}
  #endif
---- widget/gtk/mozcontainer.h.orig	2019-01-24 18:48:58 UTC
+--- widget/gtk/mozcontainer.h.orig	2019-02-27 22:18:33 UTC
 +++ widget/gtk/mozcontainer.h
 @@ -77,6 +77,7 @@ struct _MozContainer {
    struct wl_egl_window *eglwindow;
@@ -496,7 +496,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
  #endif
  
  #endif /* __MOZ_CONTAINER_H__ */
---- widget/gtk/nsWindow.cpp.orig	2019-01-24 18:48:58 UTC
+--- widget/gtk/nsWindow.cpp.orig	2019-02-27 22:18:32 UTC
 +++ widget/gtk/nsWindow.cpp
 @@ -1886,6 +1886,11 @@ gboolean nsWindow::OnExposeEvent(cairo_t
    region.ScaleRoundOut(scale, scale);
@@ -528,7 +528,7 @@ index 95d5e0c02e23..adb37e59a9f7 100644
  #endif
  
  #ifdef MOZ_X11
---- widget/gtk/nsWindow.h.orig	2019-01-24 18:48:57 UTC
+--- widget/gtk/nsWindow.h.orig	2019-02-27 22:18:32 UTC
 +++ widget/gtk/nsWindow.h
 @@ -373,6 +373,7 @@ class nsWindow final : public nsBaseWidg
    wl_display* GetWaylandDisplay();
