@@ -18,17 +18,16 @@ SPKGS[standard]=	single
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
 
-LICENSE=		GMGPL3:single
+# special linking exception, but not GPLv3RLE
+LICENSE=		GPLv3+:single
 LICENSE_TERMS=		single:{{WRKDIR}}/TERMS
-LICENSE_FILE=		GMGPL3:stock
-LICENSE_AWK=		TERMS:"^with "
-LICENSE_SOURCE=		TERMS:{{WRKSRC}}/opentoken.ads
+LICENSE_FILE=		GPLv3+:stock
+LICENSE_AWK=		TERMS:"^$$"
+LICENSE_SOURCE=		TERMS:{{WRKSRC}}/wisitoken.adb
 LICENSE_SCHEME=		solo
 
-FPC_EQUIVALENT=		textproc/opentoken
-
 USES=			gprbuild ada:single
-# DISTNAME=		org.opentoken-${PORTVERSION}
+DISTNAME=		org.wisitoken-${PORTVERSION}
 # BUILD_WRKSRC=		{{WRKSRC}}/build/release
 PLIST_SUB=		OTLIBVER={{OTLIBVER}}
 
