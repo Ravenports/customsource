@@ -19,12 +19,13 @@ OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
 
 LICENSE=		GPLv3+:single
-LICENSE_FILE=		GPLv3+:{{WRKSRC}}/LICENSES/GPL-3.0.txt
+LICENSE_FILE=		GPLv3+:{{WRKSRC}}/GPL3.txt
 LICENSE_TERMS=		single:{{WRKSRC}}/COPYING
 LICENSE_SCHEME=		solo
 
 FPC_EQUIVALENT=		graphics/inkscape
 
+BUILD_DEPENDS=		appstream-glib:primary:standard
 BUILDRUN_DEPENDS=	popt:single:standard
 			boehm_garbage_collector:single:standard
 			gsl:single:standard
@@ -37,36 +38,37 @@ BUILDRUN_DEPENDS=	popt:single:standard
 			librevenge:single:standard
 			libvisio:single:standard
 			libwpg:single:standard
+			boost-libraries:rest:python_default
+			aspell:single:standard
 
-USES=			cmake cpe png jpeg pkgconfig python:build
-			gettext-runtime gettext-tools
+USES=			cmake cpe png jpeg pkgconfig python:build perl:build
+			shebangfix gettext-runtime gettext-tools
 			desktop-utils:single gnome-icons:single
-GNOME_COMPONENTS=	libxslt pango gtk2
+GNOME_COMPONENTS=	libxslt gtkmm24
 XORG_COMPONENTS=	x11
 SHEBANG_FILES=		cxxtest/cxxtestgen.pl
 			share/extensions/*.p[lm]
 			share/extensions/*.py
 			share/extensions/genpofiles.sh
+			share/*/i18n.py
 			fix-roff-punct
 # ImageMagick version 6 is required
 CMAKE_ARGS=		-DWITH_GNOME_VFS:BOOL=OFF
 			-DWITH_DBUS:BOOL=OFF
 			-DWITH_IMAGE_MAGICK:BOOL=OFF
 			-DWITH_OPENMP:BOOL=OFF
-			-DWITH_FUZZ:BOOL=OFF
 			-DWITH_PROFILING:BOOL=OFF
 			-DENABLE_LCMS:BOOL=ON
 			-DENABLE_POPPLER:BOOL=ON
 			-DENABLE_POPPLER_CAIRO:BOOL=ON
 			-DWITH_SVG2:BOOL=ON
 			-DWITH_LPETOOL:BOOL=ON
-			-DWITH_GRAPHICS_MAGICK:BOOL=ON
 			-DWITH_LIBCDR:BOOL=ON
 			-DWITH_LIBVISIO:BOOL=ON
 			-DWITH_LIBWPG:BOOL=ON
 			-DWITH_NLS:BOOL=ON
-			-DWITH_YAML:BOOL=ON
-			-DBUILD_SHARED_LIBS:BOOL=ON
+			-DBUILD_SHARED_LIBS:BOOL=OFF
+INSTALL_REQ_TOOLCHAIN=	yes
 
 post-patch:
 	${REINPLACE_CMD} -e 's|COMMAND python|COMMAND ${PYTHON_VERSION}|g' \
@@ -77,3 +79,7 @@ post-patch:
 	# Fix with poppler 0.73
 	${REINPLACE_CMD} -E '/#include "goo\/gtypes.h"/d' \
 		${WRKSRC}/src/extension/internal/pdfinput/pdf-parser.h
+
+post-install:
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/*
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/inkscape/libinkscape_base.so
