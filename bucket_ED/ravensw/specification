@@ -1,5 +1,5 @@
 DEF[PORTVERSION]=	1.11.1
-DEF[ROLLING_TAG]=	47f7dc6
+DEF[ROLLING_TAG]=	0c07eb4
 DEF[SQLITE_VER]=	3.28.0
 DEF[SQLITE_LONGVER]=	${SQLITE_VER:S/.//:S/./0/}00
 DEF[SQLITE_YEAR]=	2019
@@ -60,22 +60,3 @@ post-extract:
 		cp sqlite3.[ch] shell.c ${WRKSRC}/external/sqlite/)
 	${REINPLACE_CMD} -e 's|SQLITE_CDECL main|SQLITE_CDECL sqlite3_shell|'\
 		${WRKSRC}/external/sqlite/shell.c
-	# fix!
-	${CHMOD} ${BINMODE} ${WRKSRC}/configure
-
-post-install:
-	${RM} ${STAGEDIR}${PREFIX}/sbin/pkg2ng
-	${STRIP_CMD} ${STAGEDIR}${PREFIX}/sbin/pkg*
-	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libpkg.${LIBEXT}
-	${MV} ${STAGEDIR}${PREFIX}/sbin/pkg \
-		${STAGEDIR}${PREFIX}/sbin/pkg-dynamic
-	${MV} ${WRKDIR}/pkg-selector ${STAGEDIR}${PREFIX}/sbin/pkg
-	${INSTALL_SCRIPT} ${WRKSRC}/scripts/periodic/411.pkg-backup \
-		${WRKSRC}/scripts/periodic/490.status-pkg-changes \
-		${STAGEDIR}${PREFIX}/etc/periodic/daily/
-	${INSTALL_SCRIPT} ${WRKSRC}/scripts/periodic/460.pkg-checksum \
-		${WRKSRC}/scripts/periodic/410.pkg-audit \
-		${STAGEDIR}${PREFIX}/etc/periodic/security/
-	${INSTALL_SCRIPT} ${WRKSRC}/scripts/periodic/400.status-pkg \
-		${STAGEDIR}${PREFIX}/etc/periodic/weekly/
-	${MKDIR} ${STAGEDIR}${PREFIX}/etc/pkg/repos
