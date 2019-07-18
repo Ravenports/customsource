@@ -3,10 +3,15 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../common
 )
 
+if (CMAKE_SYSTEM_NAME MATCHES "Linux")
+	set(NEF ${CMAKE_SOURCE_DIR}/libelf/native-elf-format.h)
+endif()
+
 set(gensrcs
-	libelf_fsize.c
-	libelf_msize.c
-	libelf_convert.c
+	${CMAKE_SOURCE_DIR}/libelf/libelf_fsize.c
+	${CMAKE_SOURCE_DIR}/libelf/libelf_msize.c
+	${CMAKE_SOURCE_DIR}/libelf/libelf_convert.c
+	${NEF}
 )
 
 set(libsrcs
@@ -120,7 +125,6 @@ set(man3
 	gelf_xlatetof.3
 )
 
-
 add_library(elfobj OBJECT ${libsrcs})
 set_property(TARGET elfobj PROPERTY POSITION_INDEPENDENT_CODE 1)
 
@@ -134,17 +138,26 @@ set_target_properties(elf PROPERTIES PUBLIC_HEADER libelf.h)
 
 macro(m4toc outfilename)
 add_custom_command(
-OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${outfilename}.c
-COMMAND m4 -DSRCDIR=${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${outfilename}.m4 > ${outfilename}.c
-DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${outfilename}.m4
+   OUTPUT ${CMAKE_SOURCE_DIR}/libelf/${outfilename}.c
+   COMMAND m4 -DSRCDIR=${CMAKE_SOURCE_DIR}/libelf ${CMAKE_SOURCE_DIR}/libelf/${outfilename}.m4 > ${CMAKE_SOURCE_DIR}/libelf/${outfilename}.c
+   DEPENDS ${CMAKE_SOURCE_DIR}/libelf/${outfilename}.m4
+   COMMENT "Generated ${outfilename}.c"
 )
-set_source_files_properties(${outfilename}.c PROPERTIES GENERATED true)
+set_source_files_properties(${CMAKE_SOURCE_DIR}/lib/${outfilename}.c PROPERTIES GENERATED true)
 endmacro(m4toc)
 
 macro(install_symlink filepath sympath)
     install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${filepath} ${sympath})")
     install(CODE "message(\"-- Created symlink: ${sympath} -> ${filepath}\")")
 endmacro(install_symlink)
+
+add_custom_command(
+    OUTPUT ${CMAKE_SOURCE_DIR}/libelf/native-elf-format.h
+    COMMAND ${CMAKE_SOURCE_DIR}/common/native-elf-format > ${CMAKE_SOURCE_DIR}/libelf/native-elf-format.h
+    DEPENDS ${CMAKE_SOURCE_DIR}/common/native-elf-format
+    COMMENT "Generated native-elf-format.h"
+)
+set_source_files_properties(${CMAKE_SOURCE_DIR}/lib/native-elf-format.h PROPERTIES GENERATED true)
 
 m4toc(libelf_fsize)
 m4toc(libelf_msize)

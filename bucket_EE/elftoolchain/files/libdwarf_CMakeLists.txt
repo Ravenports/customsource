@@ -5,17 +5,17 @@ include_directories(
 )
 
 set(gensrcs
-	dwarf_pubnames.c
-	dwarf_pubtypes.c
-	dwarf_weaks.c
-	dwarf_funcs.c
-	dwarf_vars.c
-	dwarf_types.c
-	dwarf_pro_pubnames.c
-	dwarf_pro_weaks.c
-	dwarf_pro_funcs.c
-	dwarf_pro_types.c
-	dwarf_pro_vars.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_pubnames.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_pubtypes.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_weaks.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_funcs.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_vars.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_types.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_pro_pubnames.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_pro_weaks.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_pro_funcs.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_pro_types.c
+	${CMAKE_SOURCE_DIR}/libdwarf/dwarf_pro_vars.c
 )
 
 set(libsrcs
@@ -230,11 +230,12 @@ target_link_libraries(dwarf elf)
 
 macro(m4toc outfilename)
 add_custom_command(
-OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${outfilename}.c
-COMMAND m4 -DSRCDIR=${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${outfilename}.m4 > ${outfilename}.c
-DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${outfilename}.m4
+   OUTPUT ${CMAKE_SOURCE_DIR}/libdwarf/${outfilename}.c
+   COMMAND m4 -DSRCDIR=${CMAKE_SOURCE_DIR}/libdwarf ${CMAKE_SOURCE_DIR}/libdwarf/${outfilename}.m4 > ${CMAKE_SOURCE_DIR}/libdwarf/${outfilename}.c
+   DEPENDS ${CMAKE_SOURCE_DIR}/libdwarf/${outfilename}.m4
+   COMMENT "Generated ${outfilename}.c"
 )
-set_source_files_properties(${outfilename}.c PROPERTIES GENERATED true)
+set_source_files_properties(${CMAKE_SOURCE_DIR}/libdwarf/${outfilename}.c PROPERTIES GENERATED true)
 endmacro(m4toc)
 
 macro(install_symlink filepath sympath)
