@@ -1,5 +1,5 @@
 DEF[PORTVERSION]=	1.11.1
-DEF[ROLLING_TAG]=	9a89e46
+DEF[ROLLING_TAG]=	ce359bf
 DEF[SQLITE_VER]=	3.28.0
 DEF[SQLITE_LONGVER]=	${SQLITE_VER:S/.//:S/./0/}00
 DEF[SQLITE_YEAR]=	2019
@@ -38,7 +38,7 @@ BUILD_DEPENDS=		libarchive:single:ravensw
 			linenoise:single:standard
 			expat:static:standard
 			libb2:single:standard
-			libelf:single:standard
+			elftoolchain:libraries:standard
 			uthash:primary:standard
 			picosat:single:standard
 			Zstandard:static:standard
