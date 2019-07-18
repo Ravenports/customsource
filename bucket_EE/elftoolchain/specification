@@ -52,6 +52,15 @@ post-extract:
 post-patch:
 	${MV} ${WRKDIR}/elftc_version.c ${WRKSRC}/libelftc/
 
+post-patch-sunos:
+	${CP} ${FILESDIR}/sun_err.h ${WRKSRC}/common/
+.for prog in nm brandelf cxxfilt elfdump size addr2line \
+	findtextrel readelf strings
+	${REINPLACE_CMD} -e '/<err.h>/d' \
+		-e 's|^ELFTC_VCSID.*|#include <sun_err.h>|' \
+		${WRKSRC}/${prog}/${prog}.c
+.endfor
+
 post-install:
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/*
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/*.so
