@@ -1,68 +1,13 @@
-Fix build phase:
+Termcap linking problem:
 
---- /construction/slang/slang-2.3.2/src/elfobjs/libslang.so.2.3.2 ---
-rm -f /construction/slang/slang-2.3.2/src/elfobjs/libslang.so.2.3.2
-cd /construction/slang/slang-2.3.2/src/elfobjs && cc -L/raven/lib -Wl,-rpath,/raven/lib -lpthread -shared -o libslang.so.2.3.2 sltermin.o sldisply.o slutty.o slang.o slarray.o slclass.o slcmd
-.o slerr.o slgetkey.o slkeymap.o slmalloc.o slmath.o slmemchr.o slmemcmp.o slmemcpy.o slmemset.o slmisc.o slparse.o slprepr.o slregexp.o slrline.o slsearch.o slsmg.o slstd.o sltoken.o sltypes
-.o slxstrng.o slcurses.o slscroll.o slsignal.o slkeypad.o slerrno.o slstring.o slstruct.o slcmplex.o slarrfun.o slimport.o slpath.o slarith.o slassoc.o slcompat.o slposdir.o slstdio.o slproc.
-o sltime.o slstrops.o slbstr.o slpack.o slintall.o slistruc.o slposio.o slnspace.o slarrmis.o slospath.o slscanf.o sllower.o slupper.o slischar.o slutf8.o slwcwidth.o slwclut.o slcommon.o sll
-ist.o slexcept.o slfpu.o slsig.o slboseos.o -L/raven/lib -Wl,-rpath,/raven/lib -lpthread -ldl -lm -lc
-if [ libslang.so.2 != libslang.so.2.3.2 ]; then  cd /construction/slang/slang-2.3.2/src/elfobjs && rm -f libslang.so.2 && /bin/ln -sf libslang.so.2.3.2 libslang.so.2;  fi
-cd /construction/slang/slang-2.3.2/src/elfobjs && rm -f libslang.so && /bin/ln -sf libslang.so.2.3.2 libslang.so
-
-libslang.so.2.3.2 created in /construction/slang/slang-2.3.2/src/elfobjs.
-The link libslang.so to libslang.so.2.3.2 was also created.
-cd slsh; /usr/bin/make all
-cd: slsh: No such file or directory
-cd modules; /usr/bin/make all
-cd: modules: No such file or directory
-Use make install to install it.
-
-=> Checking for system changes between port configure and build
-Everything is fine.
-
-
-
---------------------------------------------------------------------------------
---  Phase: stage
---------------------------------------------------------------------------------
-===>  Staging for slang-standard
-===>   Generating temporary packing list (single)
-autoconf/mkinsdir.sh /construction/slang/stage/raven/lib/pkgconfig
-install -m 0644 slang.pc /construction/slang/stage/raven/lib/pkgconfig/
-cd src; /usr/bin/make install-elf
-installing slang.h and slcurses.h in /construction/slang/stage/raven/include/
-install -m 0644 /construction/slang/slang-2.3.2/src/slang.h /construction/slang/stage/raven/include/
-install -m 0644 /construction/slang/slang-2.3.2/src/slcurses.h /construction/slang/stage/raven/include/
-/construction/slang/slang-2.3.2/autoconf/mkinsdir.sh /construction/slang/stage/raven/share/doc/slang/v2
-mkdir /construction/slang/stage/raven/share/doc/slang
-mkdir /construction/slang/stage/raven/share/doc/slang/v2
-install -m 0644 ../changes.txt /construction/slang/stage/raven/share/doc/slang/v2/
-install -m 0644 ../COPYING /construction/slang/stage/raven/share/doc/slang/v2/
-install -m 0644 ../doc/slangdoc.html /construction/slang/stage/raven/share/doc/slang/v2/
-install -m 0644 ../doc/text/cref.txt /construction/slang/stage/raven/share/doc/slang/v2/
-install -m 0644 ../doc/text/cslang.txt /construction/slang/stage/raven/share/doc/slang/v2/
-install -m 0644 ../doc/text/slang.txt /construction/slang/stage/raven/share/doc/slang/v2/
-install -m 0644 ../doc/text/slangfun.txt /construction/slang/stage/raven/share/doc/slang/v2/
-rm -f /construction/slang/stage/raven/lib/libslang.so
-rm -f /construction/slang/stage/raven/lib/libslang.so.2
-installing libslang.so.2.3.2 in /construction/slang/stage/raven/lib
-/usr/bin/install -c /construction/slang/slang-2.3.2/src/elfobjs/libslang.so.2.3.2 /construction/slang/stage/raven/lib/
-cd /construction/slang/stage/raven/lib && /bin/ln -sf libslang.so.2.3.2 libslang.so.2
-cd /construction/slang/stage/raven/lib && /bin/ln -sf libslang.so.2 libslang.so
-
-libslang.so.2.3.2 created in /construction/slang/stage/raven/lib.
-The links libslang.so and libslang.so.2 to libslang.so.2.3.2 were also created.
-
-Now installing slsh
-cd slsh; /usr/bin/make install
-/construction/slang/slang-2.3.2/autoconf/mkinsdir.sh objs
-mkdir objs
-touch objs/tstamp
-cp ../src/config.h .
-cd objs && cc -I/construction/slang/slang-2.3.2/src -pipe -O2   -I/raven/include -c -DSLSH_CONF_DIR='"/raven/etc"' -DSLSH_PATH='"/raven/share/slsh"'  -DSLSH_CONF_DIR_ENV='"SLSH_CONF_DIR"' -DSLSH_LIB_DIR_ENV='"SLSH_LIB_DIR"'  -DSLSH_PATH_ENV='"SLSH_PATH"'  /construction/slang/slang-2.3.2/slsh/slsh.c
-/bin/sh: cc: not found
-*** Error code 127
+cc -pipe -O2   -I/raven/include objs/slsh.o objs/readline.o -o objs/slsh -lpthread  -L/construction/slang/stage/raven/lib -Wl,-rpath,/raven/lib:/raven/lib -L/raven/lib -lslang  -ltermcap -ldl  -lm
+/raven/toolchain/bin/ld: error: cannot find -ltermcap
+/construction/slang/stage/raven/lib/libslang.so: error: undefined reference to 'tgetnum'
+/construction/slang/stage/raven/lib/libslang.so: error: undefined reference to 'tgetflag'
+/construction/slang/stage/raven/lib/libslang.so: error: undefined reference to 'tgetstr'
+/construction/slang/stage/raven/lib/libslang.so: error: undefined reference to 'tgetent'
+collect2: error: ld returned 1 exit status
+*** Error code 1
 
 Stop.
 make[2]: stopped in /construction/slang/slang-2.3.2/slsh

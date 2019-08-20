@@ -36,4 +36,5 @@ BUILDRUN_DEPENDS=	oniguruma:primary:standard
 MUST_CONFIGURE=		gnu
 BUILD_TARGET=		all static
 INSTALL_TARGET=		install install-static
+INSTALL_REQ_TOOLCHAIN=	yes
 SOVERSION=		${SOVERSION}
