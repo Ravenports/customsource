@@ -1,4 +1,4 @@
---- tools-for-build/grovel-headers.c.orig	2019-09-28 09:49:01 UTC
+--- tools-for-build/grovel-headers.c.orig	2019-10-26 11:03:42 UTC
 +++ tools-for-build/grovel-headers.c
 @@ -43,7 +43,11 @@
    #include <termios.h>
