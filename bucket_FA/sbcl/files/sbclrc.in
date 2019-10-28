@@ -1,1 +1,0 @@
-(load "%%PREFIX%%/etc/asdf-init.lisp")
