@@ -88,7 +88,7 @@ post-patch:
 	# Use rpath suitable for libz et al.
 	${REINPLACE_CMD} -e 's|@PREFIX@|${PREFIX}|g' \
 		-e 's|@OPENSSLLIB@|${OPENSSLLIB}|g' \
-		${WRKSRC}/src/bootstrap/bin/rustc.rs
+		${WRKSRC}/src/bootstrap/builder.rs
 	# Disable vendor checksums
 	${REINPLACE_CMD} -e 's/"files":{[^}]*}/"files":{}/' \
 		 ${WRKSRC}/vendor/*/.cargo-checksum.json
