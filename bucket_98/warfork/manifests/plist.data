@@ -1,0 +1,527 @@
+share/warfork/basewf/autoexec_postinit.cfg
+share/warfork/basewf/configs/server/gametypes/bomb.cfg
+share/warfork/basewf/configs/server/gametypes/ca.cfg
+share/warfork/basewf/configs/server/gametypes/ctf.cfg
+share/warfork/basewf/configs/server/gametypes/ctftactics.cfg
+share/warfork/basewf/configs/server/gametypes/da.cfg
+share/warfork/basewf/configs/server/gametypes/dm.cfg
+share/warfork/basewf/configs/server/gametypes/duel.cfg
+share/warfork/basewf/configs/server/gametypes/ffa.cfg
+share/warfork/basewf/configs/server/gametypes/headhunt.cfg
+share/warfork/basewf/configs/server/gametypes/race.cfg
+share/warfork/basewf/configs/server/gametypes/tdm.cfg
+share/warfork/basewf/configs/server/gametypes/tutorial.cfg
+share/warfork/basewf/configs/timer/bs/0x.cfg
+share/warfork/basewf/configs/timer/bs/1x.cfg
+share/warfork/basewf/configs/timer/bs/2x.cfg
+share/warfork/basewf/configs/timer/bs/3x.cfg
+share/warfork/basewf/configs/timer/bs/4x.cfg
+share/warfork/basewf/configs/timer/bs/5x.cfg
+share/warfork/basewf/configs/timer/core.cfg
+share/warfork/basewf/configs/timer/quad/0x.cfg
+share/warfork/basewf/configs/timer/quad/1x.cfg
+share/warfork/basewf/configs/timer/quad/2x.cfg
+share/warfork/basewf/configs/timer/quad/3x.cfg
+share/warfork/basewf/configs/timer/quad/4x.cfg
+share/warfork/basewf/configs/timer/quad/5x.cfg
+share/warfork/basewf/configs/timer/ra/0x.cfg
+share/warfork/basewf/configs/timer/ra/1x.cfg
+share/warfork/basewf/configs/timer/ra/2x.cfg
+share/warfork/basewf/configs/timer/ra/3x.cfg
+share/warfork/basewf/configs/timer/ra/4x.cfg
+share/warfork/basewf/configs/timer/ra/5x.cfg
+share/warfork/basewf/configs/timer/timerconfig.cfg
+share/warfork/basewf/configs/timer/ya/0x.cfg
+share/warfork/basewf/configs/timer/ya/1x.cfg
+share/warfork/basewf/configs/timer/ya/2x.cfg
+share/warfork/basewf/configs/timer/ya/3x.cfg
+share/warfork/basewf/configs/timer/ya/4x.cfg
+share/warfork/basewf/configs/timer/ya/5x.cfg
+share/warfork/basewf/configs/timer/ya2/0x.cfg
+share/warfork/basewf/configs/timer/ya2/1x.cfg
+share/warfork/basewf/configs/timer/ya2/2x.cfg
+share/warfork/basewf/configs/timer/ya2/3x.cfg
+share/warfork/basewf/configs/timer/ya2/4x.cfg
+share/warfork/basewf/configs/timer/ya2/5x.cfg
+share/warfork/basewf/configs/ultralow.cfg
+share/warfork/basewf/data0_21.pk3
+share/warfork/basewf/data0_21pure.pk3
+share/warfork/basewf/dedicated_autoexec.cfg
+share/warfork/basewf/default.cfg
+share/warfork/basewf/default_binds_gamepad.cfg
+share/warfork/basewf/default_binds_kbmouse.cfg
+share/warfork/basewf/env/2d/
+share/warfork/basewf/env/alleyskybox/
+share/warfork/basewf/env/baxandall/
+share/warfork/basewf/env/chrome/
+share/warfork/basewf/env/cssky/
+share/warfork/basewf/env/stormydays/
+share/warfork/basewf/env/televoid/
+share/warfork/basewf/fonts/fallback/
+@dir share/warfork/basewf/gfx/2d/
+@dir share/warfork/basewf/gfx/bomb/
+@dir share/warfork/basewf/gfx/colors/
+@dir share/warfork/basewf/gfx/correction/
+@dir share/warfork/basewf/gfx/dash/
+@dir share/warfork/basewf/gfx/decals/
+@dir share/warfork/basewf/gfx/hud/adem/
+@dir share/warfork/basewf/gfx/hud/ctf/
+@dir share/warfork/basewf/gfx/hud/default/
+@dir share/warfork/basewf/gfx/hud/gr8/
+@dir share/warfork/basewf/gfx/hud/icons/ammo/
+@dir share/warfork/basewf/gfx/hud/icons/armor/
+@dir share/warfork/basewf/gfx/hud/icons/classactions/
+@dir share/warfork/basewf/gfx/hud/icons/drop/
+@dir share/warfork/basewf/gfx/hud/icons/flags/
+@dir share/warfork/basewf/gfx/hud/icons/health/
+@dir share/warfork/basewf/gfx/hud/icons/playerclass/
+@dir share/warfork/basewf/gfx/hud/icons/powerup/
+@dir share/warfork/basewf/gfx/hud/icons/vsay/
+@dir share/warfork/basewf/gfx/hud/icons/weapon/
+@dir share/warfork/basewf/gfx/hud/keys/
+@dir share/warfork/basewf/gfx/hud/kuhjoe/ctf_pie/
+@dir share/warfork/basewf/gfx/hud/spec/
+@dir share/warfork/basewf/gfx/indicators/
+@dir share/warfork/basewf/gfx/misc/
+@dir share/warfork/basewf/gfx/simpleitems/capture_indicators/
+@dir share/warfork/basewf/gfx/simpleitems/weapon/
+@dir share/warfork/basewf/gfx/ui/
+@dir share/warfork/basewf/glsl/include/
+@dir share/warfork/basewf/huds/inc/adem/
+@dir share/warfork/basewf/huds/inc/default/
+@dir share/warfork/basewf/huds/inc/spec/
+@dir share/warfork/basewf/l10n/cgame/
+@dir share/warfork/basewf/l10n/maps/wftutorial1/
+@dir share/warfork/basewf/l10n/ui/
+@dir share/warfork/basewf/levelshots/
+share/warfork/basewf/map_ui.pk3
+share/warfork/basewf/map_wfamphi1.pk3
+share/warfork/basewf/map_wfbomb1.pk3
+share/warfork/basewf/map_wfbomb2.pk3
+share/warfork/basewf/map_wfbomb3.pk3
+share/warfork/basewf/map_wfbomb4.pk3
+share/warfork/basewf/map_wfbomb5.pk3
+share/warfork/basewf/map_wfbomb6.pk3
+share/warfork/basewf/map_wfca1.pk3
+share/warfork/basewf/map_wfca2.pk3
+share/warfork/basewf/map_wfctf1.pk3
+share/warfork/basewf/map_wfctf2.pk3
+share/warfork/basewf/map_wfctf3.pk3
+share/warfork/basewf/map_wfctf4.pk3
+share/warfork/basewf/map_wfctf5.pk3
+share/warfork/basewf/map_wfctf6.pk3
+share/warfork/basewf/map_wfda1.pk3
+share/warfork/basewf/map_wfda2.pk3
+share/warfork/basewf/map_wfda3.pk3
+share/warfork/basewf/map_wfda4.pk3
+share/warfork/basewf/map_wfda5.pk3
+share/warfork/basewf/map_wfdm1.pk3
+share/warfork/basewf/map_wfdm10.pk3
+share/warfork/basewf/map_wfdm11.pk3
+share/warfork/basewf/map_wfdm12.pk3
+share/warfork/basewf/map_wfdm13.pk3
+share/warfork/basewf/map_wfdm14.pk3
+share/warfork/basewf/map_wfdm15.pk3
+share/warfork/basewf/map_wfdm16.pk3
+share/warfork/basewf/map_wfdm17.pk3
+share/warfork/basewf/map_wfdm18.pk3
+share/warfork/basewf/map_wfdm19.pk3
+share/warfork/basewf/map_wfdm2.pk3
+share/warfork/basewf/map_wfdm20.pk3
+share/warfork/basewf/map_wfdm3.pk3
+share/warfork/basewf/map_wfdm4.pk3
+share/warfork/basewf/map_wfdm5.pk3
+share/warfork/basewf/map_wfdm6.pk3
+share/warfork/basewf/map_wfdm7.pk3
+share/warfork/basewf/map_wfdm8.pk3
+share/warfork/basewf/map_wfdm9.pk3
+share/warfork/basewf/map_wfrace1.pk3
+share/warfork/basewf/map_wftutorial1.pk3
+@dir share/warfork/basewf/minimaps/
+@dir share/warfork/basewf/models/effects/
+@dir share/warfork/basewf/models/items/ammo/ammobox/
+@dir share/warfork/basewf/models/items/ammo/pack/
+@dir share/warfork/basewf/models/items/armor/ga/
+@dir share/warfork/basewf/models/items/armor/ra/
+@dir share/warfork/basewf/models/items/armor/shard/
+@dir share/warfork/basewf/models/items/armor/ya/
+@dir share/warfork/basewf/models/items/health/large/
+@dir share/warfork/basewf/models/items/health/medium/
+@dir share/warfork/basewf/models/items/health/mega/
+@dir share/warfork/basewf/models/items/health/small/
+@dir share/warfork/basewf/models/items/health/ultra/
+@dir share/warfork/basewf/models/mapobjects/boqu/
+@dir share/warfork/basewf/models/mapobjects/crates/
+@dir share/warfork/basewf/models/mapobjects/decor_misc/
+@dir share/warfork/basewf/models/mapobjects/house3/
+@dir share/warfork/basewf/models/mapobjects/house4/
+@dir share/warfork/basewf/models/mapobjects/house5/
+@dir share/warfork/basewf/models/mapobjects/jumppad/
+@dir share/warfork/basewf/models/mapobjects/jumppad1/
+@dir share/warfork/basewf/models/mapobjects/lamp/
+@dir share/warfork/basewf/models/mapobjects/lights/
+@dir share/warfork/basewf/models/mapobjects/nateleaf1/
+@dir share/warfork/basewf/models/mapobjects/orb/
+@dir share/warfork/basewf/models/mapobjects/teleporter/
+@dir share/warfork/basewf/models/mapobjects/uppercity/
+@dir share/warfork/basewf/models/mapobjects/vehicles/
+@dir share/warfork/basewf/models/mapobjects/vic_Statue/
+@dir share/warfork/basewf/models/mapobjects/wbomb3/
+@dir share/warfork/basewf/models/mapobjects/wdm10/
+@dir share/warfork/basewf/models/mapobjects/wdm11/
+@dir share/warfork/basewf/models/mapobjects/wdm16/
+@dir share/warfork/basewf/models/mapobjects/wdm17/
+@dir share/warfork/basewf/models/mapobjects/wdm2/
+@dir share/warfork/basewf/models/mapobjects/wdm4archways/
+@dir share/warfork/basewf/models/mapobjects/wsw_industrial1/images/
+@dir share/warfork/basewf/models/mapobjects/wsw_tech1/source/
+@dir share/warfork/basewf/models/objects/capture_a/
+@dir share/warfork/basewf/models/objects/capture_area/
+@dir share/warfork/basewf/models/objects/capture_b/
+@dir share/warfork/basewf/models/objects/capture_c/
+@dir share/warfork/basewf/models/objects/capture_d/
+@dir share/warfork/basewf/models/objects/debris/
+@dir share/warfork/basewf/models/objects/dispenser/
+@dir share/warfork/basewf/models/objects/flag/
+@dir share/warfork/basewf/models/objects/gibs/illuminati/
+@dir share/warfork/basewf/models/objects/gibs/illuminati1/
+@dir share/warfork/basewf/models/objects/misc/
+@dir share/warfork/basewf/models/objects/projectile/electrobolt/
+@dir share/warfork/basewf/models/objects/projectile/glauncher/
+@dir share/warfork/basewf/models/objects/projectile/gunblade/
+@dir share/warfork/basewf/models/objects/projectile/plasmagun/
+@dir share/warfork/basewf/models/objects/projectile/rlauncher/
+@dir share/warfork/basewf/models/objects/reviver/
+@dir share/warfork/basewf/models/objects/turret/
+@dir share/warfork/basewf/models/players/bigvic/
+@dir share/warfork/basewf/models/players/bobot/
+@dir share/warfork/basewf/models/players/monada/
+@dir share/warfork/basewf/models/players/padpork/
+@dir share/warfork/basewf/models/players/silverclaw/
+@dir share/warfork/basewf/models/players/viciious/
+@dir share/warfork/basewf/models/powerups/instant/
+@dir share/warfork/basewf/models/weapon_hits/blade/
+@dir share/warfork/basewf/models/weapon_hits/bullet/
+@dir share/warfork/basewf/models/weapon_hits/electrobolt/
+@dir share/warfork/basewf/models/weapon_hits/glauncher/
+@dir share/warfork/basewf/models/weapon_hits/gunblade/
+@dir share/warfork/basewf/models/weapon_hits/instagun/
+@dir share/warfork/basewf/models/weapon_hits/lasergun/
+@dir share/warfork/basewf/models/weapon_hits/plasmagun/
+@dir share/warfork/basewf/models/weapon_hits/rlauncher/
+@dir share/warfork/basewf/models/weapons/electrobolt/
+@dir share/warfork/basewf/models/weapons/generic/
+@dir share/warfork/basewf/models/weapons/glauncher/
+@dir share/warfork/basewf/models/weapons/gunblade/
+@dir share/warfork/basewf/models/weapons/instagun/
+@dir share/warfork/basewf/models/weapons/lasergun/
+@dir share/warfork/basewf/models/weapons/machinegun/
+@dir share/warfork/basewf/models/weapons/plasmagun/
+@dir share/warfork/basewf/models/weapons/riotgun/
+@dir share/warfork/basewf/models/weapons/rlauncher/
+@dir share/warfork/basewf/models/weapons/shockwave/
+share/warfork/basewf/modules_21.pk3
+@dir share/warfork/basewf/navigation/
+share/warfork/basewf/profiles/contrast.cfg
+share/warfork/basewf/profiles/high+.cfg
+share/warfork/basewf/profiles/high.cfg
+share/warfork/basewf/profiles/low.cfg
+share/warfork/basewf/profiles/medium.cfg
+share/warfork/basewf/profiles/stream.cfg
+@dir share/warfork/basewf/progs/gametypes/bomb/
+@dir share/warfork/basewf/progs/gametypes/ctf/
+@dir share/warfork/basewf/progs/gametypes/ctftactics/
+@dir share/warfork/basewf/progs/gametypes/generic/
+@dir share/warfork/basewf/progs/gametypes/legacy/
+@dir share/warfork/basewf/progs/maps/
+@dir share/warfork/basewf/progs/shared/
+@dir share/warfork/basewf/scripts/
+@dir share/warfork/basewf/sounds/ambient/
+share/warfork/basewf/sounds/announcer/bomb/defense/defuse.ogg
+share/warfork/basewf/sounds/announcer/bomb/defense/defused.ogg
+share/warfork/basewf/sounds/announcer/bomb/defense/planted.ogg
+share/warfork/basewf/sounds/announcer/bomb/defense/planted2.ogg
+share/warfork/basewf/sounds/announcer/bomb/defense/start.ogg
+share/warfork/basewf/sounds/announcer/bomb/defense/start2.ogg
+share/warfork/basewf/sounds/announcer/bomb/defense/start3.ogg
+share/warfork/basewf/sounds/announcer/bomb/defense/start4.ogg
+share/warfork/basewf/sounds/announcer/bomb/offense/cleanthehouse.ogg
+share/warfork/basewf/sounds/announcer/bomb/offense/defused.ogg
+share/warfork/basewf/sounds/announcer/bomb/offense/defused2.ogg
+share/warfork/basewf/sounds/announcer/bomb/offense/inplace.ogg
+share/warfork/basewf/sounds/announcer/bomb/offense/lastcall.ogg
+share/warfork/basewf/sounds/announcer/bomb/offense/planted.ogg
+share/warfork/basewf/sounds/announcer/bomb/offense/planted2.ogg
+share/warfork/basewf/sounds/announcer/bomb/offense/start.ogg
+share/warfork/basewf/sounds/announcer/bomb/offense/taken.ogg
+share/warfork/basewf/sounds/announcer/callvote/vote_called01.ogg
+share/warfork/basewf/sounds/announcer/callvote/vote_called02.ogg
+share/warfork/basewf/sounds/announcer/callvote/vote_failed01.ogg
+share/warfork/basewf/sounds/announcer/callvote/vote_failed02.ogg
+share/warfork/basewf/sounds/announcer/callvote/vote_now.ogg
+share/warfork/basewf/sounds/announcer/callvote/vote_passed01.ogg
+share/warfork/basewf/sounds/announcer/callvote/vote_passed02.ogg
+share/warfork/basewf/sounds/announcer/countdown/1_01.ogg
+share/warfork/basewf/sounds/announcer/countdown/1_02.ogg
+share/warfork/basewf/sounds/announcer/countdown/2_01.ogg
+share/warfork/basewf/sounds/announcer/countdown/2_02.ogg
+share/warfork/basewf/sounds/announcer/countdown/3_01.ogg
+share/warfork/basewf/sounds/announcer/countdown/3_02.ogg
+share/warfork/basewf/sounds/announcer/countdown/fight01.ogg
+share/warfork/basewf/sounds/announcer/countdown/fight02.ogg
+share/warfork/basewf/sounds/announcer/countdown/get_ready_to_fight01.ogg
+share/warfork/basewf/sounds/announcer/countdown/get_ready_to_fight02.ogg
+share/warfork/basewf/sounds/announcer/countdown/go01.ogg
+share/warfork/basewf/sounds/announcer/countdown/go02.ogg
+share/warfork/basewf/sounds/announcer/countdown/ready01.ogg
+share/warfork/basewf/sounds/announcer/countdown/ready02.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_captured01.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_captured02.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_captured03.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_taken.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_taken2.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_taken_enemy_01.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_taken_enemy_02.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_taken_enemy_03.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_taken_team01.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_taken_team02.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_taken_team03.ogg
+share/warfork/basewf/sounds/announcer/ctf/flag_taken_team04.ogg
+share/warfork/basewf/sounds/announcer/ctf/recovery01.ogg
+share/warfork/basewf/sounds/announcer/ctf/recovery02.ogg
+share/warfork/basewf/sounds/announcer/ctf/recovery03.ogg
+share/warfork/basewf/sounds/announcer/ctf/recovery04.ogg
+share/warfork/basewf/sounds/announcer/ctf/recovery_enemy.ogg
+share/warfork/basewf/sounds/announcer/ctf/recovery_team.ogg
+share/warfork/basewf/sounds/announcer/ctf/recovery_team02.ogg
+share/warfork/basewf/sounds/announcer/ctf/recovery_team03.ogg
+share/warfork/basewf/sounds/announcer/ctf/score01.ogg
+share/warfork/basewf/sounds/announcer/ctf/score02.ogg
+share/warfork/basewf/sounds/announcer/ctf/score_enemy01.ogg
+share/warfork/basewf/sounds/announcer/ctf/score_enemy02.ogg
+share/warfork/basewf/sounds/announcer/ctf/score_team01.ogg
+share/warfork/basewf/sounds/announcer/ctf/score_team02.ogg
+share/warfork/basewf/sounds/announcer/midair/bongo01.ogg
+share/warfork/basewf/sounds/announcer/midair/bongo02.ogg
+share/warfork/basewf/sounds/announcer/midair/diamond01.ogg
+share/warfork/basewf/sounds/announcer/midair/diamond02.ogg
+share/warfork/basewf/sounds/announcer/midair/gold01.ogg
+share/warfork/basewf/sounds/announcer/midair/gold02.ogg
+share/warfork/basewf/sounds/announcer/midair/midair01.ogg
+share/warfork/basewf/sounds/announcer/midair/midair02.ogg
+share/warfork/basewf/sounds/announcer/overtime/going_to_overtime.ogg
+share/warfork/basewf/sounds/announcer/overtime/overtime.ogg
+share/warfork/basewf/sounds/announcer/overtime/overtime02.ogg
+share/warfork/basewf/sounds/announcer/overtime/suddendeath01.ogg
+share/warfork/basewf/sounds/announcer/overtime/suddendeath02.ogg
+share/warfork/basewf/sounds/announcer/pleasereadyup.ogg
+share/warfork/basewf/sounds/announcer/postmatch/game_over01.ogg
+share/warfork/basewf/sounds/announcer/postmatch/game_over02.ogg
+share/warfork/basewf/sounds/announcer/readyupalready.ogg
+share/warfork/basewf/sounds/announcer/score/lost_lead01.ogg
+share/warfork/basewf/sounds/announcer/score/lost_lead02.ogg
+share/warfork/basewf/sounds/announcer/score/lost_lead03.ogg
+share/warfork/basewf/sounds/announcer/score/taken_lead01.ogg
+share/warfork/basewf/sounds/announcer/score/taken_lead02.ogg
+share/warfork/basewf/sounds/announcer/score/team_lost_lead01.ogg
+share/warfork/basewf/sounds/announcer/score/team_lost_lead02.ogg
+share/warfork/basewf/sounds/announcer/score/team_tied_lead01.ogg
+share/warfork/basewf/sounds/announcer/score/team_tied_lead02.ogg
+share/warfork/basewf/sounds/announcer/score/team_tied_lead03.ogg
+share/warfork/basewf/sounds/announcer/score/tied_lead01.ogg
+share/warfork/basewf/sounds/announcer/score/tied_lead02.ogg
+share/warfork/basewf/sounds/announcer/timeout/matchpaused01.ogg
+share/warfork/basewf/sounds/announcer/timeout/matchpaused02.ogg
+share/warfork/basewf/sounds/announcer/timeout/matchresumed01.ogg
+share/warfork/basewf/sounds/announcer/timeout/matchresumed02.ogg
+share/warfork/basewf/sounds/announcer/timeout/timein01.ogg
+share/warfork/basewf/sounds/announcer/timeout/timein02.ogg
+share/warfork/basewf/sounds/announcer/timeout/timeout01.ogg
+share/warfork/basewf/sounds/announcer/timeout/timeout02.ogg
+share/warfork/basewf/sounds/menu/back.wav
+share/warfork/basewf/sounds/menu/mouseover.wav
+share/warfork/basewf/sounds/menu/ok.wav
+share/warfork/basewf/sounds/misc/chat.wav
+share/warfork/basewf/sounds/misc/gibs_explosion.wav
+share/warfork/basewf/sounds/misc/hit_0.wav
+share/warfork/basewf/sounds/misc/hit_1.wav
+share/warfork/basewf/sounds/misc/hit_2.wav
+share/warfork/basewf/sounds/misc/hit_3.wav
+share/warfork/basewf/sounds/misc/hit_team.wav
+share/warfork/basewf/sounds/misc/hit_water.wav
+share/warfork/basewf/sounds/misc/kill.wav
+share/warfork/basewf/sounds/misc/timer_bip_bip.wav
+share/warfork/basewf/sounds/misc/timer_ploink.wav
+@dir share/warfork/basewf/sounds/movers/
+share/warfork/basewf/sounds/music/fvi-3amWestEnd.ogg
+share/warfork/basewf/sounds/music/fvi-Arpent.ogg
+share/warfork/basewf/sounds/music/fvi-BeatOne.ogg
+share/warfork/basewf/sounds/music/fvi-Chronos.ogg
+share/warfork/basewf/sounds/music/fvi-Favorite.ogg
+share/warfork/basewf/sounds/music/fvi-Fireworks.ogg
+share/warfork/basewf/sounds/music/fvi-Goodnightmare.ogg
+share/warfork/basewf/sounds/music/fvi-HippetyHop.ogg
+share/warfork/basewf/sounds/music/fvi-MeditatingBeat.ogg
+share/warfork/basewf/sounds/music/match.m3u
+share/warfork/basewf/sounds/music/menu.m3u
+share/warfork/basewf/sounds/music/postmatch.m3u
+@dir share/warfork/basewf/sounds/players/bobot/
+@dir share/warfork/basewf/sounds/players/female/
+@dir share/warfork/basewf/sounds/players/male/
+@dir share/warfork/basewf/sounds/players/padpork/
+share/warfork/basewf/sounds/vsay/affirmative.ogg
+share/warfork/basewf/sounds/vsay/areasecured.ogg
+share/warfork/basewf/sounds/vsay/armorfree.ogg
+share/warfork/basewf/sounds/vsay/attack.ogg
+share/warfork/basewf/sounds/vsay/attack_a.ogg
+share/warfork/basewf/sounds/vsay/attack_b.ogg
+share/warfork/basewf/sounds/vsay/boomstick.ogg
+share/warfork/basewf/sounds/vsay/booo.ogg
+share/warfork/basewf/sounds/vsay/defend.ogg
+share/warfork/basewf/sounds/vsay/defend_a.ogg
+share/warfork/basewf/sounds/vsay/defend_b.ogg
+share/warfork/basewf/sounds/vsay/goodgame.ogg
+share/warfork/basewf/sounds/vsay/gotopowerup.ogg
+share/warfork/basewf/sounds/vsay/gotoquad.ogg
+share/warfork/basewf/sounds/vsay/needarmor.ogg
+share/warfork/basewf/sounds/vsay/needbackup.ogg
+share/warfork/basewf/sounds/vsay/needdefense.ogg
+share/warfork/basewf/sounds/vsay/needhealth.ogg
+share/warfork/basewf/sounds/vsay/needhelp.ogg
+share/warfork/basewf/sounds/vsay/needoffense.ogg
+share/warfork/basewf/sounds/vsay/needweapon.ogg
+share/warfork/basewf/sounds/vsay/negative.ogg
+share/warfork/basewf/sounds/vsay/no.ogg
+share/warfork/basewf/sounds/vsay/noproblem.ogg
+share/warfork/basewf/sounds/vsay/ok.ogg
+share/warfork/basewf/sounds/vsay/ondefense.ogg
+share/warfork/basewf/sounds/vsay/onoffense.ogg
+share/warfork/basewf/sounds/vsay/oops.ogg
+share/warfork/basewf/sounds/vsay/roger.ogg
+share/warfork/basewf/sounds/vsay/shutup.ogg
+share/warfork/basewf/sounds/vsay/sorry.ogg
+share/warfork/basewf/sounds/vsay/thanks.ogg
+share/warfork/basewf/sounds/vsay/yeehaa.ogg
+share/warfork/basewf/sounds/vsay/yes.ogg
+share/warfork/basewf/sounds/weapons/blade_hitflsh1.ogg
+share/warfork/basewf/sounds/weapons/blade_hitflsh2.ogg
+share/warfork/basewf/sounds/weapons/blade_hitflsh3.ogg
+share/warfork/basewf/sounds/weapons/blade_hitwall1.ogg
+share/warfork/basewf/sounds/weapons/blade_hitwall2.ogg
+share/warfork/basewf/sounds/weapons/blade_strike1.ogg
+share/warfork/basewf/sounds/weapons/blade_strike2.ogg
+share/warfork/basewf/sounds/weapons/blade_strike3.ogg
+share/warfork/basewf/sounds/weapons/bladegun_strong_fire.ogg
+share/warfork/basewf/sounds/weapons/bladegun_strong_hit_1.ogg
+share/warfork/basewf/sounds/weapons/bladegun_strong_hit_2.ogg
+share/warfork/basewf/sounds/weapons/bladegun_strong_hit_3.ogg
+share/warfork/basewf/sounds/weapons/electrobolt_hit.ogg
+share/warfork/basewf/sounds/weapons/electrobolt_hum.ogg
+share/warfork/basewf/sounds/weapons/electrobolt_strong.ogg
+share/warfork/basewf/sounds/weapons/gren_strong_bounce1.ogg
+share/warfork/basewf/sounds/weapons/gren_strong_bounce2.ogg
+share/warfork/basewf/sounds/weapons/gren_strong_explosion1.ogg
+share/warfork/basewf/sounds/weapons/gren_strong_explosion2.ogg
+share/warfork/basewf/sounds/weapons/grenlaunch_strong.ogg
+share/warfork/basewf/sounds/weapons/instagun_strong.ogg
+share/warfork/basewf/sounds/weapons/laser_hit0.ogg
+share/warfork/basewf/sounds/weapons/laser_hit1.ogg
+share/warfork/basewf/sounds/weapons/laser_hit2.ogg
+share/warfork/basewf/sounds/weapons/laser_strong_fire.ogg
+share/warfork/basewf/sounds/weapons/laser_strong_hum.ogg
+share/warfork/basewf/sounds/weapons/laser_strong_quad_hum.ogg
+share/warfork/basewf/sounds/weapons/laser_strong_stop.ogg
+share/warfork/basewf/sounds/weapons/machinegun_fire.ogg
+share/warfork/basewf/sounds/weapons/plasmagun_strong1.ogg
+share/warfork/basewf/sounds/weapons/plasmagun_strong2.ogg
+share/warfork/basewf/sounds/weapons/plasmagun_strong3.ogg
+share/warfork/basewf/sounds/weapons/plasmagun_strong_explosion.ogg
+share/warfork/basewf/sounds/weapons/plasmagun_strong_fly.ogg
+share/warfork/basewf/sounds/weapons/ric1.ogg
+share/warfork/basewf/sounds/weapons/ric2.ogg
+share/warfork/basewf/sounds/weapons/riotgun_fire.ogg
+share/warfork/basewf/sounds/weapons/riotgun_fire_strong.ogg
+share/warfork/basewf/sounds/weapons/riotgun_strong_hit.ogg
+share/warfork/basewf/sounds/weapons/rocket_fire_strong.ogg
+share/warfork/basewf/sounds/weapons/rocket_fly_strong.ogg
+share/warfork/basewf/sounds/weapons/rocket_strong_explosion.ogg
+share/warfork/basewf/sounds/weapons/weapon_noammo.ogg
+share/warfork/basewf/sounds/weapons/weapon_switch.ogg
+@dir share/warfork/basewf/sounds/world/
+@dir share/warfork/basewf/textures/36_colours/
+@dir share/warfork/basewf/textures/36_lights/
+@dir share/warfork/basewf/textures/36_others/
+@dir share/warfork/basewf/textures/ETRtex/
+@dir share/warfork/basewf/textures/HazelH/
+@dir share/warfork/basewf/textures/HazelH/flat/
+@dir share/warfork/basewf/textures/baxandall/
+@dir share/warfork/basewf/textures/billboard/
+@dir share/warfork/basewf/textures/blx/
+@dir share/warfork/basewf/textures/blx_ca/
+@dir share/warfork/basewf/textures/blx_grey/
+@dir share/warfork/basewf/textures/blx_houses/
+@dir share/warfork/basewf/textures/blx_tech2/
+@dir share/warfork/basewf/textures/blx_wtest3/
+@dir share/warfork/basewf/textures/blxbis/sh/
+@dir share/warfork/basewf/textures/boqu/decals/
+@dir share/warfork/basewf/textures/boqu/models/
+@dir share/warfork/basewf/textures/boqu2/
+@dir share/warfork/basewf/textures/bricks/
+@dir share/warfork/basewf/textures/cha0s_ctf/
+@dir share/warfork/basewf/textures/cha0s_ws/
+@dir share/warfork/basewf/textures/cleansurface/
+@dir share/warfork/basewf/textures/common/
+@dir share/warfork/basewf/textures/concrete/
+@dir share/warfork/basewf/textures/concrete_techwalls/
+@dir share/warfork/basewf/textures/decals/
+@dir share/warfork/basewf/textures/dispenser/
+@dir share/warfork/basewf/textures/exwsw/
+@dir share/warfork/basewf/textures/factory/
+@dir share/warfork/basewf/textures/format/
+@dir share/warfork/basewf/textures/glass/
+@dir share/warfork/basewf/textures/grates/
+@dir share/warfork/basewf/textures/hexagons/
+@dir share/warfork/basewf/textures/jewels/
+@dir share/warfork/basewf/textures/leaves/
+@dir share/warfork/basewf/textures/lights/
+@dir share/warfork/basewf/textures/melee/
+@dir share/warfork/basewf/textures/metal/
+@dir share/warfork/basewf/textures/natestah/
+@dir share/warfork/basewf/textures/neon/
+@dir share/warfork/basewf/textures/noir/
+@dir share/warfork/basewf/textures/plastic/
+@dir share/warfork/basewf/textures/refly_bricks/
+@dir share/warfork/basewf/textures/refly_crates/
+@dir share/warfork/basewf/textures/refly_metal/
+@dir share/warfork/basewf/textures/refly_stone/
+@dir share/warfork/basewf/textures/refly_tiles/
+@dir share/warfork/basewf/textures/refly_trims/
+@dir share/warfork/basewf/textures/refly_wood/
+@dir share/warfork/basewf/textures/russus/
+@dir share/warfork/basewf/textures/scifi_interior/
+@dir share/warfork/basewf/textures/sky/
+@dir share/warfork/basewf/textures/solidfake_lights/
+@dir share/warfork/basewf/textures/supersymmetry/
+@dir share/warfork/basewf/textures/terrain/
+@dir share/warfork/basewf/textures/test/
+@dir share/warfork/basewf/textures/tiles/
+@dir share/warfork/basewf/textures/trees/
+@dir share/warfork/basewf/textures/tutorial/
+@dir share/warfork/basewf/textures/wdm6/
+@dir share/warfork/basewf/textures/wdm7/
+@dir share/warfork/basewf/textures/window/
+@dir share/warfork/basewf/textures/wood/
+@dir share/warfork/basewf/textures/world/sh/
+@dir share/warfork/basewf/textures/world/water/
+@dir share/warfork/basewf/textures/world/wdm4/
+@dir share/warfork/basewf/textures/wsw_cave1/
+@dir share/warfork/basewf/textures/wsw_city1/
+@dir share/warfork/basewf/textures/wsw_flareshalos/
+@dir share/warfork/basewf/textures/zone_neutre/
+share/warfork/basewf/tvserver_autoexec.cfg
+@dir share/warfork/basewf/ui/porkui/as/
+@dir share/warfork/basewf/ui/porkui/css/options/
+@dir share/warfork/basewf/ui/porkui/cursors/
+@dir share/warfork/basewf/ui/porkui/gfx/controls/
+@dir share/warfork/basewf/video/
+share/warfork/basewf/warfork_assets.txt

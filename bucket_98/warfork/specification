@@ -1,0 +1,63 @@
+DEF[PORTVERSION]=	20200121
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		warfork
+VERSION=		${PORTVERSION}
+KEYWORDS=		games
+VARIANTS=		standard
+SDESC[standard]=	Futuristic, fast-paced first person shooter
+HOMEPAGE=		https://warfork.com/
+CONTACT=		Leonid_Bobrov[goleo@disroot.org]
+
+DOWNLOAD_GROUPS=	main data
+SITES[main]=		GITHUB/TeamForbiddenLLC:warfork-qfusion:e1247b0
+SITES[data]=		https://warfork.com/downloads/
+DISTFILE[1]=		generated:main
+DISTFILE[2]=		warfork_4269802_Oct_08_2019_unified.tar:data
+DF_INDEX=		1 2
+
+SPKGS[standard]=	complete client server modules data
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		GPLv2+:data
+			CC0_10:data
+			CC_SA_30:data
+LICENSE_FILE=		GPLv2+:{{WRKSRC}}/source/gnu.txt
+			CC0_10:stock
+			CC_SA_30:stock
+LICENSE_TERMS=		data:{{WRKDIR}}/TERMS
+LICENSE_SCHEME=		multi
+
+USES=			c++:modules cmake
+CMAKE_SOURCE_PATH=	{{WRKSRC}}/source
+BUILD_DEPENDS=		zlib:static:standard
+BUILDRUN_DEPENDS=	curl:primary:standard
+			freetype:primary:standard
+			libtheora:single:standard
+			libvorbis:primary:standard
+			openal:single:standard
+			sdl2:single:standard
+			zlib:shared:standard
+EXRUN[client]=		warfork:data:standard
+			warfork:modules:standard
+EXRUN[server]=		warfork:data:standard
+			warfork:modules:standard
+
+post-extract:
+	${REINPLACE_CMD} 's|path", "\.|path", "${LOCALBASE}/share/warfork|' \
+		${WRKSRC}/source/qcommon/files.c
+	sed "/\*\//q" ${WRKSRC}/source/cgame/ref.h > ${WRKDIR}/TERMS
+	cat ${WRKDIR}/Warfork.app/Contents/Resources/basewf/warfork_assets.txt \
+		>> ${WRKDIR}/TERMS
+
+do-install:
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/warfork
+	${CP} -R ${WRKDIR}/Warfork.app/Contents/Resources/basewf \
+		${STAGEDIR}${PREFIX}/share/warfork/
+	${CP} ${INSTALL_WRKSRC}/basewf/* \
+		${STAGEDIR}${PREFIX}/share/warfork/basewf/
+	${CP} -R ${INSTALL_WRKSRC}/libs \
+		${STAGEDIR}${PREFIX}/share/warfork/
+	${CP} -R ${INSTALL_PROGRAM}/w* ${STAGEDIR}${PREFIX}/bin
