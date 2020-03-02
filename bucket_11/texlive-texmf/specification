@@ -1,0 +1,174 @@
+DEF[PORTVERSION]=	20190410
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		texlive-texmf
+VERSION=		${PORTVERSION}
+KEYWORDS=		print
+VARIANTS=		standard
+SDESC[standard]=	TeXlive texmf tree (macros + fonts)
+HOMEPAGE=		https://www.tug.org/texlive
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		ftp://ftp.tug.org/texlive/historic/2019/
+DISTFILE[1]=		texlive-${PORTVERSION}-texmf.tar.xz:main
+
+SPKGS[standard]=	complete primary docs
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+# The files provided by this package are licensed under various
+# licenses.
+
+FPC_EQUIVALENT=		print/texlive-texmf
+
+SKIP_BUILD=		yes
+DISTNAME=		texlive-20190410-texmf
+
+USES=			shebangfix
+SHEBANG_FILES=		texmf-dist/doc/latex/presentations-en/runAll
+			texmf-dist/doc/latex/aramaic-serto/serto.py
+			texmf-dist/doc/latex/uspace/uspace-ctanify.sh
+			texmf-dist/doc/latex/bardiag/example/compile.all
+			texmf-dist/doc/latex/latex-web-companion/ch7/sgmlspl.pl
+			texmf-dist/doc/latex/hvfloat/runAll.sh
+			texmf-dist/doc/latex/hvfloat/runEXA.sh
+			texmf-dist/doc/latex/seminar/run.sh
+			texmf-dist/doc/latex/scanpages/replicate.py
+			texmf-dist/doc/latex/pdfreview/pdfreview.sh
+			texmf-dist/doc/latex/pdfreview/pdfshrink.sh
+			texmf-dist/doc/latex/ucs/unsupported/u2ps
+			texmf-dist/doc/latex/ucs/makeunidef.pl
+			texmf-dist/doc/latex/ucs/latexout.pl
+			texmf-dist/doc/latex/ucs/discovermacro.pl
+			texmf-dist/doc/latex/ctable/inst
+			texmf-dist/doc/latex/ejpecp/mgetmref.py
+			texmf-dist/doc/latex/biblatex-abnt/test.sh
+			texmf-dist/doc/latex/gridslides/compile.pl
+			texmf-dist/doc/latex/hepnames/mkmacrotables
+			texmf-dist/doc/latex/shdoc/shreformat.sh
+			texmf-dist/doc/cstex/cspsfonts-gen/mkf
+			texmf-dist/doc/cstex/cspsfonts-gen/mkfc
+			texmf-dist/doc/fonts/xcharter/altone.py
+			texmf-dist/doc/fonts/dad/utf8-to-dad.pl
+			texmf-dist/doc/fonts/dad/dad-to-utf8.pl
+			texmf-dist/doc/fonts/phaistos/getglyphs
+			texmf-dist/doc/fonts/gnu-freefont/tools/test/MES-Conformance/mes-list-expand.pl
+			texmf-dist/doc/fonts/gnu-freefont/tools/test/MES-Conformance/CheckConformance.pl
+			texmf-dist/doc/fonts/gnu-freefont/tools/test/ranges/Arabic/unicode_joining.py
+			texmf-dist/doc/fonts/gnu-freefont/tools/test/ranges/Arabic/generate_arabic_shaping.py
+			texmf-dist/doc/fonts/gnu-freefont/tools/test/ranges/Arabic/arabic_test.py
+			texmf-dist/doc/fonts/gnu-freefont/tools/utility/KerningNumerals.pl
+			texmf-dist/doc/fonts/gnu-freefont/tools/utility/hex_range.py
+			texmf-dist/doc/fonts/drm/allfonts.sh
+			texmf-dist/doc/generic/pst-mirror/createEPS/scripts/filtre.pl
+			texmf-dist/doc/generic/e-french/bin/linux/makefrindex
+			texmf-dist/doc/generic/pst-spirograph/animation/runall.sh
+			texmf-dist/doc/lualatex/wallcalendar/doc/examples/diff-cal.sh
+			texmf-dist/doc/support/latexdiff/contrib/latexdiff-wrap
+			texmf-dist/doc/support/gustprog/porzadki.pl
+			texmf-dist/doc/support/ctan-o-mat/lib/md2ltx.pl
+			texmf-dist/doc/metapost/featpost/bash/laproof.sh
+			texmf-dist/doc/metapost/featpost/bash/COMPILE.sh
+			texmf-dist/doc/metapost/featpost/bash/makehtmlindex.sh
+			texmf-dist/doc/xelatex/xepersian/undk-0.6.py
+			texmf-dist/doc/xelatex/xepersian/dkun-0.3.py
+			texmf-dist/doc/xelatex/xepersian/dkun-0.4.py
+			texmf-dist/doc/xelatex/xepersian/unldk-0.2.py
+			texmf-dist/source/fonts/ae/clean
+			texmf-dist/source/fonts/ae/install
+			texmf-dist/source/fonts/gentium-tug/type1/afmcreator.py
+			texmf-dist/source/fonts/gentium-tug/type1/kerncorrection.py
+			texmf-dist/source/fonts/gentium-tug/type1/greekcorrection.py
+			texmf-dist/source/fonts/fonts-tlwg/scripts/gen-test-ttf.py
+			texmf-dist/source/fonts/fonts-tlwg/scripts/gen-ttf.py
+			texmf-dist/source/fonts/japanese-otf-uptex/script/mkutfvf_sp.pl
+			texmf-dist/source/fonts/japanese-otf-uptex/script/umkpkana.pl
+			texmf-dist/source/fonts/japanese-otf-uptex/script/mkutf32list.pl
+			texmf-dist/source/fonts/japanese-otf-uptex/script/mktfm_sp.pl
+			texmf-dist/source/fonts/japanese-otf-uptex/script/umkvpkana.pl
+			texmf-dist/source/fonts/japanese-otf-uptex/umkjvf
+			texmf-dist/source/fonts/japanese-otf/mkjvf
+			texmf-dist/source/fonts/japanese-otf/script/mkjp04tfmvf.pl
+			texmf-dist/source/fonts/japanese-otf/script/mktfm.pl
+			texmf-dist/source/fonts/japanese-otf/script/mkutfvf.pl
+			texmf-dist/source/fonts/japanese-otf/script/mkcidvf.pl
+			texmf-dist/source/fonts/japanese-otf/script/mkmlcidvf.pl
+			texmf-dist/source/xelatex/arabxetex/makemaps.pl
+			texmf-dist/source/latex/proposal/bin/filedate
+			texmf-dist/source/latex/proposal/bin/checksum
+			texmf-dist/source/latex/fifinddo-info/makevars/bashvars.sh
+			texmf-dist/source/latex/fifinddo-info/makevars/texvars.sh
+			texmf-dist/source/latex/avremu/test-suite/test-suite
+			texmf-dist/source/latex/stex/bin/filedate
+			texmf-dist/source/latex/stex/bin/checksum
+			texmf-dist/source/latex/stex/bin/sms
+			texmf-dist/source/latex/stex/bin/installFonts.sh
+			texmf-dist/source/generic/ruhyphen/sorthyph
+			texmf-dist/source/generic/ruhyphen/reduce-patt
+			texmf-dist/source/generic/hyph-utf8/contributed/make-exhyph.pl
+			texmf-dist/scripts/pdfxup/pdfxup
+			texmf-dist/scripts/lua2dox/lua2dox_filter
+			texmf-dist/scripts/yplan/yplan
+			texmf-dist/scripts/latex-papersize/latex-papersize.py
+			texmf-dist/scripts/dtxgen/dtxgen
+			texmf-dist/scripts/texliveonfly/texliveonfly.py
+			texmf-dist/scripts/accfonts/mkt1font
+			texmf-dist/scripts/accfonts/vpl2vpl
+			texmf-dist/scripts/accfonts/vpl2ovp
+			texmf-dist/scripts/ctan-o-mat/ctan-o-mat.pl
+			texmf-dist/scripts/changes/pyMergeChanges.py
+			texmf-dist/scripts/petri-nets/pn2pdf
+			texmf-dist/scripts/ulqda/ulqda.pl
+			texmf-dist/scripts/ebong/ebong.py
+			texmf-dist/scripts/pdftex-quiet/pdftex-quiet
+			texmf-dist/scripts/installfont/installfont-tl
+			texmf-dist/scripts/ltxfileinfo/ltxfileinfo
+			texmf-dist/scripts/de-macro/de-macro
+			texmf-dist/scripts/lilyglyphs/lily-glyph-commands.py
+			texmf-dist/scripts/lilyglyphs/lilyglyphs_common.py
+			texmf-dist/scripts/lilyglyphs/lily-rebuild-pdfs.py
+			texmf-dist/scripts/lilyglyphs/lily-image-commands.py
+			texmf-dist/scripts/arara/arara.sh
+			texmf-dist/scripts/mathspic/mathspic.pl
+			texmf-dist/scripts/latexpand/latexpand
+			texmf-dist/scripts/urlbst/urlbst
+			texmf-dist/scripts/fragmaster/fragmaster.pl
+			texmf-dist/scripts/latex-make/figdepth.py
+			texmf-dist/scripts/latex-make/latexfilter.py
+			texmf-dist/scripts/latex-make/svgdepth.py
+			texmf-dist/scripts/latex-make/gensubfig.py
+			texmf-dist/scripts/latex-make/svg2dev.py
+			texmf-dist/scripts/splitindex/splitindex.pl
+			texmf-dist/scripts/pdflatexpicscale/pdflatexpicscale.pl
+			texmf-dist/scripts/findhyph/findhyph
+			texmf-dist/scripts/logicpuzzle/lpsmag
+			texmf-dist/scripts/logicpuzzle/createlpsudoku
+			texmf-dist/scripts/pythontex/depythontex.py
+			texmf-dist/scripts/pythontex/pythontex.py
+			texmf-dist/scripts/pythontex/pythontex_install.py
+			texmf-dist/scripts/pythontex/pythontex_2to3.py
+			texmf-dist/scripts/multibibliography/multibibliography.pl
+			texmf-dist/scripts/mycv/mycv_split_contents.pl
+			texmf-dist/scripts/mf2pt1/mf2pt1.pl
+			texmf-dist/scripts/exceltex/exceltex
+			texmf-dist/scripts/shipunov/biokey2html.sh
+			texmf-dist/scripts/pdfbook2/pdfbook2
+			texmf-dist/scripts/ctanupload/ctanupload.pl
+			texmf-dist/scripts/svn-multi/svn-multi.pl
+			texmf-dist/scripts/bibexport/bibexport.sh
+			texmf-dist/scripts/makedtx/makedtx.pl
+
+post-patch:
+	${REINPLACE_CMD} -e 's|__PREFIX__|${PREFIX}|' \
+		${WRKSRC}/texmf-dist/doc/generic/m-tx/buildmtxdoc.lua \
+		${WRKSRC}/texmf-dist/doc/fonts/drm/fontconvert.sh \
+		${WRKSRC}/texmf-dist/doc/fonts/berenisadf/ff-ybd.pe \
+		${WRKSRC}/texmf-dist/doc/fonts/gnu-freefont/tools/report/kernclasses.py \
+		${WRKSRC}/texmf-dist/doc/fonts/gnu-freefont/tools/utility/metafont/bulk_eps_import.py
+	${FIND} ${WRKSRC} -name '*.orig' -delete
+	${FIND} ${WRKSRC} -name '*.bak' -delete
+
+do-install:
+	${CP} -r ${WRKSRC}/texmf-dist ${STAGEDIR}${PREFIX}/
