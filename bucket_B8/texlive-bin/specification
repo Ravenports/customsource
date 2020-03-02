@@ -1,0 +1,168 @@
+DEF[PORTVERSION]=	20190410
+DEF[LIBKPATHSEA]=	6.3.1
+DEF[LIBPTEXENC]=	1.3.7
+DEF[LIBSYNCTEX]=	2.0.0
+DEF[LIBTEXLUA53]=	5.3.4
+DEF[LIBTEXLUAJIT]=	2.1.0
+DEF[PDFTEX_LINKS]=	amstex cslatex csplain eplain etex jadetex latex mex mllatex mltex pdfcslatex pdfcsplain pdfetex pdfjadetex pdflatex pdfmex pdfxmltex texsis utf8mex xmltex
+DEF[PROGRAMS0]=		afm2pl afm2tfm aleph autosp axohelp bbox bg5conv bibtex bibtex8 bibtexu cef5conv cefconv cefsconv cfftot1 chkdvifont chktex ctangle ctie ctwill ctwill-refsort ctwill-twinx cweave detex devnag disdvi dt2dv dv2dt dvi2tty dvibook dviconcat dvicopy dvidvi dvilj dvilj2p dvilj4 dvilj4l dvipng dvipos dvips dviselect dvispc dvisvgm dvitodvi dvitype epsffit eptex euptex extconv gftodvi gftopk gftype gregorio gsftopk
+DEF[PROGRAMS1]=		hbf2gf kpseaccess kpsereadlink kpsestat kpsewhich lacheck luajittex luatex mag makeindex makejvf mendex mf mf-nowin mflua mfluajit mft mmafm mmpfb mpost msxlint odvicopy odvitype omfonts otangle otfinfo otftotfm otp2ocp outocp patgen pbibtex pdfclose pdfopen pdftex pdftosrc pdvitype pfb2pfa pk2bm pktogf pktype pltotf pmpost pmxab pooltype ppltotf prepmx ps2pk psbook psnup psresize psselect pstops ptex ptftopl
+DEF[PROGRAMS2]=		scor2prt sjisconv synctex t1ascii t1asm t1binary t1disasm t1dotlessj t1lint t1mac t1rawafm t1reencode t1testpage t1unmac t4ht tangle teckit_compile tex tex2aspc tex2xindy tex4ht tftopl tie ttf2afm ttf2pk ttf2tfm ttfdump ttftotype42 updvitype upbibtex upmendex upmpost uppltotf uptex uptftopl vftovp vlna vptovf weave wofm2opl wopl2ofm wovf2ovp wovp2ovf xdvi-xaw xdvipdfmx xetex
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		texlive-bin
+VERSION=		${PORTVERSION}
+KEYWORDS=		print
+VARIANTS=		standard
+SDESC[standard]=	Binary and input files for TeXlive
+HOMEPAGE=		https://www.tug.org/texlive
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		ftp://ftp.tug.org/texlive/historic/2019/
+DISTFILE[1]=		texlive-${PORTVERSION}-source.tar.xz:main
+
+SPKGS[standard]=	complete primary docs bibtex context engine_luatex engine_pdftex engine_xetex synctex utils xindy
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+USES=			gmake libtool perl png shebangfix
+XORG_COMPONENTS=	pixman x11 xaw
+GNOME_COMPONENTS=	cairo
+
+BUILD_DEPENDS=		gmp:static:standard
+			mpfr:static:standard
+			clisp:primary:standard
+BUILDRUN_DEPENDS=	freetype:primary:standard
+			gmp:shared:standard
+			graphite:single:standard
+			harfbuzz:icu:standard
+			icu:single:standard
+			libGD:single:standard
+			libpaper:single:standard
+			mpfr:shared:standard
+			poppler:primary:standard
+			zziplib:primary:standard
+RUN_DEPENDS=		libffcall:single:standard
+			libsigsegv:shared:standard
+
+INSTALL_REQ_TOOLCHAIN=	yes
+DISTNAME=		texlive-${PORTVERSION}-source
+MUST_CONFIGURE=		gnu
+CONFIGURE_OUTSOURCE=	yes
+CONFIGURE_ARGS=		--with-banner-add="/Ravenports"
+			-C
+			--disable-dump-share
+			--disable-multiplatform
+			--disable-native-texlive-build
+			--disable-static
+			--disable-xindy-rules
+			--enable-luatex
+			--enable-shared
+			--enable-xindy
+			--enable-xindy-docs
+			--with-clisp-runtime=default
+			--with-system-cairo
+			--with-system-freetype2
+			--with-system-gd
+			--with-system-gmp
+			--with-system-graphite
+			--with-system-harfbuzz
+			--with-system-icu
+			--with-system-libpaper
+			--with-system-mpfr
+			--with-system-ncurses
+			--with-system-pixman
+			--with-system-pnglib
+			--with-system-poppler
+			--with-system-potrace
+			--with-system-t1lib
+			--with-system-zlib
+			--with-system-zziplib
+			--with-xdvi-x-toolkit=xaw
+# --with-system-xpdf
+# System-Xpdf does not currently build. Try again when the port is updated.
+
+SHEBANG_FILES=		texk/texlive/linked_scripts/accfonts/mkt1font
+			texk/texlive/linked_scripts/accfonts/vpl2ovp
+			texk/texlive/linked_scripts/accfonts/vpl2vpl
+			texk/texlive/linked_scripts/arara/arara.sh
+			texk/texlive/linked_scripts/bibexport/bibexport.sh
+			texk/texlive/linked_scripts/ctan-o-mat/ctan-o-mat.pl
+			texk/texlive/linked_scripts/ctanupload/ctanupload.pl
+			texk/texlive/linked_scripts/de-macro/de-macro
+			texk/texlive/linked_scripts/dtxgen/dtxgen
+			texk/texlive/linked_scripts/ebong/ebong.py
+			texk/texlive/linked_scripts/exceltex/exceltex
+			texk/texlive/linked_scripts/findhyph/findhyph
+			texk/texlive/linked_scripts/fragmaster/fragmaster.pl
+			texk/texlive/linked_scripts/installfont/installfont-tl
+			texk/texlive/linked_scripts/latex-papersize/latex-papersize.py
+			texk/texlive/linked_scripts/latexpand/latexpand
+			texk/texlive/linked_scripts/lilyglyphs/lily-glyph-commands.py
+			texk/texlive/linked_scripts/lilyglyphs/lily-image-commands.py
+			texk/texlive/linked_scripts/lilyglyphs/lily-rebuild-pdfs.py
+			texk/texlive/linked_scripts/ltxfileinfo/ltxfileinfo
+			texk/texlive/linked_scripts/lua2dox/lua2dox_filter
+			texk/texlive/linked_scripts/makedtx/makedtx.pl
+			texk/texlive/linked_scripts/mathspic/mathspic.pl
+			texk/texlive/linked_scripts/mf2pt1/mf2pt1.pl
+			texk/texlive/linked_scripts/multibibliography/multibibliography.pl
+			texk/texlive/linked_scripts/pdfbook2/pdfbook2
+			texk/texlive/linked_scripts/pdflatexpicscale/pdflatexpicscale.pl
+			texk/texlive/linked_scripts/pdftex-quiet/pdftex-quiet
+			texk/texlive/linked_scripts/pdfxup/pdfxup
+			texk/texlive/linked_scripts/petri-nets/pn2pdf
+			texk/texlive/linked_scripts/pythontex/depythontex.py
+			texk/texlive/linked_scripts/pythontex/pythontex.py
+			texk/texlive/linked_scripts/splitindex/splitindex.pl
+			texk/texlive/linked_scripts/svn-multi/svn-multi.pl
+			texk/texlive/linked_scripts/texliveonfly/texliveonfly.py
+			texk/texlive/linked_scripts/ulqda/ulqda.pl
+			texk/texlive/linked_scripts/urlbst/urlbst
+			texk/texlive/linked_scripts/yplan/yplan
+
+PLIST_SUB=		LIBKPATHSEA=${LIBKPATHSEA}
+			LIBKPATHSEA_MAJOR=${LIBKPATHSEA:R:R}
+			LIBPTEXENC=${LIBPTEXENC}
+			LIBPTEXENC_MAJOR=${LIBPTEXENC:R:R}
+			LIBSYNCTEX=${LIBSYNCTEX}
+			LIBSYNCTEX_MAJOR=${LIBSYNCTEX:R:R}
+			LIBTEXLUA53=${LIBTEXLUA53}
+			LIBTEXLUA53_MAJOR=${LIBTEXLUA53:R:R}
+			LIBTEXLUAJIT=${LIBTEXLUAJIT}
+			LIBTEXLUAJIT_MAJOR=${LIBTEXLUAJIT:R:R}
+
+post-patch:
+	${CP} ${FILESDIR}/pdftoepdf-poppler0.76.0.cc \
+		${WRKSRC}/texk/web2c/pdftexdir/
+	${CP} ${FILESDIR}/pdftosrc-poppler0.76.0.cc \
+		${WRKSRC}/texk/web2c/pdftexdir/
+
+post-install:
+	${RM} -r ${STAGEDIR}${PREFIX}/share/info
+	${LN} -s eptex ${STAGEDIR}${PREFIX}/bin/platex
+	${LN} -s euptex ${STAGEDIR}${PREFIX}/bin/uplatex
+	${LN} -s luatex ${STAGEDIR}${PREFIX}/bin/dvilualatex
+	${LN} -s luatex ${STAGEDIR}${PREFIX}/bin/dviluatex
+	${LN} -s luatex ${STAGEDIR}${PREFIX}/bin/lualatex
+	${LN} -s tex ${STAGEDIR}${PREFIX}/bin/lollipop
+	${LN} -s xetex ${STAGEDIR}${PREFIX}/bin/xelatex
+.for l in ${PDFTEX_LINKS}
+	${LN} -s pdftex ${STAGEDIR}${PREFIX}/bin/${l}
+.endfor
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libkpathsea.so.${LIBKPATHSEA}
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libptexenc.so.${LIBPTEXENC}
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libsynctex.so.${LIBSYNCTEX}
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libtexlua53.so.${LIBTEXLUA53}
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libtexluajit.so.${LIBTEXLUAJIT}
+.for p in ${PROGRAMS0}
+	echo ${STAGEDIR}${PREFIX}/bin/${p}
+.endfor
+.for p in ${PROGRAMS1}
+	echo ${STAGEDIR}${PREFIX}/bin/${p}
+.endfor
+.for p in ${PROGRAMS2}
+	echo ${STAGEDIR}${PREFIX}/bin/${p}
+.endfor
