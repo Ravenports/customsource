@@ -1,0 +1,27 @@
+DEF[PORTVERSION]=	1.2.4
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		cdrdao
+VERSION=		${PORTVERSION}
+KEYWORDS=		sysutils
+VARIANTS=		standard
+SDESC[standard]=	Tool to record audio or data in DAO mode
+# HTTPS URL is known to be broken
+HOMEPAGE=		http://cdrdao.sourceforge.net
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		SF/cdrdao/
+DISTFILE[1]=		cdrdao-${PORTVERSION}.tar.bz2:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		sysutils/cdrdao
+
+USES=			gmake
+
+MUST_CONFIGURE=		gnu
+LDFLAGS=		-lsbuf
