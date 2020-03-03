@@ -1,0 +1,36 @@
+DEF[PORTVERSION]=	1.0.5
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		parole
+VERSION=		${PORTVERSION}
+KEYWORDS=		multimedia
+VARIANTS=		standard
+SDESC[standard]=	Gstreamer-based media player for Xfce
+HOMEPAGE=		https://docs.xfce.org/apps/parole/start
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://archive.xfce.org/src/apps/parole/${PORTVERSION:R}/
+DISTFILE[1]=		parole-${PORTVERSION}.tar.bz2:main
+
+SPKGS[standard]=	complete primary nls
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		multimedia/xfce4-parole
+
+BUILDRUN_DEPENDS=	dbus-glib:primary:standard
+			gstreamer1:single:standard
+			gstreamer1-plugins-core:single:standard
+			libnotify:primary:standard
+			libxfce4ui:primary:standard
+			libxfce4util:primary:standard
+			xfconf:primary:standard
+RUN_DEPENDS=		gstreamer1-plugins-x:single:standard
+
+USES=			gettext-tools:build gettext-runtime gmake libtool pkgconfig
+GNOME_COMPONENTS=	gtk3 intltool
+
+MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--disable-debug
