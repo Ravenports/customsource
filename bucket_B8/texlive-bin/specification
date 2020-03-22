@@ -4,10 +4,6 @@ DEF[LIBPTEXENC]=	1.3.7
 DEF[LIBSYNCTEX]=	2.0.0
 DEF[LIBTEXLUA53]=	5.3.4
 DEF[LIBTEXLUAJIT]=	2.1.0
-DEF[PDFTEX_LINKS]=	amstex cslatex csplain eplain etex jadetex latex mex mllatex mltex pdfcslatex pdfcsplain pdfetex pdfjadetex pdflatex pdfmex pdfxmltex texsis utf8mex xmltex
-DEF[PROGRAMS0]=		afm2pl afm2tfm aleph autosp axohelp bbox bg5conv bibtex bibtex8 bibtexu cef5conv cefconv cefsconv cfftot1 chkdvifont chktex ctangle ctie ctwill ctwill-refsort ctwill-twinx cweave detex devnag disdvi dt2dv dv2dt dvi2tty dvibook dviconcat dvicopy dvidvi dvilj dvilj2p dvilj4 dvilj4l dvipng dvipos dvips dviselect dvispc dvisvgm dvitodvi dvitype epsffit eptex euptex extconv gftodvi gftopk gftype gregorio gsftopk
-DEF[PROGRAMS1]=		hbf2gf kpseaccess kpsereadlink kpsestat kpsewhich lacheck luajittex luatex mag makeindex makejvf mendex mf mf-nowin mflua mfluajit mft mmafm mmpfb mpost msxlint odvicopy odvitype omfonts otangle otfinfo otftotfm otp2ocp outocp patgen pbibtex pdfclose pdfopen pdftex pdftosrc pdvitype pfb2pfa pk2bm pktogf pktype pltotf pmpost pmxab pooltype ppltotf prepmx ps2pk psbook psnup psresize psselect pstops ptex ptftopl
-DEF[PROGRAMS2]=		scor2prt sjisconv synctex t1ascii t1asm t1binary t1disasm t1dotlessj t1lint t1mac t1rawafm t1reencode t1testpage t1unmac t4ht tangle teckit_compile tex tex2aspc tex2xindy tex4ht tftopl tie ttf2afm ttf2pk ttf2tfm ttfdump ttftotype42 updvitype upbibtex upmendex upmpost uppltotf uptex uptftopl vftovp vlna vptovf weave wofm2opl wopl2ofm wovf2ovp wovp2ovf xdvi-xaw xdvipdfmx xetex
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		texlive-bin
@@ -18,18 +14,36 @@ SDESC[standard]=	Binary and input files for TeXlive
 HOMEPAGE=		https://www.tug.org/texlive
 CONTACT=		Michael_Reim[kraileth@elderlinux.org]
 
-DOWNLOAD_GROUPS=	main
+DOWNLOAD_GROUPS=	main copying lppl
 SITES[main]=		ftp://ftp.tug.org/texlive/historic/2019/
+SITES[copying]=		https://www.tug.org/texlive/
+SITES[lppl]=		https://www.latex-project.org/
 DISTFILE[1]=		texlive-${PORTVERSION}-source.tar.xz:main
+DISTFILE[2]=		LICENSE.TL:copying
+DISTFILE[3]=		lppl.txt:lppl
+DIST_SUBDIR=		texlive
 
-SPKGS[standard]=	complete primary docs bibtex context engine_luatex engine_pdftex engine_xetex synctex utils xindy
+SPKGS[standard]=	complete primary docs bibtex context
+			engine_luatex engine_pdftex engine_xetex
+			synctex utils xindy
 
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
 
+LICENSE=		CUSTOM1:primary
+LICENSE_NAME=		CUSTOM1:"TeX Live - Multi-license (LPPL, GNU, BSD, etc)"
+LICENSE_TERMS=		primary:{{DISTDIR}}/{{DIST_SUBDIR}}/LICENSE.TL
+LICENSE_FILE=		CUSTOM1:{{DISTDIR}}/{{DIST_SUBDIR}}/lppl.txt
+LICENSE_SCHEME=		solo
+
 USES=			gmake libtool perl png shebangfix
 XORG_COMPONENTS=	pixman x11 xaw
 GNOME_COMPONENTS=	cairo
+
+EXRUN[bibtex]=		texlive-bin:primary:standard
+EXRUN[engine_luatex]=	texlive-bin:primary:standard
+EXRUN[engine_pdftex]=	texlive-bin:primary:standard
+EXRUN[engine_xetex]=	texlive-bin:primary:standard
 
 BUILD_DEPENDS=		gmp:static:standard
 			mpfr:static:standard
@@ -149,20 +163,12 @@ post-install:
 	${LN} -s luatex ${STAGEDIR}${PREFIX}/bin/lualatex
 	${LN} -s tex ${STAGEDIR}${PREFIX}/bin/lollipop
 	${LN} -s xetex ${STAGEDIR}${PREFIX}/bin/xelatex
-.for l in ${PDFTEX_LINKS}
-	${LN} -s pdftex ${STAGEDIR}${PREFIX}/bin/${l}
-.endfor
-	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libkpathsea.so.${LIBKPATHSEA}
-	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libptexenc.so.${LIBPTEXENC}
-	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libsynctex.so.${LIBSYNCTEX}
-	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libtexlua53.so.${LIBTEXLUA53}
-	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libtexluajit.so.${LIBTEXLUAJIT}
-.for p in ${PROGRAMS0}
-	echo ${STAGEDIR}${PREFIX}/bin/${p}
-.endfor
-.for p in ${PROGRAMS1}
-	echo ${STAGEDIR}${PREFIX}/bin/${p}
-.endfor
-.for p in ${PROGRAMS2}
-	echo ${STAGEDIR}${PREFIX}/bin/${p}
-.endfor
+	for lx in ${PDFTEX_LINKS}; do \
+	   ${LN} -s pdftex ${STAGEDIR}${PREFIX}/bin/$$lx ;\
+	done
+	for x in kpathsea ptexenc synctex texlua53 texluajit; do \
+	   ${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/lib$$x.so ;\
+	done
+	for p in ${PROGRAMS0} ${PROGRAMS1} ${PROGRAMS2}; do \
+	   ${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/$$p ;\
+	done
