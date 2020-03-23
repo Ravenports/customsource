@@ -1,8 +1,0 @@
---- texmf-dist/doc/fonts/berenisadf/ff-ybd.pe.orig	2020-03-02 14:59:46.872989000 +0100
-+++ texmf-dist/doc/fonts/berenisadf/ff-ybd.pe	2020-03-02 15:00:04.473318000 +0100
-@@ -1,4 +1,4 @@
--#!/usr/bin/fontforge -lang=ff
-+#!__PREFIX__/bin/fontforge -lang=ff
- 
- #LoadNamelist("ybd-t1.nam")
- LoadNamelist("ybd.nam")
