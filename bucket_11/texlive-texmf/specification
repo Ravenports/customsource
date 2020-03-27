@@ -1,6 +1,7 @@
 DEF[PORTVERSION]=	20190410
 # ----------------------------------------------------------------------------
 
+
 NAMEBASE=		texlive-texmf
 VERSION=		${PORTVERSION}
 KEYWORDS=		print
@@ -47,10 +48,28 @@ SHEBANG_FILES=		texmf-dist/scripts/pdfxup/pdfxup
 			texmf-dist/scripts/logicpuzzle/lpsmag
 			texmf-dist/scripts/logicpuzzle/createlpsudoku
 			texmf-dist/scripts/pdfbook2/pdfbook2
+			texmf-dist/doc/latex/ctable/inst
+			texmf-dist/doc/latex/hepnames/mkmacrotables
+			texmf-dist/doc/latex/presentations-en/runAll
+			texmf-dist/doc/latex/ucs/unsupported/u2ps
+			texmf-dist/doc/support/latexdiff/contrib/latexdiff-wrap
+			texmf-dist/doc/fonts/phaistos/getglyphs
+			texmf-dist/doc/generic/e-french/bin/linux/makefrindex
+			texmf-dist/doc/cstex/cspsfonts-gen/mkf
+			texmf-dist/doc/cstex/cspsfonts-gen/mkfc
+			texmf-dist/doc/generic/m-tx/buildmtxdoc.lua
+			texmf-dist/doc/fonts/berenisadf/ff-ybd.pe
+			texmf-dist/doc/fonts/gnu-freefont/tools/utility/metafont/bulk_eps_import.py
+			texmf-dist/doc/fonts/gnu-freefont/tools/report/kernclasses.py
+			texmf-dist/doc/fonts/drm/fontconvert.sh
 
 post-extract:
 	${FIND} ${WRKSRC} -name '*.orig' -delete
 	${FIND} ${WRKSRC} -name '*.bak' -delete
+	${FIND} ${WRKSRC} -type d -empty -delete
 
 do-install:
+	${MKDIR} ${STAGEDIR}${STD_DOCDIR}
+	${MV} ${WRKSRC}/texmf-dist/doc/* ${STAGEDIR}${STD_DOCDIR}/
+	${RMDIR} ${WRKSRC}/texmf-dist/doc
 	${MV} ${WRKSRC}/texmf-dist ${STAGEDIR}${PREFIX}/share

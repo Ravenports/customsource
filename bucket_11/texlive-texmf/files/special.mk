@@ -1,6 +1,14 @@
+SHEBANG_LANG+=		FF TEXLUA
+SHEBANG_OLD_FF=		/usr/bin/fontforge /usr/local/bin/fontforge
+SHEBANG_NEW_FF= 	${LOCALBASE}/bin/fontforge
+SHEBANG_OLD_TEXLUA=	/usr/bin/texlua
+SHEBANG_NEW_TEXLUA=	${LOCALBASE}/bin/texlua
+
 EXCLUDE_FILES=	\*/doc/man \
+	texmf-dist/doc/\*/examples \
+	texmf-dist/doc/\*/\*/example \
+	texmf-dist/doc/\*/\*/examples \
 	texmf-dist/bibtex/csf/base \
-	texmf-dist/doc \
 	texmf-dist/dvipdfm \
 	texmf-dist/dvipdfmx \
 	texmf-dist/dvips \
@@ -19,6 +27,7 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/fonts/tfm/public/japanese-otf \
 	texmf-dist/fonts/tfm/public/japanese-otf-uptex \
 	texmf-dist/fonts/tfm/uptex \
+	texmf-dist/fonts/tfm/ptex-fonts/dvips \
 	texmf-dist/fonts/type1/ptex \
 	texmf-dist/fonts/vf/ptex \
 	texmf-dist/fonts/vf/public/japanese-otf \
