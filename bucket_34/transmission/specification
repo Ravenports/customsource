@@ -4,11 +4,11 @@ DEF[PORTVERSION]=	2.94
 NAMEBASE=		transmission
 VERSION=		${PORTVERSION}
 KEYWORDS=		net_p2p
-VARIANTS=		standard daemon
-# gtk qt web
+VARIANTS=		standard daemon gtk
+# qt web
 SDESC[standard]=	Lightweight BitTorrent client (CLI client)
 SDESC[daemon]=		Lightweight BitTorrent client (daemon)
-# SDESC[gtk]=		Lightweight BitTorrent client (GTK+ GUI)
+SDESC[gtk]=		Lightweight BitTorrent client (GTK+ GUI)
 # SDESC[qt]=		Lightweight BitTorrent client (Qt GUI)
 # SDESC[web]=		Lightweight BitTorrent client (web client)
 HOMEPAGE=		https://transmissionbt.com/
@@ -20,10 +20,12 @@ DISTFILE[1]=		transmission-${PORTVERSION}.tar.xz:main
 
 SPKGS[standard]=	single
 SPKGS[daemon]=		single
+SPKGS[gtk]=		single
 
-OPTIONS_AVAILABLE=	NOTSTD DAEMON
+OPTIONS_AVAILABLE=	NOTSTD DAEMON GTK
 OPTIONS_STANDARD=	none
-VOPTS[daemon]=		NOTSTD=ON DAEMON=ON
+VOPTS[daemon]=		NOTSTD=ON DAEMON=ON GTK=OFF
+VOPTS[gtk]=		NOTSTD=ON DAEMON=OFF GTK=ON
 
 LICENSE=		GPLv2:single GPLv3:single
 LICENSE_TERMS=		single:{{WRKSRC}}/COPYING
@@ -43,9 +45,8 @@ BUILDRUN_DEPENDS=	curl:primary:standard
 USES=			cpe cmake iconv pkgconfig ssl zlib
 			gettext-runtime
 CPE_VENDOR=		transmissionbt
-CMAKE_ARGS=		-DENABLE_GTK:BOOL=OFF
+CMAKE_ARGS=		-DENABLE_NLS:BOOL=ON
 			-DENABLE_QT:BOOL=OFF
-			-DENABLE_NLS:BOOL=ON
 			-DUSE_SYSTEM_EVENT2:BOOL=ON
 			-DUSE_SYSTEM_DHT:BOOL=ON
 			-DUSE_SYSTEM_MINIUPNPC:BOOL=ON
@@ -62,6 +63,16 @@ CMAKE_ARGS=		-DENABLE_GTK:BOOL=OFF
 [DAEMON].DESCRIPTION=			Build daemon version of transmission
 [DAEMON].CMAKE_ARGS_ON=			-DENABLE_DAEMON:BOOL=ON
 [DAEMON].CMAKE_ARGS_OFF=		-DENABLE_DAEMON:BOOL=OFF
+
+[GTK].DESCRIPTION=			Build GTK+ version of transmission
+[GTK].CMAKE_ARGS_ON=			-DENABLE_GTK:BOOL=ON
+[GTK].CMAKE_ARGS_OFF=			-DENABLE_GTK:BOOL=OFF
+[GTK].USES_ON=				gettext-tools:build
+					desktop-utils:single
+[GTK].GNOME_COMPONENTS_ON=		cairo gdkpixbuf gtk3 pango intltool
+[GTK].BUILDRUN_DEPENDS_ON=		dbus-glib:primary:standard
+					libnotify:primary:standard
+[GTK].RUN_DEPENDS_ON=			xdg-utils:single:standard
 
 post-patch:
 	# allow use of dht 0.26 (tranmission expects older 0.24)
