@@ -1,0 +1,59 @@
+DEF[PORTVERSION]=	2.94
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		transmission
+VERSION=		${PORTVERSION}
+KEYWORDS=		net_p2p
+VARIANTS=		standard
+# daemon gtk qt web
+SDESC[standard]=	Lightweight BitTorrent client (CLI client)
+# SDESC[daemon]=		Lightweight BitTorrent client (daemon)
+# SDESC[gtk]=		Lightweight BitTorrent client (GTK+ GUI)
+# SDESC[qt]=		Lightweight BitTorrent client (Qt GUI)
+# SDESC[web]=		Lightweight BitTorrent client (web client)
+HOMEPAGE=		https://transmissionbt.com/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://github.com/transmission/transmission-releases/raw/master/
+DISTFILE[1]=		transmission-${PORTVERSION}.tar.xz:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		net-p2p/transmission
+
+BUILDRUN_DEPENDS=	curl:primary:standard
+			libevent:single:standard
+			dht:single:standard
+			libb64:single:standard
+			libnatpmp:single:standard
+			libutp:single:standard
+			miniupnpc:single:standard
+
+USES=			cpe cmake iconv pkgconfig ssl zlib
+			gettext-runtime
+CPE_VENDOR=		transmissionbt
+CMAKE_ARGS=		-DENABLE_CLI:BOOL=ON
+			-DENABLE_DAEMON:BOOL=OFF
+			-DENABLE_GTK:BOOL=OFF
+			-DENABLE_QT:BOOL=OFF
+			-DENABLE_NLS:BOOL=ON
+			-DUSE_SYSTEM_EVENT2:BOOL=ON
+			-DUSE_SYSTEM_DHT:BOOL=ON
+			-DUSE_SYSTEM_MINIUPNPC:BOOL=ON
+			-DUSE_SYSTEM_NATPMP:BOOL=ON
+			-DUSE_SYSTEM_UTP:BOOL=ON
+			-DUSE_SYSTEM_B64:BOOL=ON
+# #			-DDHT_INCLUDE_DIR:STRING="{{LOCALBASE}}"
+
+post-patch:
+	# allow use of dht 0.26 (tranmission expects older 0.24)
+	${REINPLACE_CMD} -e 's|dht/dht.h|dht.h|' \
+		${WRKSRC}/cmake/FindDHT.cmake \
+		${WRKSRC}/libtransmission/tr-dht.c
+
+post-install:
+	${RM} -r ${STAGEDIR}${STD_DOCDIR}
