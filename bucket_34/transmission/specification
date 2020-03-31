@@ -4,12 +4,12 @@ DEF[PORTVERSION]=	2.94
 NAMEBASE=		transmission
 VERSION=		${PORTVERSION}
 KEYWORDS=		net_p2p
-VARIANTS=		standard daemon gtk
-# qt web
+VARIANTS=		standard daemon gtk qt
+# web
 SDESC[standard]=	Lightweight BitTorrent client (CLI client)
 SDESC[daemon]=		Lightweight BitTorrent client (daemon)
 SDESC[gtk]=		Lightweight BitTorrent client (GTK+ GUI)
-# SDESC[qt]=		Lightweight BitTorrent client (Qt GUI)
+SDESC[qt]=		Lightweight BitTorrent client (Qt GUI)
 # SDESC[web]=		Lightweight BitTorrent client (web client)
 HOMEPAGE=		https://transmissionbt.com/
 CONTACT=		nobody
@@ -21,11 +21,13 @@ DISTFILE[1]=		transmission-${PORTVERSION}.tar.xz:main
 SPKGS[standard]=	single
 SPKGS[daemon]=		single
 SPKGS[gtk]=		single
+SPKGS[qt]=		single
 
-OPTIONS_AVAILABLE=	NOTSTD DAEMON GTK
+OPTIONS_AVAILABLE=	NOTSTD DAEMON GTK QT
 OPTIONS_STANDARD=	none
-VOPTS[daemon]=		NOTSTD=ON DAEMON=ON GTK=OFF
-VOPTS[gtk]=		NOTSTD=ON DAEMON=OFF GTK=ON
+VOPTS[daemon]=		NOTSTD=ON DAEMON=ON GTK=OFF QT=OFF
+VOPTS[gtk]=		NOTSTD=ON DAEMON=OFF GTK=ON QT=OFF
+VOPTS[qt]=		NOTSTD=ON DAEMON=OFF GTK=OFF QT=ON
 
 LICENSE=		GPLv2:single GPLv3:single
 LICENSE_TERMS=		single:{{WRKSRC}}/COPYING
@@ -46,7 +48,6 @@ USES=			cpe cmake iconv pkgconfig ssl zlib
 			gettext-runtime
 CPE_VENDOR=		transmissionbt
 CMAKE_ARGS=		-DENABLE_NLS:BOOL=ON
-			-DENABLE_QT:BOOL=OFF
 			-DUSE_SYSTEM_EVENT2:BOOL=ON
 			-DUSE_SYSTEM_DHT:BOOL=ON
 			-DUSE_SYSTEM_MINIUPNPC:BOOL=ON
@@ -73,6 +74,16 @@ CMAKE_ARGS=		-DENABLE_NLS:BOOL=ON
 [GTK].BUILDRUN_DEPENDS_ON=		dbus-glib:primary:standard
 					libnotify:primary:standard
 [GTK].RUN_DEPENDS_ON=			xdg-utils:single:standard
+
+[QT].DESCRIPTION=			Build Qt version of transmission
+[QT].CMAKE_ARGS_ON=			-DENABLE_QT:BOOL=ON
+					-DUSE_QT5:BOOL=ON
+					-DCMAKE_PREFIX_PATH:PATH="{{PREFIX}}/lib/qt5/cmake/"
+[QT].CMAKE_ARGS_OFF=			-DENABLE_QT:BOOL=OFF
+[QT].USES_ON=				qt5
+[QT].BUILDRUN_DEPENDS_ON=		qt5-qtbase:primary:standard
+[QT].BUILD_DEPENDS_ON=			qt5-qttools:single:standard
+[QT].MAKE_ARGS_ON=			DESTDIR="{{STAGEDIR}}"
 
 post-patch:
 	# allow use of dht 0.26 (tranmission expects older 0.24)
