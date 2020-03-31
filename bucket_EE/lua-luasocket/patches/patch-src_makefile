@@ -1,0 +1,15 @@
+--- src/makefile.orig	2020-03-31 20:43:11.899232000 +0200
++++ src/makefile	2020-03-31 20:44:24.781700000 +0200
+@@ -46,9 +46,9 @@
+ # /usr/local/include
+ # /usr/local/include/lua$(LUAV)
+ # where lua headers are found for linux builds
+-LUAINC_linux_base?=/usr/include
+-LUAINC_linux?=$(LUAINC_linux_base)/lua/$(LUAV)
+-LUAPREFIX_linux?=/usr/local
++LUAINC_linux_base?=__PREFIX__/include
++LUAINC_linux?=$(LUAINC_linux_base)/lua__LUA_VER_STR__
++LUAPREFIX_linux?=__PREFIX__
+ CDIR_linux?=lib/lua/$(LUAV)
+ LDIR_linux?=share/lua/$(LUAV)
+ 
