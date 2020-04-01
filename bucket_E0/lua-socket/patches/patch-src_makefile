@@ -1,6 +1,6 @@
---- src/makefile.orig	2020-03-31 20:43:11.899232000 +0200
-+++ src/makefile	2020-03-31 20:44:24.781700000 +0200
-@@ -46,9 +46,9 @@
+--- src/makefile.orig	2013-06-14 11:27:32 UTC
++++ src/makefile
+@@ -46,9 +46,9 @@ LDIR_macosx?=share/lua/$(LUAV)
  # /usr/local/include
  # /usr/local/include/lua$(LUAV)
  # where lua headers are found for linux builds

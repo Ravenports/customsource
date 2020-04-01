@@ -1,7 +1,8 @@
-DEF[PORTVERSION]=	3.0-rc1
+DEF[TAG]=		3.0-rc1
+DEF[PORTVERSION]=	${TAG:S/-//}
 # ----------------------------------------------------------------------------
 
-NAMEBASE=		lua-luasocket
+NAMEBASE=		lua-socket
 VERSION=		${PORTVERSION}
 KEYWORDS=		net
 VARIANTS=		lua52 lua53
@@ -11,7 +12,7 @@ HOMEPAGE=		https://github.com/diegonehab/luasocket
 CONTACT=		Michael_Reim[kraileth@elderlinux.org]
 
 DOWNLOAD_GROUPS=	main
-SITES[main]=		GITHUB/diegonehab:luasocket:v${PORTVERSION}
+SITES[main]=		GITHUB/diegonehab:luasocket:v${TAG}
 DISTFILE[1]=		generated:main
 
 SPKGS[lua52]=		single
@@ -30,7 +31,6 @@ FPC_EQUIVALENT=		net/luasocket
 
 USES=			gmake pkgconfig
 
-DISTNAME=		luasocket-${PORTVERSION}
 MAKE_ARGS=		LUAV={{LUA_VER}}
 INSTALL_REQ_TOOLCHAIN=	yes
 
