@@ -36,6 +36,7 @@ BUILDRUN_DEPENDS=	dbus-glib:primary:standard
 RUN_DEPENDS=		xdg-utils:single:standard
 
 USES=			gettext-tools:build gettext-runtime gmake libtool pkgconfig
+			gnome-icons:primary
 GNOME_COMPONENTS=	gtk3 intltool
 XORG_COMPONENTS=	ice sm x11
 
