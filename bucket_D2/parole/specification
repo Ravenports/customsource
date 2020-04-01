@@ -21,16 +21,34 @@ OPTIONS_STANDARD=	none
 FPC_EQUIVALENT=		multimedia/xfce4-parole
 
 BUILDRUN_DEPENDS=	dbus-glib:primary:standard
-			gstreamer1:single:standard
-			gstreamer1-plugins-core:single:standard
 			libnotify:primary:standard
-			libxfce4ui:primary:standard
-			libxfce4util:primary:standard
+			xfce4-panel:primary:standard
 			xfconf:primary:standard
-RUN_DEPENDS=		gstreamer1-plugins-x:single:standard
+			garcon:primary:standard
+			taglib:single:standard
+			gstreamer1-plugins-core:single:standard
+			gstreamer1-plugins-faad:single:standard
+			gstreamer1-plugins-flac:single:standard
+			gstreamer1-plugins-soup:single:standard
+			gstreamer1-plugins-wavpack:single:standard
+			gstreamer1-plugins-x:single:standard
+# to-be-created		gstreamer1-plugins-rtmp:single:standard
+RUN_DEPENDS=		xdg-utils:single:standard
 
 USES=			gettext-tools:build gettext-runtime gmake libtool pkgconfig
 GNOME_COMPONENTS=	gtk3 intltool
+XORG_COMPONENTS=	ice sm x11
 
 MUST_CONFIGURE=		gnu
 CONFIGURE_ARGS=		--disable-debug
+			--enable-notify-plugin
+			--enable-tray-plugin
+			--enable-taglib
+			--enable-mpris2-plugin
+			--without-html-dir
+INSTALL_TARGET=		install-strip
+
+post-patch:
+	${REINPLACE_CMD} -e 's|xfce4/src/misc|parole|g' \
+		${WRKSRC}/src/common/parole-rc-utils.h
+
