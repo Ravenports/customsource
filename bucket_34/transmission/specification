@@ -4,13 +4,12 @@ DEF[PORTVERSION]=	2.94
 NAMEBASE=		transmission
 VERSION=		${PORTVERSION}
 KEYWORDS=		net_p2p
-VARIANTS=		standard daemon gtk qt
-# web
+VARIANTS=		standard daemon gtk qt web
 SDESC[standard]=	Lightweight BitTorrent client (CLI client)
 SDESC[daemon]=		Lightweight BitTorrent client (daemon)
 SDESC[gtk]=		Lightweight BitTorrent client (GTK+ GUI)
 SDESC[qt]=		Lightweight BitTorrent client (Qt GUI)
-# SDESC[web]=		Lightweight BitTorrent client (web client)
+SDESC[web]=		Lightweight BitTorrent client (web client)
 HOMEPAGE=		https://transmissionbt.com/
 CONTACT=		nobody
 
@@ -22,12 +21,14 @@ SPKGS[standard]=	single
 SPKGS[daemon]=		single
 SPKGS[gtk]=		single
 SPKGS[qt]=		single
+SPKGS[web]=		single
 
-OPTIONS_AVAILABLE=	NOTSTD DAEMON GTK QT
+OPTIONS_AVAILABLE=	NOTSTD DAEMON GTK QT WEB
 OPTIONS_STANDARD=	none
-VOPTS[daemon]=		NOTSTD=ON DAEMON=ON GTK=OFF QT=OFF
-VOPTS[gtk]=		NOTSTD=ON DAEMON=OFF GTK=ON QT=OFF
-VOPTS[qt]=		NOTSTD=ON DAEMON=OFF GTK=OFF QT=ON
+VOPTS[daemon]=		NOTSTD=ON DAEMON=ON GTK=OFF QT=OFF WEB=OFF
+VOPTS[gtk]=		NOTSTD=ON DAEMON=OFF GTK=ON QT=OFF WEB=OFF
+VOPTS[qt]=		NOTSTD=ON DAEMON=OFF GTK=OFF QT=ON WEB=OFF
+VOPTS[web]=		NOTSTD=ON DAEMON=OFF GTK=OFF QT=OFF WEB=ON
 
 LICENSE=		GPLv2:single GPLv3:single
 LICENSE_TERMS=		single:{{WRKSRC}}/COPYING
@@ -36,16 +37,6 @@ LICENSE_SCHEME=		dual
 
 FPC_EQUIVALENT=		net-p2p/transmission
 
-BUILDRUN_DEPENDS=	curl:primary:standard
-			libevent:single:standard
-			dht:single:standard
-			libb64:single:standard
-			libnatpmp:single:standard
-			libutp:single:standard
-			miniupnpc:single:standard
-
-USES=			cpe cmake iconv pkgconfig ssl zlib
-			gettext-runtime
 CPE_VENDOR=		transmissionbt
 CMAKE_ARGS=		-DENABLE_NLS:BOOL=ON
 			-DUSE_SYSTEM_EVENT2:BOOL=ON
@@ -85,15 +76,38 @@ CMAKE_ARGS=		-DENABLE_NLS:BOOL=ON
 [QT].BUILD_DEPENDS_ON=			qt5-qttools:single:standard
 [QT].MAKE_ARGS_ON=			DESTDIR="{{STAGEDIR}}"
 
+[WEB].DESCRIPTION=			Build transmission web interface
+[WEB].BUILDRUN_DEPENDS_OFF=		curl:primary:standard
+					libevent:single:standard
+					dht:single:standard
+					libb64:single:standard
+					libnatpmp:single:standard
+					libutp:single:standard
+					miniupnpc:single:standard
+[WEB].USES_OFF=				cpe cmake iconv pkgconfig ssl zlib
+					gettext-runtime
+
 post-patch:
 	# allow use of dht 0.26 (tranmission expects older 0.24)
 	${REINPLACE_CMD} -e 's|dht/dht.h|dht.h|' \
 		${WRKSRC}/cmake/FindDHT.cmake \
 		${WRKSRC}/libtransmission/tr-dht.c
 
-post-install:
+post-patch-WEB-ON:
+	${FIND} ${WRKSRC}/web \( \
+		-name '*.am' \
+		-o -name '*.in' \
+		-o -name '*.scss' \
+	\) -delete
+
+post-install-WEB-OFF:
 	${RM} -r ${STAGEDIR}${STD_DOCDIR}
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/*
+
+do-install-WEB-ON:
+	(cd ${WRKSRC} && \
+	${COPYTREE_SHARE} web ${STAGEDIR}${PREFIX}/share/transmission)
+	${RM} ${STAGEDIR}${PREFIX}/share/transmission/web/LICENSE
 
 post-install-DAEMON-ON:
 	${MKDIR} ${STAGEDIR}${PREFIX}/etc/transmission/home
