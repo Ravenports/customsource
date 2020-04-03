@@ -16,8 +16,9 @@ DISTFILE[1]=		gimp-${PORTVERSION}.tar.bz2:main
 
 SPKGS[standard]=	complete primary docs
 
-OPTIONS_AVAILABLE=	none
+OPTIONS_AVAILABLE=	LINUX
 OPTIONS_STANDARD=	none
+OPT_ON[linux]=		LINUX
 
 FPC_EQUIVALENT=		graphics/gimp-app
 
@@ -31,6 +32,10 @@ BUILDRUN_DEPENDS=	libmypaint:single:standard
 			harfbuzz:primary:standard
 			aalib:single:standard
 			libmng:single:standard
+			libwmf:single:standard
+			libheif:single:standard
+			ghostscript:primary:standard
+			xdg-utils:single:standard
 
 USES=			cpe gmake jpeg libtool pkgconfig shebangfix
 			execinfo zlib gettext-runtime gettext-tools
@@ -43,7 +48,6 @@ CONFIGURE_ARGS=		--with-html-dir={{STD_DOCDIR}}
 			--with-docdir={{STD_DOCDIR}}
 			--with-bug-report-url="https://ravenports.com/"
 			--disable-gtk-doc
-			--without-linux-input
 			--with-print
 			--enable-default-binary
 			--disable-gimp-console
@@ -56,10 +60,10 @@ CONFIGURE_ARGS=		--with-html-dir={{STD_DOCDIR}}
 			--with-libmng
 			--with-openexr
 			--with-jpeg2000
+			--with-libheif
 			--with-webp
-# temporary
-			--without-wmf
-			--without-gs
+			--with-wmf
+			--with-gs
 CONFIGURE_ENV=		GIMP_THREAD_LIBS=-lpthread
 			LIBS="-lexecinfo -lm"
 CPE_VENDOR=		gnu
@@ -68,4 +72,9 @@ SHEBANG_FILES=		plug-ins/pygimp/plug-ins/*.py
 SOVERSION=		${SOVERSION}
 INSTALL_REQ_TOOLCHAIN=	yes
 
-# gudev?
+[LINUX].DESCRIPTION=			Build variations for Linux
+[LINUX].CONFIGURE_ARGS_OFF=		--without-linux-input
+					--without-gudev
+[LINUX].CONFIGURE_ARGS_ON=		--with-linux-input
+					--with-gudev
+[LINUX].BUILDRUN_DEPENDS_ON=		libgudev:single:standard

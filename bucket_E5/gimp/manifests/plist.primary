@@ -329,6 +329,7 @@ libexec/gimp/2.2/plug-ins/file-gif-save/file-gif-save
 libexec/gimp/2.2/plug-ins/file-gih/file-gih
 libexec/gimp/2.2/plug-ins/file-glob/file-glob
 libexec/gimp/2.2/plug-ins/file-header/file-header
+libexec/gimp/2.2/plug-ins/file-heif/file-heif
 libexec/gimp/2.2/plug-ins/file-html-table/file-html-table
 libexec/gimp/2.2/plug-ins/file-ico/file-ico
 libexec/gimp/2.2/plug-ins/file-jp2-load/file-jp2-load
@@ -341,6 +342,7 @@ libexec/gimp/2.2/plug-ins/file-pdf-save/file-pdf-save
 libexec/gimp/2.2/plug-ins/file-pix/file-pix
 libexec/gimp/2.2/plug-ins/file-png/file-png
 libexec/gimp/2.2/plug-ins/file-pnm/file-pnm
+libexec/gimp/2.2/plug-ins/file-ps/file-ps
 libexec/gimp/2.2/plug-ins/file-psd/file-psd
 libexec/gimp/2.2/plug-ins/file-psp/file-psp
 libexec/gimp/2.2/plug-ins/file-raw-data/file-raw-data
@@ -352,7 +354,7 @@ libexec/gimp/2.2/plug-ins/file-svg/file-svg
 libexec/gimp/2.2/plug-ins/file-tga/file-tga
 libexec/gimp/2.2/plug-ins/file-tiff/file-tiff
 libexec/gimp/2.2/plug-ins/file-webp/file-webp
-@comment libexec/gimp/2.2/plug-ins/file-wmf/file-wmf
+libexec/gimp/2.2/plug-ins/file-wmf/file-wmf
 libexec/gimp/2.2/plug-ins/file-xbm/file-xbm
 libexec/gimp/2.2/plug-ins/file-xmc/file-xmc
 libexec/gimp/2.2/plug-ins/file-xpm/file-xpm
