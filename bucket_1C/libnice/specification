@@ -14,7 +14,7 @@ DOWNLOAD_GROUPS=	main
 SITES[main]=		https://nice.freedesktop.org/releases/
 DISTFILE[1]=		libnice-${PORTVERSION}.tar.gz:main
 
-SPKGS[standard]=	complete primary docs
+SPKGS[standard]=	complete primary gstreamer docs
 
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
@@ -27,6 +27,10 @@ LICENSE_SCHEME=		dual
 
 FPC_EQUIVALENT=		net-im/libnice
 
+BUILD_DEPENDS=		gstreamer1-plugins-base:single:standard
+EXRUN[gstreamer]=	gstreamer1-plugins-base:single:standard
+			libnice:primary:standard
+
 USES=			gmake libtool pkgconfig ssl
 			gettext-runtime gettext-tools
 GNOME_COMPONENTS=	glib introspection
@@ -34,7 +38,10 @@ MUST_CONFIGURE=		gnu
 CONFIGURE_ARGS=		--enable-gtk-doc=no
 			--enable-gtk-doc-html=no
 			--enable-introspection=yes
+			--without-gstreamer-0.10
+			--with-gstreamer
 INSTALL_TARGET=		install-strip
+INSTALL_REQ_TOOLCHAIN=	yes
 SOVERSION=		${SOVERSION}
 
 post-install:
