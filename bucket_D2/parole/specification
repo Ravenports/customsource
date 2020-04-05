@@ -39,6 +39,8 @@ BUILDRUN_DEPENDS=	dbus-glib:primary:standard
 			gstreamer1-plugins-soup:single:standard
 			gstreamer1-plugins-wavpack:single:standard
 			gstreamer1-plugins-x:single:standard
+			gstreamer1-plugins-xshm:single:standard
+			gstreamer1-plugins-xvideo:single:standard
 # to-be-created		gstreamer1-plugins-rtmp:single:standard
 RUN_DEPENDS=		xdg-utils:single:standard
 
