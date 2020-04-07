@@ -459,8 +459,10 @@ lib/mysql/plugin/file_key_management.so
 lib/mysql/plugin/ha_archive.so
 lib/mysql/plugin/ha_blackhole.so
 lib/mysql/plugin/ha_connect.so
+lib/mysql/plugin/ha_federated.so
 lib/mysql/plugin/ha_federatedx.so
 lib/mysql/plugin/ha_mroonga.so
+lib/mysql/plugin/ha_oqgraph.so
 lib/mysql/plugin/ha_rocksdb.so
 lib/mysql/plugin/ha_sphinx.so
 lib/mysql/plugin/ha_spider.so
