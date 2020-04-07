@@ -1,0 +1,87 @@
+DEF[PORTVERSION]=	10.4.12
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		mariadb104
+VERSION=		${PORTVERSION}
+KEYWORDS=		databases
+VARIANTS=		standard
+SDESC[standard]=	Fast SQL database server, derived from MySQL
+HOMEPAGE=		https://mariadb.org/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://downloads.mariadb.com/MariaDB/mariadb-${PORTVERSION}/source/
+DISTFILE[1]=		mariadb-${PORTVERSION}.tar.gz:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		databases/mariadb104-server
+
+BUILD_DEPENDS=		Zstandard:static:standard
+			bzip2:static:standard
+			lz4:static:standard
+			lzo:static:standard
+			bison:primary:standard
+BUILDRUN_DEPENDS=	Zstandard:shared:standard
+			bzip2:shared:standard
+			lz4:shared:standard
+			lzo:shared:standard
+			boost-libraries:rest:python_used
+
+USES=			cmake zlib ssl:openssl-devel readline ncurses
+			python:build pkgconfig iconv
+GNOME_COMPONENTS=	libxml2
+CMAKE_ARGS=		-DCOMPILATION_COMMENT="Ravenports"
+			-DINSTALL_INCLUDEDIR=include/mysql
+			-DINSTALL_PLUGINDIR=lib/mysql/plugin
+			-DINSTALL_SHAREDIR=share
+			-DINSTALL_SUPPORTFILESDIR=share/mysql
+			-DINSTALL_MYSQLSHAREDIR=share/mysql
+			-DINSTALL_DOCREADMEDIR=share/doc/mariadb
+			-DINSTALL_DOCDIR=share/doc/mariadb
+			-DINSTALL_MANDIR=share/man
+			-DDEFAULT_CHARSET=utf8mb4
+			-DDEFAULT_COLLATION=utf8mb4_unicode_ci
+			-DENABLED_LOCAL_INFILE=ON
+			-DPLUGIN_EXAMPLE=NO
+			-DPLUGIN_FEDERATED=NO
+			-DPLUGIN_FEEDBACK=NO
+			-DPLUGIN_TOKUDB=NO
+			-DWITH_EMBEDDED_SERVER=ON
+			-DWITH_EXTRA_CHARSETS=complex
+			-DWITH_JEMALLOC=NO
+			-DWITH_SYSTEMD=no
+			-DWITH_LIBWRAP=OFF
+			-DWITH_UNIT_TESTS=OFF
+			-DWITH_READLINE=system
+			-DWITH_SSL="{{OPENSSLBASE}}"
+			-DWITH_ZLIB=system
+			-DWITH_PCRE=bundled
+# #			-DSECURITY_HARDENED=NO
+			-Wno-dev
+DISTNAME=		mariadb-${PORTVERSION}
+
+post-patch:
+	${REINPLACE_CMD} 's|/usr/bin/env python|${PYTHON_CMD}|' \
+		${WRKSRC}/CMakeLists.txt
+	${REINPLACE_CMD} 's|%%PREFIX%%|${PREFIX}|g' \
+		${WRKSRC}/mysys/my_default.c
+	${REINPLACE_CMD} 's|%%LOCALBASE%%|${LOCALBASE}|g' \
+		${WRKSRC}/scripts/mysql_config.sh
+	${CP} ${WRKSRC}/cmake/os/FreeBSD.cmake \
+		${WRKSRC}/cmake/os/DragonFly.cmake
+
+post-configure:
+	${REINPLACE_CMD} -Ee 's|(#define INCLUDE.*)"$$|\1 -I${PREFIX}/include"|' \
+		-e 's|(#define LIBS .*)"$$|\1 -L${PREFIX}/lib"|' \
+		${BUILD_WRKSRC}/libmariadb/mariadb_config/mariadb_config.c
+
+# Fix build failure in mbstream, see https://jira.mariadb.org/browse/MDEV-14072
+	${REINPLACE_CMD} -e 's| ${PREFIX}/lib/liblz4.so\(.* ${PREFIX}/lib/liblz4.so.*\)|\1|' \
+		-e 's| ${PREFIX}/lib/liblzo2.so\(.* ${PREFIX}/lib/liblzo2.so.*\)|\1|' \
+		-e 's| ${PREFIX}/lib/libsnappy.so\(.* ${PREFIX}/lib/libsnappy.so\)|\1|' \
+		-e 's| -llzma\(.* -llzma\)|\1|;s| -lbz2\(.* -lbz2\)|\1|;' \
+		${BUILD_WRKSRC}/extra/mariabackup/CMakeFiles/mbstream.dir/link.txt
