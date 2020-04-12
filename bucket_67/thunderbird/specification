@@ -46,7 +46,9 @@ BUILDRUN_DEPENDS=	nss:primary:standard
 			libcanberra:primary:standard
 			libnotify:primary:standard
 			harfbuzz:primary:standard
+			aom:single:standard
 			WebP:single:standard
+			dav1d:single:standard
 			bzip2:shared:standard
 			ffmpeg:primary:standard
 			dbus-glib:primary:standard
@@ -56,13 +58,15 @@ USES=			cpe desktop-utils:single gmake jpeg png zlib
 			perl:build pkgconfig iconv python:py27
 			gettext-runtime
 XORG_COMPONENTS=	x11 xcb xcomposite xdamage xext xfixes xrender xt
-			xkbcommon pixman
+			pixman
 GNOME_COMPONENTS=	gconf gtk2 gtk3 gdkpixbuf pango
 CPE_VENDOR=		mozilla
 MUST_CONFIGURE=		yes
 CONFIGURE_OUTSOURCE=	yes
 
-QMAKE_ARGS=		--with-system-nss
+QMAKE_ARGS=		--prefix="{{PREFIX}}"
+			--with-system-nss
+			--with-system-nspr
 			--with-system-zlib
 			--with-system-icu
 			--with-system-png="{{LOCALBASE}}"
@@ -139,13 +143,15 @@ pre-configure:
 	(cd ${WRKSRC} && ${LOCALBASE}/bin/autoconf-2.13)
 	(cd ${WRKSRC}/js/src/ && ${LOCALBASE}/bin/autoconf-2.13)
 
-# pre-install:
-# #	${MKDIR} ${STAGEDIR}${PREFIX}/lib/thunderbird/defaults
-
 post-install:
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/applications
 	${MKDIR} ${STAGEDIR}${PREFIX}/share/pixmaps
 	${INSTALL_DATA} ${FILESDIR}/thunderbird.desktop \
 		${STAGEDIR}${PREFIX}/share/applications
-	${LN} -sf ${PREFIX}/lib/thunderbird/chrome/icons/default/default48.png \
-		${STAGEDIR}${PREFIX}/share/pixmaps/thunderbird.png
+	(cd ${STAGEDIR}${PREFIX}/share/pixmaps && ${LN} -sf \
+		../../lib/thunderbird/chrome/icons/default/default48.png \
+		thunderbird.png)
+	# regenerate symlink to avoid absolute paths
+	${RM} ${STAGEDIR}${PREFIX}/bin/thunderbird
+	(cd ${STAGEDIR}${PREFIX}/bin && \
+		${LN} -sf ../lib/thunderbird/thunderbird thunderbird)
