@@ -86,4 +86,4 @@ post-install:
 	${REINPLACE_CMD} -i'' -e "s| -lR| -lR -lRblas|" \
 		${STAGEDIR}${PREFIX}/lib/pkgconfig/libR.pc
 	${RM} ${STAGEDIR}${STD_DOCDIR}/COPYING
-	${RM} ${STAGEDIR}${PREFIX}/lib/R/COPYING
+	${RM} ${STAGEDIR}${PREFIX}/lib/R/COPY*
