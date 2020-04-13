@@ -1,5 +1,5 @@
-DEF[NAMEBASE]=		tk86
-DEF[TK_VERSION]=	8.6.10
+DEF[NAMEBASE]=		tk85
+DEF[TK_VERSION]=	8.5.19
 DEF[TK_VER]=		${TK_VERSION:R}
 DEF[SHORT_TK_VER]=	${TK_VER:S/.//g}
 DEF[PORTVERSION]=	${TK_VERSION}
@@ -27,13 +27,10 @@ LICENSE_NAME=		CUSTOM1:"Tcl/Tk License"
 LICENSE_FILE=		CUSTOM1:{{WRKSRC}}/license.terms
 LICENSE_SCHEME=		solo
 
-FPC_EQUIVALENT=		x11-toolkits/tk86
-
-BUILD_DEPENDS=		freetype:primary:standard
-			fontconfig:primary:standard
+FPC_EQUIVALENT=		x11-toolkits/tk85
 
 USES=			tcl:${TK_VER},tea
-XORG_COMPONENTS=	x11 xext xft xrender xscrnsaver
+XORG_COMPONENTS=	x11 xft xscrnsaver
 CONFIGURE_ARGS=		--enable-xss
 			--enable-xft
 			--enable-threads
@@ -46,6 +43,8 @@ INSTALL_TARGET=		install-strip install-doc install-demos
 PLIST_SUB=		TK_VER=${TK_VER}
 			SHORT_TK_VER=${SHORT_TK_VER}
 			NAMEBASE=${NAMEBASE}
+SUB_FILES=		pkgIndex.tcl
+SUB_LIST=		TCLPATCHLEVEL="${TK_VERSION}"
 
 post-patch:
 	${REINPLACE_CMD} -e \
@@ -56,6 +55,16 @@ post-patch:
 	     ${WRKSRC}/tkConfig.sh.in
 	${REINPLACE_CMD} -e '/^Requires/s|tcl|tcl${SHORT_TK_VER}|' \
 	    ${WRKSRC}/tk.pc.in
+	${REINPLACE_CMD} -e 's|X11/Intrinsic.h|X11/Xlib.h|g' ${WRKSRC}/configure
+	${REINPLACE_CMD} -e 's|@TK_SHARED_BUILD@|#@TK_SHARED_BUILD@|g' \
+		${WRKSRC}/Makefile.in
+
+post-configure:
+	${REINPLACE_CMD} \
+		-e 's|${WRKDIRPREFIX}${.CURDIR}|$${WRKDIRPREFIX}${TKBASE}|' \
+		${WRKSRC}/tkConfig.sh
+	${REINPLACE_CMD} -e 's|-Wl,--rpath -Wl,/usr/local/lib||g' ${WRKSRC}/Makefile
 
 post-install:
-	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libtk86.so
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libtk85.so
+	${INSTALL_DATA} ${WRKDIR}/pkgIndex.tcl ${STAGEDIR}${PREFIX}/lib/tk${TK_VER}/
