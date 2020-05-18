@@ -1,4 +1,5 @@
-DEF[PORTVERSION]=	20190410
+DEF[YEAR]=		2020
+DEF[PORTVERSION]=	${YEAR}0406
 # ----------------------------------------------------------------------------
 
 
@@ -11,7 +12,7 @@ HOMEPAGE=		https://www.tug.org/texlive
 CONTACT=		Michael_Reim[kraileth@elderlinux.org]
 
 DOWNLOAD_GROUPS=	main copying lppl
-SITES[main]=		ftp://ftp.tug.org/texlive/historic/2019/
+SITES[main]=		ftp://ftp.tug.org/texlive/historic/${YEAR}/
 DISTFILE[1]=		texlive-${PORTVERSION}-texmf.tar.xz:main
 DISTFILE[2]=		LICENSE.TL:copying
 DISTFILE[3]=		lppl.txt:lppl
@@ -41,27 +42,24 @@ SHEBANG_GLOB=		*.sh
 			*.py
 			*.pl
 SHEBANG_FILES=		texmf-dist/scripts/pdfxup/pdfxup
-			texmf-dist/scripts/lua2dox/lua2dox_filter
-			texmf-dist/scripts/petri-nets/pn2pdf
-			texmf-dist/scripts/pdftex-quiet/pdftex-quiet
-			texmf-dist/scripts/ltxfileinfo/ltxfileinfo
-			texmf-dist/scripts/logicpuzzle/lpsmag
-			texmf-dist/scripts/logicpuzzle/createlpsudoku
-			texmf-dist/scripts/pdfbook2/pdfbook2
-			texmf-dist/doc/latex/ctable/inst
-			texmf-dist/doc/latex/hepnames/mkmacrotables
-			texmf-dist/doc/latex/presentations-en/runAll
 			texmf-dist/doc/latex/ucs/unsupported/u2ps
-			texmf-dist/doc/support/latexdiff/contrib/latexdiff-wrap
-			texmf-dist/doc/fonts/phaistos/getglyphs
-			texmf-dist/doc/generic/e-french/bin/linux/makefrindex
-			texmf-dist/doc/cstex/cspsfonts-gen/mkf
+			texmf-dist/doc/latex/tlc-article/bin/deploy
+			texmf-dist/doc/latex/ctable/inst
+			texmf-dist/doc/latex/presentations-en/runAll
+			texmf-dist/doc/latex/hepnames/mkmacrotables
 			texmf-dist/doc/cstex/cspsfonts-gen/mkfc
-			texmf-dist/doc/generic/m-tx/buildmtxdoc.lua
+			texmf-dist/doc/cstex/cspsfonts-gen/mkf
 			texmf-dist/doc/fonts/berenisadf/ff-ybd.pe
-			texmf-dist/doc/fonts/gnu-freefont/tools/utility/metafont/bulk_eps_import.py
-			texmf-dist/doc/fonts/gnu-freefont/tools/report/kernclasses.py
-			texmf-dist/doc/fonts/drm/fontconvert.sh
+			texmf-dist/doc/fonts/phaistos/getglyphs
+			texmf-dist/doc/generic/m-tx/buildmtxdoc.lua
+			texmf-dist/doc/generic/e-french/bin/linux/makefrindex
+			texmf-dist/doc/support/latexdiff/contrib/latexdiff-wrap
+			texmf-dist/scripts/clojure-pamphlet/pamphletangler
+			texmf-dist/scripts/ltxfileinfo/ltxfileinfo
+			texmf-dist/scripts/logicpuzzle/createlpsudoku
+			texmf-dist/scripts/logicpuzzle/lpsmag
+			texmf-dist/scripts/pdftex-quiet/pdftex-quiet
+			texmf-dist/scripts/petri-nets/pn2pdf
 
 post-extract:
 	${FIND} ${WRKSRC} -name '*.orig' -delete
