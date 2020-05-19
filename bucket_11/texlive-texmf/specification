@@ -31,6 +31,7 @@ LICENSE_SCHEME=		solo
 
 FPC_EQUIVALENT=		print/texlive-texmf
 
+BLOCK_WATCHDOG=		yes
 SKIP_BUILD=		yes
 DISTNAME=		texlive-${PORTVERSION}-texmf
 
@@ -41,8 +42,7 @@ USES=			shebangfix
 SHEBANG_GLOB=		*.sh
 			*.py
 			*.pl
-SHEBANG_FILES=		texmf-dist/scripts/pdfxup/pdfxup
-			texmf-dist/doc/latex/ucs/unsupported/u2ps
+SHEBANG_FILES=		texmf-dist/doc/latex/ucs/unsupported/u2ps
 			texmf-dist/doc/latex/tlc-article/bin/deploy
 			texmf-dist/doc/latex/ctable/inst
 			texmf-dist/doc/latex/presentations-en/runAll
@@ -54,12 +54,8 @@ SHEBANG_FILES=		texmf-dist/scripts/pdfxup/pdfxup
 			texmf-dist/doc/generic/m-tx/buildmtxdoc.lua
 			texmf-dist/doc/generic/e-french/bin/linux/makefrindex
 			texmf-dist/doc/support/latexdiff/contrib/latexdiff-wrap
-			texmf-dist/scripts/clojure-pamphlet/pamphletangler
-			texmf-dist/scripts/ltxfileinfo/ltxfileinfo
 			texmf-dist/scripts/logicpuzzle/createlpsudoku
 			texmf-dist/scripts/logicpuzzle/lpsmag
-			texmf-dist/scripts/pdftex-quiet/pdftex-quiet
-			texmf-dist/scripts/petri-nets/pn2pdf
 
 post-extract:
 	${FIND} ${WRKSRC} -name '*.orig' -delete
