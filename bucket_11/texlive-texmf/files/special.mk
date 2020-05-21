@@ -8,25 +8,34 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/doc/\*/examples \
 	texmf-dist/doc/\*/\*/example \
 	texmf-dist/doc/\*/\*/examples \
-	texmf-dist/bibtex/csf/base \
+	texmf-dist/bibtex/csf/base/88591lat.csf \
+	texmf-dist/bibtex/csf/base/88591sca.csf \
+	texmf-dist/bibtex/csf/base/ascii.csf \
+	texmf-dist/bibtex/csf/base/cp437lat.csf \
+	texmf-dist/bibtex/csf/base/cp850lat.csf \
+	texmf-dist/bibtex/csf/base/cp850sca.csf \
+	texmf-dist/bibtex/csf/base/cp866rus.csf \
+	texmf-dist/bibtex/csf/base/csfile.txt \
 	texmf-dist/chktex/chktexrc \
-	texmf-dist/dvipdfm \
-	texmf-dist/dvipdfmx \
-	texmf-dist/dvips \
-	texmf-dist/fonts/cmap/dvipdfmx \
-	texmf-dist/fonts/cmap/uptex \
-	texmf-dist/fonts/enc/dvips \
+	texmf-dist/dvipdfmx/dvipdfmx.cfg \
+	texmf-dist/dvips/base/color.pro \
+	texmf-dist/dvips/base/crop.pro \
+	texmf-dist/dvips/base/finclude.pro \
+	texmf-dist/dvips/base/hps.pro \
+	texmf-dist/dvips/base/special.pro \
+	texmf-dist/dvips/base/tex.pro \
+	texmf-dist/dvips/base/texc.pro \
+	texmf-dist/dvips/base/texps.pro \
+	texmf-dist/dvips/gsftopk/render.ps \
+	texmf-dist/dvips/xdvi/config.xdvi \
+	texmf-dist/fonts/cmap/dvipdfmx/EUC-UCS2 \
+	texmf-dist/fonts/enc/dvips/base/7t.enc \
+	texmf-dist/fonts/enc/dvips/base/dvips-all.enc \
 	texmf-dist/fonts/enc/ttf2pk/base/T1-WGL4.enc \
-	texmf-dist/fonts/map/dvipdfm \
-	texmf-dist/fonts/map/dvipdfmx \
-	texmf-dist/fonts/map/dvips \
+	texmf-dist/fonts/map/dvipdfmx/cid-x.map \
 	texmf-dist/fonts/map/glyphlist/glyphlist.txt \
 	texmf-dist/fonts/map/glyphlist/pdfglyphlist.txt \
 	texmf-dist/fonts/map/glyphlist/texglyphlist.txt \
-	texmf-dist/fonts/map/luatex \
-	texmf-dist/fonts/misc/xetex \
-	texmf-dist/fonts/ofm/public/japanese-otf \
-	texmf-dist/fonts/ovp/public/japanese-otf-uptex \
 	texmf-dist/fonts/sfd/ttf2pk/Big5.sfd \
 	texmf-dist/fonts/sfd/ttf2pk/EUC.sfd \
 	texmf-dist/fonts/sfd/ttf2pk/HKSCS.sfd \
@@ -40,17 +49,6 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/fonts/sfd/ttf2pk/UKS-HLaTeX.sfd \
 	texmf-dist/fonts/sfd/ttf2pk/UKS.sfd \
 	texmf-dist/fonts/sfd/ttf2pk/Unicode.sfd \
-	texmf-dist/fonts/source/ptex \
-	texmf-dist/fonts/tfm/ptex \
-	texmf-dist/fonts/tfm/public/japanese-otf \
-	texmf-dist/fonts/tfm/public/japanese-otf-uptex \
-	texmf-dist/fonts/tfm/uptex \
-	texmf-dist/fonts/tfm/ptex-fonts/dvips \
-	texmf-dist/fonts/type1/ptex \
-	texmf-dist/fonts/vf/ptex \
-	texmf-dist/fonts/vf/public/japanese-otf \
-	texmf-dist/fonts/vf/public/japanese-otf-uptex \
-	texmf-dist/fonts/vf/uptex \
 	texmf-dist/hbf2gf/b5ka12.cfg \
 	texmf-dist/hbf2gf/b5kr12.cfg \
 	texmf-dist/hbf2gf/b5so12.cfg \
@@ -66,7 +64,6 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/hbf2gf/j2so12.cfg \
 	texmf-dist/hbf2gf/jsso12.cfg \
 	texmf-dist/hbf2gf/ksso17.cfg \
-	texmf-dist/ls-R \
 	texmf-dist/psutils/paper.cfg \
 	texmf-dist/scripts/a2ping/a2ping.pl \
 	texmf-dist/scripts/accfonts/mkt1font \
@@ -90,7 +87,6 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/scripts/cjk-gs-integrate/cjk-gs-integrate.pl \
 	texmf-dist/scripts/clojure-pamphlet/pamphletangler \
 	texmf-dist/scripts/cluttex/cluttex.lua \
-	texmf-dist/scripts/context/lua \
 	texmf-dist/scripts/context/perl/mptopdf.pl \
 	texmf-dist/scripts/context/stubs/unix/context \
 	texmf-dist/scripts/context/stubs/unix/contextjit \
@@ -128,20 +124,17 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/scripts/fontools/ot2kpx \
 	texmf-dist/scripts/fragmaster/fragmaster.pl \
 	texmf-dist/scripts/getmap/getmapdl.lua \
-	texmf-dist/scripts/glossaries/makeglossaries \
 	texmf-dist/scripts/glossaries/makeglossaries-lite.lua \
+	texmf-dist/scripts/glossaries/makeglossaries \
 	texmf-dist/scripts/installfont/installfont-tl \
 	texmf-dist/scripts/jfmutil/jfmutil.pl \
-	texmf-dist/scripts/jfontmaps/kanji-config-updmap-sys.sh \
-	texmf-dist/scripts/jfontmaps/kanji-config-updmap.pl \
-	texmf-dist/scripts/jfontmaps/kanji-fontmap-creator.pl \
 	texmf-dist/scripts/ketcindy/ketcindy.pl \
 	texmf-dist/scripts/kotex-utils/jamo-normalize.pl \
 	texmf-dist/scripts/kotex-utils/komkindex.pl \
 	texmf-dist/scripts/kotex-utils/ttf2kotexfont.pl \
 	texmf-dist/scripts/l3build/l3build.lua \
-	texmf-dist/scripts/latex-papersize/latex-papersize.py \
 	texmf-dist/scripts/latex-git-log/latex-git-log \
+	texmf-dist/scripts/latex-papersize/latex-papersize.py \
 	texmf-dist/scripts/latex2man/latex2man \
 	texmf-dist/scripts/latex2nemeth/latex2nemeth \
 	texmf-dist/scripts/latexdiff/latexdiff-vc.pl \
@@ -176,9 +169,6 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/scripts/pdfbook2/pdfbook2 \
 	texmf-dist/scripts/pdfcrop/pdfcrop.pl \
 	texmf-dist/scripts/pdfjam/pdfjam \
-	texmf-dist/scripts/pdfjam/pdfjoin \
-	texmf-dist/scripts/pdfjam/pdfnup \
-	texmf-dist/scripts/pdfjam/pdfpun \
 	texmf-dist/scripts/pdflatexpicscale/pdflatexpicscale.pl \
 	texmf-dist/scripts/pdftex-quiet/pdftex-quiet \
 	texmf-dist/scripts/pdfxup/pdfxup \
@@ -187,9 +177,8 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/scripts/petri-nets/pn2pdf \
 	texmf-dist/scripts/pfarrei/a5toa4.tlu \
 	texmf-dist/scripts/pfarrei/pfarrei.tlu \
-	texmf-dist/scripts/pkfix-helper/pkfix-helper \
 	texmf-dist/scripts/pkfix/pkfix.pl \
-	texmf-dist/scripts/pmx/pmx2pdf.lua \
+	texmf-dist/scripts/pkfix-helper/pkfix-helper \
 	texmf-dist/scripts/pmxchords/pmxchords.lua \
 	texmf-dist/scripts/ps2eps/ps2eps.pl \
 	texmf-dist/scripts/ps2epss/pst-pdf/ps4pdf \
@@ -231,30 +220,14 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/scripts/texdoc/texdoc.tlu \
 	texmf-dist/scripts/texdoctk/texdoctk.pl \
 	texmf-dist/scripts/texfot/texfot.pl \
-	texmf-dist/scripts/texlive/allcm.sh \
-	texmf-dist/scripts/texlive/allneeded.sh \
-	texmf-dist/scripts/texlive/dvi2fax.sh \
-	texmf-dist/scripts/texlive/dvired.sh \
-	texmf-dist/scripts/texlive/e2pall.pl \
-	texmf-dist/scripts/texlive/fmtutil-sys.h \
 	texmf-dist/scripts/texlive/fmtutil-sys.sh \
 	texmf-dist/scripts/texlive/fmtutil-user.sh \
 	texmf-dist/scripts/texlive/fmtutil.pl \
-	texmf-dist/scripts/texlive/kpsetool.sh \
-	texmf-dist/scripts/texlive/kpsewhere.sh \
 	texmf-dist/scripts/texlive/mktexlsr \
 	texmf-dist/scripts/texlive/mktexmf \
 	texmf-dist/scripts/texlive/mktexpk \
 	texmf-dist/scripts/texlive/mktextfm \
-	texmf-dist/scripts/texlive/ps2frag.sh \
-	texmf-dist/scripts/texlive/pslatex.sh \
-	texmf-dist/scripts/texlive/rubibtex.sh \
-	texmf-dist/scripts/texlive/rumakeindex.sh \
 	texmf-dist/scripts/texlive/rungs.tlu \
-	texmf-dist/scripts/texlive/texconfig-dialog.sh \
-	texmf-dist/scripts/texlive/texconfig-sys.sh \
-	texmf-dist/scripts/texlive/texconfig.sh \
-	texmf-dist/scripts/texlive/texlinks.sh \
 	texmf-dist/scripts/texlive/tlmgr.pl \
 	texmf-dist/scripts/texlive/updmap-sys.sh \
 	texmf-dist/scripts/texlive/updmap-user.sh \
@@ -281,7 +254,6 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/scripts/texosquery/texosquery-jre8.sh \
 	texmf-dist/scripts/texosquery/texosquery.sh \
 	texmf-dist/scripts/texplate/texplate.sh \
-	texmf-dist/scripts/tfontinst.sh \
 	texmf-dist/scripts/thumbpdf/thumbpdf.pl \
 	texmf-dist/scripts/tlcockpit/tlcockpit.sh \
 	texmf-dist/scripts/tlshell/tlshell.tcl \
@@ -291,51 +263,20 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/scripts/vpe/vpe.pl \
 	texmf-dist/scripts/webquiz/webquiz.py \
 	texmf-dist/scripts/wordcount/wordcount.sh \
-	texmf-dist/scripts/xetex \
 	texmf-dist/scripts/xindex/xindex.lua \
 	texmf-dist/scripts/xindy/texindy.pl \
 	texmf-dist/scripts/xindy/xindy.pl \
 	texmf-dist/scripts/yplan/yplan \
 	texmf-dist/source \
-	texmf-dist/tex/generic/config/luatex-unicode-letters.tex \
-	texmf-dist/tex/generic/config/luatexiniconfig.tex \
-	texmf-dist/tex/generic/context/luatex \
-	texmf-dist/tex/generic/dvips \
-	texmf-dist/tex/generic/hyph-utf8/patterns/ptex \
-	texmf-dist/tex/generic/xetexconfig \
-	texmf-dist/tex/jadetex \
-	texmf-dist/tex/lambda \
-	texmf-dist/tex/latex/base \
-	texmf-dist/tex/latex/latexconfig/dvilualatex.ini \
-	texmf-dist/tex/latex/latexconfig/lualatex-patch-kernel.tex \
-	texmf-dist/tex/latex/latexconfig/lualatex-reset-codes.tex \
-	texmf-dist/tex/latex/latexconfig/lualatex.ini \
-	texmf-dist/tex/latex/latexconfig/lualatexiniconfig.tex \
-	texmf-dist/tex/latex/latexconfig/lualatexquotejobname.tex \
-	texmf-dist/tex/latex/latexconfig/xelatex.ini \
-	texmf-dist/tex/lualatex \
-	texmf-dist/tex/luatex \
-	texmf-dist/tex/plain/config/aleph.ini \
-	texmf-dist/tex/plain/config/dviluatex.ini \
-	texmf-dist/tex/plain/config/luatex.ini \
-	texmf-dist/tex/plain/config/xetex.ini \
-	texmf-dist/tex/platex \
-	texmf-dist/tex/ptex \
-	texmf-dist/tex/uplatex \
-	texmf-dist/tex/uptex \
-	texmf-dist/tex/xelatex \
-	texmf-dist/tex/xetex \
-	texmf-dist/tex/xmltex \
 	texmf-dist/texconfig/tcfmgr \
 	texmf-dist/texconfig/tcfmgr.map \
 	texmf-dist/ttf2pk/VPS.rpl \
 	texmf-dist/ttf2pk/ttf2pk.cfg \
-	texmf-dist/web2c/fmtutil-hdr.cnf \
 	texmf-dist/web2c/fmtutil.cnf \
 	texmf-dist/web2c/texmf.cnf \
-	texmf-dist/web2c/updmap-hdr.cfg \
-	texmf-dist/web2c/updmap.cfg \
-	texmf-dist/xdvi \
+	texmf-dist/xdvi/XDvi \
+	texmf-dist/xdvi/pixmap/toolbar.xpm \
+	texmf-dist/xdvi/pixmap/toolbar2.xpm \
 	texmf-dist/xindy/VERSION \
 	texmf-dist/xindy/modules/base/book-order.xdy \
 	texmf-dist/xindy/modules/base/ff-ranges-only.xdy \
@@ -369,5 +310,4 @@ EXCLUDE_FILES=	\*/doc/man \
 	texmf-dist/xindy/modules/rules/latin-tolower.xdy \
 	texmf-dist/xindy/modules/styles/basic.xdy \
 	texmf-dist/xindy/modules/styles/makeidx.xdy \
-	texmf-x.pl
 
