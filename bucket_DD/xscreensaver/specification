@@ -20,16 +20,15 @@ OPTIONS_STANDARD=	none
 
 FPC_EQUIVALENT=		x11/xscreensaver
 
-# Libglade not currently available in RP
 BUILD_DEPENDS=		freeglut:primary:standard
 			gle:primary:standard
-			libglade:single:py27
+			libglade:single:standard
 BUILDRUN_DEPENDS=	bc:single:standard
 			openpam:single:standard
 EXRUN[gl]=		freeglut:primary:standard
 			gle:primary:standard
 			xscreensaver:primary:standard
-EXRUN[gtk]=		libglade:single:py27
+EXRUN[gtk]=		libglade:single:standard
 			xscreensaver:primary:standard
 
 USES=			gettext-tools gmake jpeg png
