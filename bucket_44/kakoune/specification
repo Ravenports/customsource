@@ -6,8 +6,8 @@ VERSION=		${PORTVERSION}
 KEYWORDS=		editors
 VARIANTS=		standard
 SDESC[standard]=	Modal code editor with a focus on interactivity
-HOMEPAGE=		http://kakoune.org/
-CONTACT=		nobody
+HOMEPAGE=		https://kakoune.org/
+CONTACT=		M_B[mb@64k.by]
 
 DOWNLOAD_GROUPS=	main
 SITES[main]=		GITHUB/mawww:kakoune:v${PORTVERSION}
