@@ -1,0 +1,57 @@
+DEF[PORTVERSION]=	2.35.2
+DEF[DLFOLDER]=		2.35
+DEF[SOVERSION]=		1.3.0
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		libuuid
+VERSION=		${PORTVERSION}
+KEYWORDS=		misc devel
+VARIANTS=		standard
+SDESC[standard]=	Tool/Lib for generating Universally Unique IDs
+HOMEPAGE=		https://github.com/karelzak/util-linux
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v${DLFOLDER}/
+DISTFILE[1]=		util-linux-${PORTVERSION}.tar.xz:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		BSD3CLAUSE:single
+LICENSE_FILE=		BSD3CLAUSE:{{WRKDIR}}/BSD3
+LICENSE_AWK=		BSD3CLAUSE:"^$$"
+LICENSE_SOURCE=		BSD3CLAUSE:{{WRKSRC}}/libuuid/src/uuid.h
+LICENSE_SCHEME=		solo
+
+USES=			cpe libtool pkgconfig
+CPE_VENDOR=		kernel
+CPE_PRODUCT=		util-linux
+MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--disable-all-programs
+			--disable-bash-completion
+			--enable-libuuid
+			--enable-uuidgen
+			--without-ncurses
+			--without-ncursesw
+			--disable-nls
+INSTALL_TARGET=		install-strip
+DISTNAME=		util-linux-${PORTVERSION}
+SOVERSION=		${SOVERSION}
+
+B_DEPS[sunos]=		libbsd4sol:single:standard
+C_USES[sunos]=		perl:build
+VAR_OPSYS[sunos]=	CFLAGS=-I{{LOCALBASE}}/include/bsd
+			LDFLAGS=-lbsd
+			CFLAGS=-DHAVE_STRNLEN
+			CFLAGS=-DHAVE_STRNDUP
+
+post-install:
+	${RM} -r ${STAGEDIR}${PREFIX}/share/bash-completion
+
+post-patch-sunos:
+	# there's a problem with nls, just mass-remove the macro
+	${GREP} -rl '_(".*")' ${WRKSRC} | ${XARGS} \
+		${PERL} -p -i.pbak -e 's|[_][(]["](.*?)["][)]|"\1"|g'
