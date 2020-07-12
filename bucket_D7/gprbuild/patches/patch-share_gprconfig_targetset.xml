@@ -1,0 +1,43 @@
+--- share/gprconfig/targetset.xml.orig	2020-07-01 15:53:31 UTC
++++ share/gprconfig/targetset.xml
+@@ -102,9 +102,10 @@
+   </targetset>
+ 
+   <!-- x86-solaris -->
+-  <targetset canonical="x86-solaris">
+-    <target>x86-solaris</target>
+-    <target>i.86-(pc-)?solaris.*</target>
++  <targetset canonical="x86_64-solaris">
++    <target>x86_64-solaris</target>
++    <target>x86_64-.*solaris.*</target>
++    <target>i.86-.*solaris.*</target>
+   </targetset>
+ 
+   <!-- x86-windows (mingw) -->
+@@ -228,6 +229,26 @@
+     <target>amd64-.*freebsd.*</target>
+   </targetset>
+ 
++  <!-- x86_64 DragonFly -->
++  <targetset canonical="x86_64-dragonfly">
++    <target>x86_64-dragonfly</target>
++    <target>x86_64-.*dragonfly.*</target>
++  </targetset>
++
++  <!-- x86_64 NetBSD -->
++  <targetset canonical="x86_64-netbsd">
++    <target>x86_64-netbsd</target>
++    <target>x86_64-.*netbsd.*</target>
++    <target>amd64-.*netbsd.*</target>
++  </targetset>
++
++  <!-- x86_64 OpenBSD -->
++  <targetset canonical="x86_64-openbsd">
++    <target>x86_64-openbsd</target>
++    <target>x86_64-.*openbsd.*</target>
++    <target>amd64-.*openbsd.*</target>
++  </targetset>
++
+ <!-- Cross Ports -->
+ <!-- *********** -->
+ 

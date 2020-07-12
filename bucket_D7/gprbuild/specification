@@ -1,0 +1,108 @@
+DEF[PORTVERSION]=	2020
+DEF[DATE]=		20200429-19BD2
+DEF[XMLADA_DATE]=	20200429-19A99
+DEF[UPSTREAM_HASH]=	c346538
+DEF[XML_HASH]=		44f2e44
+DEF[GCCX]=		EXTRACT_INFO(CURRENT_GCC)
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		gprbuild
+VERSION=		${PORTVERSION}
+REVISION=		1
+KEYWORDS=		devel ada
+VARIANTS=		standard
+SDESC[standard]=	Adacore multi-language software build tool
+HOMEPAGE=		http://docs.adacore.com/live/wave/gprbuild/html/gprbuild_ug/gprbuild_ug.html
+CONTACT=		John_Marino[draco@marino.st]
+
+DOWNLOAD_GROUPS=	main adacore xml
+SITES[main]=		http://downloads.dragonlace.net/src/
+SITES[adacore]=		GITHUB/AdaCore:gprbuild:${UPSTREAM_HASH}
+SITES[xml]=		GITHUB/AdaCore:gprconfig_kb:${XML_HASH}
+# DISTFILE[1]=		gprbuild-${PORTVERSION}-${DATE}-src.tar.gz:main
+DISTFILE[1]=		generated:adacore
+DISTFILE[2]=		xmlada-${PORTVERSION}-${XMLADA_DATE}-src.tar.gz:main
+DISTFILE[3]=		generated:xml
+DF_INDEX=		1 2 3
+
+# docs subpackage suppressed when build from git
+# SPKGS[standard]=	complete primary gprlib docs examples
+SPKGS[standard]=	complete primary gprlib examples
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		GPLv3+:primary
+LICENSE_FILE=		GPLv3+:{{WRKSRC}}/COPYING3
+LICENSE_TERMS=		primary:{{WRKDIR}}/TERMS
+LICENSE_AWK=		TERMS:"^$$"
+LICENSE_SOURCE=		TERMS:{{WRKSRC}}/src/gprbuild.ads
+LICENSE_SCHEME=		solo
+
+# FreeBSD uses a different version scheme
+# FPC_EQUIVALENT=		devel/gprbuild
+
+BUILD_DEPENDS=		xmlada:primary:standard
+EXRUN[gprlib]=		xmlada:primary:standard
+
+USES=			gmake
+# DISTNAME=		gprbuild-${PORTVERSION}-${DATE}-src
+DISTNAME=		gprbuild-${UPSTREAM_HASH}
+MAKE_ARGS=		prefix={{STAGEDIR}}{{PREFIX}}
+			ENABLE_SHARED=yes
+			BUILD=production
+# #			BUILD=debug
+			PROCESSORS={{MAKE_JOBS_NUMBER}}
+			TARGET={{CONFIGURE_TARGET}}
+INSTALL_REQ_TOOLCHAIN=	yes
+BUILD_TARGET=		all libgpr.build
+INSTALL_TARGET=		install libgpr.install
+INFO=			primary:gprbuild_ug
+# SET_DEBUGGING_ON=	yes
+
+post-extract:
+	# relocate gprconfig db to original location
+	${MV} ${WRKDIR}/gprconfig_kb-${XML_HASH}/db ${WRKSRC}/share/gprconfig
+
+post-patch:
+	${SED} -i"" \
+		-e "s|@LOCALBASE@|${LOCALBASE}|" \
+		-e "s|@GCCX@|${GCCX}|" \
+		${WRKSRC}/share/gprconfig/compilers.xml
+	${RM} ${WRKSRC}/share/gprconfig/*.orig
+	${CP} -RpP ${WRKSRC}/share/gprconfig \
+		${WRKDIR}/gprconfig_kb-${XML_HASH}/db
+	# the relocatable library fails to build, limit to static(-pic)
+	${REINPLACE_CMD} \
+		-e '/^LIB_INSTALLER=/ s|$$| --project-subdir=lib/gnat|' \
+		${WRKSRC}/Makefile
+	${REINPLACE_CMD} -e 's|"-gnatwe", ||' ${WRKSRC}/gprbuild.gpr
+	${FIND} ${WRKSRC}/examples -name '.cvsignore' -delete
+	# fix bashism on /bin/sh
+	${REINPLACE_CMD} -e 's|==|=|g' ${WRKSRC}/bootstrap.sh
+
+post-patch-dragonfly:
+	# dragonfly has different install program than freebsd, linux (!)
+	${REINPLACE_CMD} -e 's| -t||' ${WRKSRC}/bootstrap.sh
+
+do-configure:
+	# create bootstrap version of gprbuild
+	${MKDIR} ${WRKDIR}/bootstrap_construction
+	(cd ${WRKDIR}/bootstrap_construction && ${WRKSRC}/bootstrap.sh \
+	  --with-xmlada=${WRKDIR}/xmlada-${PORTVERSION}-${XMLADA_DATE}-src \
+	  --with-kb=${WRKDIR}/gprconfig_kb-${XML_HASH} \
+	  --srcdir=${WRKSRC} \
+	  --prefix=${WRKDIR}/bootstrap)
+	# establish setup variables
+	(cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${MAKE_CMD} ${MAKE_ARGS} setup)
+
+post-install:
+	${RM} ${STAGEDIR}${PREFIX}/doinstall
+	${RM} -r ${STAGEDIR}${STD_DOCDIR}/html/_sources
+	${RM} -r ${STAGEDIR}${PREFIX}/lib/gnat/manifests
+	${MV} ${STAGEDIR}${STD_DOCDIR}/info/gprbuild_ug.info \
+		${STAGEDIR}${PREFIX}/share/info
+	${RM} -r ${STAGEDIR}${STD_DOCDIR}/info
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/*
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/libexec/gprbuild/*
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/gpr/relocatable/gpr/libgpr.so
