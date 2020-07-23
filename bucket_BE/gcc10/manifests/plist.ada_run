@@ -166,6 +166,7 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-cwila1.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-cwila9.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-decima.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-decima.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-dhfina.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-dhfina.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-dinopr.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-diocst.adb
@@ -231,6 +232,10 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-lliwti.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-llizti.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-locale.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-locale.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nbnbin.adb
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nbnbin.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nbnbre.adb
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nbnbre.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-ncelfu.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-ngcefu.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-ngcefu.ads
@@ -255,6 +260,7 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nlrear.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nscefu.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nscoty.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nselfu.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nubinu.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nucoar.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nucoty.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/a-nudira.adb
@@ -578,6 +584,7 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-binenv.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-boubuf.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-boubuf.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-boumai.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-brapre.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-bubsor.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-bubsor.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-busora.adb
@@ -642,6 +649,8 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-exptty.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-flocon.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-forstr.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-forstr.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-graphs.adb
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-graphs.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-heasor.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-heasor.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-hesora.adb
@@ -729,6 +738,7 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-sptain.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-sptavs.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-sse.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-ssvety.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-sthcso.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-stheme.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-strhas.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/g-string.adb
@@ -784,6 +794,8 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-addima.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-addima.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-addope.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-addope.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-aotase.adb
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-aotase.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-arit64.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-arit64.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-assert.adb
@@ -792,14 +804,22 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atacco.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atacco.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atocou.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atocou.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atoope.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atopar.adb
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atopar.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atopex.adb
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atopex.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atopri.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-atopri.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-auxdec.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-auxdec.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-bignum.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-bignum.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-bitfie.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-bitops.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-bitops.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-bituti.adb
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-bituti.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-boarop.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-boustr.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-boustr.ads
@@ -913,6 +933,8 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-fore.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-fore.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-gearop.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-gearop.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-genbig.adb
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-genbig.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-geveop.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-geveop.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-gloloc.adb
@@ -1287,6 +1309,7 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-wwdenu.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-wwdwch.adb
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/s-wwdwch.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/sequenio.ads
+lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/standard.ads.h
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/system.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/text_io.ads
 lib/gcc/%%TARGET%%/%%GCCVER%%/adainclude/unchconv.ads
@@ -1371,6 +1394,7 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-cusyqu.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-cwila1.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-cwila9.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-decima.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-dhfina.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-diocst.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-direct.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-direio.ali
@@ -1408,6 +1432,8 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-llitio.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-lliwti.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-llizti.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-locale.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-nbnbin.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-nbnbre.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-ncelfu.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-ngcefu.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-ngcoar.ali
@@ -1427,6 +1453,7 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-nlrear.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-nscefu.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-nscoty.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-nselfu.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-nubinu.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-nucoar.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-nucoty.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/a-nudira.ali
@@ -1608,6 +1635,7 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-awk.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-binenv.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-boubuf.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-boumai.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-brapre.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-bubsor.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-busora.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-busorg.ali
@@ -1642,6 +1670,7 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-expect.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-exptty.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-flocon.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-forstr.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-graphs.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-heasor.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-hesora.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/g-hesorg.ali
@@ -1733,14 +1762,20 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/machcode.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/memtrack.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-addima.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-addope.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-aotase.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-arit64.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-assert.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-atacco.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-atocou.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-atoope.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-atopar.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-atopex.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-atopri.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-auxdec.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-bignum.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-bitfie.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-bitops.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-bituti.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-boarop.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-boustr.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-bytswa.ali
@@ -1808,6 +1843,7 @@ lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-finroo.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-flocon.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-fore.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-gearop.ali
+lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-genbig.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-geveop.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-gloloc.ali
 lib/gcc/%%TARGET%%/%%GCCVER%%/adalib/s-htable.ali
