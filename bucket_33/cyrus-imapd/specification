@@ -1,0 +1,24 @@
+DEF[PORTVERSION]=	3.2.2
+DEF[SOVERSION]=		0.0.0
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		cyrus-imapd
+VERSION=		${PORTVERSION}
+KEYWORDS=		mail
+VARIANTS=		standard
+SDESC[standard]=	High-performance mail store with IMAP support
+HOMEPAGE=		https://www.cyrusimap.org/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://github.com/cyrusimap/cyrus-imapd/releases/download/cyrus-imapd-${PORTVERSION}/
+DISTFILE[1]=		cyrus-imapd-${PORTVERSION}.tar.gz:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		mail/cyrus-imapd32
+
+SOVERSION=		${SOVERSION}
