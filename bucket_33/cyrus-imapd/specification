@@ -47,6 +47,10 @@ BUILDRUN_DEPENDS=	cyrus-sasl:primary:standard
 #    with <sys/statvfs> pulling in sys/uuid.h
 # #			libuuid:single:standard
 
+USERS=			${CYRUS_USER}
+GROUPS=			${CYRUS_GROUP}
+USERGROUP_SPKG=		primary
+
 USES=			cpe gmake libtool perl pkgconfig ssl shebangfix
 			bison sqlite zlib
 SHEBANG_FILES=		imap/promdatagen
@@ -68,6 +72,7 @@ MUST_CONFIGURE=		gnu
 SINGLE_JOB=		yes
 INSTALL_TARGET=		install-strip
 INSTALL_REQ_TOOLCHAIN=	yes
+MANDIRS=		{{PREFIX}}/cyrus/man
 
 CONFIGURE_ARGS=		--libexecdir={{PREFIX}}/cyrus/libexec
 			--sbindir={{PREFIX}}/cyrus/sbin
@@ -102,6 +107,9 @@ post-patch:
 	${REINPLACE_CMD} -e "s|/etc/|${PREFIX}/etc/|g" \
 			  -e "s|/usr/sieve|/var/imap/sieve|g" \
 		${WRKSRC}/tools/masssievec
+	${REINPLACE_CMD} \
+		-e 's|$$(mandir)/\(man[1358]\)|${PREFIX}/cyrus/man/\1|g' \
+		${WRKSRC}/Makefile.in
 
 post-install:
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/${SITE_ARCH_REL}/auto/Cyrus/IMAP/IMAP.so

@@ -5,7 +5,7 @@
  
  #if !defined(HAVE_GLIBC_QSORT_R) && \
 -	(defined(__FreeBSD__) || defined(__DragonFly__) || defined(__APPLE__))
-+	(defined(__FreeBSD__) || defined(__APPLE__))
++	(defined(__APPLE__))
  #define HAVE_BSD_QSORT_R
  #endif
  
