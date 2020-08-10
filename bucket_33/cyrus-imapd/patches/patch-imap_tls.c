@@ -1,6 +1,6 @@
---- imap/tls.c.orig	2018-04-30 02:05:44 UTC
+--- imap/tls.c.orig	2020-06-22 00:44:18 UTC
 +++ imap/tls.c
-@@ -734,7 +734,9 @@ EXPORTED int     tls_init_serverengine(c
+@@ -793,12 +793,14 @@ EXPORTED int     tls_init_serverengine(c
      off |= SSL_OP_ALL;            /* Work around all known bugs */
      off |= SSL_OP_NO_SSLv2;       /* Disable insecure SSLv2 */
      off |= SSL_OP_NO_SSLv3;       /* Disable insecure SSLv3 */
@@ -10,7 +10,13 @@
  
      const char *tls_versions = config_getstring(IMAPOPT_TLS_VERSIONS);
  
-@@ -1465,7 +1467,9 @@ HIDDEN int tls_init_clientengine(int ver
+     if (strstr(tls_versions, "tls1_3") == NULL) {
+-#if (OPENSSL_VERSION_NUMBER >= 0x1010100fL)
++#if (OPENSSL_VERSION_NUMBER >= 0x1010100fL) && !defined(LIBRESSL_VERSION_NUMBER)
+         //syslog(LOG_DEBUG, "TLS server engine: Disabled TLSv1.3");
+         off |= SSL_OP_NO_TLSv1_3;
+ #else
+@@ -1571,7 +1573,9 @@ HIDDEN int tls_init_clientengine(int ver
      off |= SSL_OP_ALL;            /* Work around all known bugs */
      off |= SSL_OP_NO_SSLv2;       /* Disable insecure SSLv2 */
      off |= SSL_OP_NO_SSLv3;       /* Disable insecure SSLv3 */

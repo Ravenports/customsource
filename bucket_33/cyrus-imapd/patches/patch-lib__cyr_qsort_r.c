@@ -1,6 +1,6 @@
---- lib/cyr_qsort_r.c.orig	2019-12-04 02:17:01 UTC
+--- lib/cyr_qsort_r.c.orig	2020-06-22 00:44:18 UTC
 +++ lib/cyr_qsort_r.c
-@@ -18,14 +18,14 @@ EXPORTED void cyr_qsort_r(void *base, size_t nmemb, si
+@@ -18,14 +18,14 @@ EXPORTED void cyr_qsort_r(void *base, si
  // NOTE: this is kinda ugly, but it's OK if you're not multithreaded
  
  static void *qsort_r_thunk;
