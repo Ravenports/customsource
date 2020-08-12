@@ -1,0 +1,69 @@
+DEF[PORTVERSION]=	1.27.3
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		recoll
+VERSION=		${PORTVERSION}
+KEYWORDS=		deskutils
+VARIANTS=		standard
+SDESC[standard]=	Full text search tool based on Xapian backend
+HOMEPAGE=		https://www.lesbonscomptes.com/recoll/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://www.lesbonscomptes.com/recoll/
+DISTFILE[1]=		recoll-${PORTVERSION}.tar.gz:main
+
+SPKGS[standard]=	complete primary docs examples
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		deskutils/recoll
+
+BUILDRUN_DEPENDS=	xapian-core:primary:standard
+			aspell:primary:standard
+			chmlib:primary:standard
+RUN_DEPENDS=		unrar:single:standard
+			antiword:primary:standard
+			catdoc:primary:standard
+			libwpd:single:standard
+			unrtf:single:standard
+			perl-Image-ExifTool:single:perl_default
+			poppler:utils:standard
+			pstotext:single:standard
+			python-mutagen:single:python_default
+
+USES=			bison gmake iconv libtool pkgconfig shebangfix
+			python
+GNOME_COMPONENTS=	libxslt
+SHEBANG_FILES=		filters/*.py
+			filters/rcl7z
+			filters/rclaudio
+			filters/rclchm
+			filters/rcldia
+			filters/rclepu*
+			filters/rclics
+			filters/rclimg
+			filters/rclinfo
+			filters/rcl[krtw]ar
+			filters/rclpython
+			filters/rclzip
+			desktop/hotrecoll.py
+MUST_CONFIGURE=		gnu
+MAKE_ENV=		PYTHON_CMD={{PYTHON_CMD}}
+PLIST_SUB=		VERSION=${PORTVERSION}
+CONFIGURE_ARGS=		--with-aspell
+
+post-patch:
+	${REINPLACE_CMD} -e \
+		's|@QMAKE@|${TRUE}|' \
+		${WRKSRC}/Makefile.in
+	${REINPLACE_CMD} -e \
+		's|/usr/local/lib|${LOCALBASE}/lib|' \
+		${WRKSRC}/configure
+	${REINPLACE_CMD} -e \
+		's|python setup.py|${PYTHON_CMD} setup.py|; s|sudo||' \
+		${WRKSRC}/python/recoll/Makefile
+	${REINPLACE_CMD} -e \
+		's|%%PYTHON_CMD%%|${PYTHON_CMD}|' \
+		${WRKSRC}/Makefile.in
