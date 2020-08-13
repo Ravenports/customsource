@@ -22,7 +22,8 @@ FPC_EQUIVALENT=		deskutils/recoll
 
 BUILDRUN_DEPENDS=	xapian-core:primary:standard
 			aspell:primary:standard
-			chmlib:primary:standard
+			chmlib:single:standard
+			qt5-qtbase:primary:standard
 RUN_DEPENDS=		unrar:single:standard
 			antiword:primary:standard
 			catdoc:primary:standard
@@ -34,7 +35,7 @@ RUN_DEPENDS=		unrar:single:standard
 			python-mutagen:single:python_default
 
 USES=			bison gmake iconv libtool pkgconfig shebangfix
-			python
+			python qt5 mesa
 GNOME_COMPONENTS=	libxslt
 SHEBANG_FILES=		filters/*.py
 			filters/rcl7z
@@ -53,6 +54,19 @@ MUST_CONFIGURE=		gnu
 MAKE_ENV=		PYTHON_CMD={{PYTHON_CMD}}
 PLIST_SUB=		VERSION=${PORTVERSION}
 CONFIGURE_ARGS=		--with-aspell
+			--enable-qtgui
+			--disable-webkit
+CONFIGURE_ENV=		QMAKE="{{QMAKE_CMD}}"
+			QMAKESPEC="{{QMAKESPEC}}"
+			QTDIR="{{PREFIX}}"
+# overwritten by qt5.mk DESTDIRNAME
+MAKE_ARGS=		DESTDIR={{STAGEDIR}}
+QMAKE_ARGS=		PREFIX={{PREFIX}}
+LDFLAGS=		-Wl,-rpath,{{PREFIX}}/lib/qt5
+
+pre-build:
+	cd ${WRKSRC}/qtgui && ${SETENV} ${QMAKE_ENV} ${QMAKE_CMD} \
+		${QMAKE_ARGS} recoll.pro
 
 post-patch:
 	${REINPLACE_CMD} -e \
@@ -67,3 +81,22 @@ post-patch:
 	${REINPLACE_CMD} -e \
 		's|%%PYTHON_CMD%%|${PYTHON_CMD}|' \
 		${WRKSRC}/Makefile.in
+
+post-install:
+	${STRIP_CMD} ${STAGEDIR}${PYTHON_SITELIBDIR}/recoll*/*.so \
+		${STAGEDIR}${PREFIX}/lib/recoll/*.so \
+		${STAGEDIR}${PREFIX}/bin/recoll
+	# relocate examples
+	${MKDIR} ${STAGEDIR}${STD_EXAMPLESDIR}
+	${MV} ${STAGEDIR}${PREFIX}/share/recoll/examples/* \
+		${STAGEDIR}${STD_EXAMPLESDIR}/
+	${RM} -r ${STAGEDIR}${PREFIX}/share/recoll/examples
+	# relocate docs
+	${MKDIR} ${STAGEDIR}${STD_DOCDIR}
+	${MV} ${STAGEDIR}${PREFIX}/share/recoll/doc/* \
+		${STAGEDIR}${STD_DOCDIR}/
+	${RM} -r ${STAGEDIR}${PREFIX}/share/recoll/doc
+	# autoplist for python files
+	@(cd ${STAGEDIR}${PREFIX} && \
+	${FIND} lib/python* \( -type f -o -type l \) 2>/dev/null | ${SORT}) \
+	>> ${WRKDIR}/.manifest.primary.mktmp
