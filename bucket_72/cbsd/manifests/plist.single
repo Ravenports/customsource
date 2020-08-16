@@ -1,0 +1,3 @@
+@(cbsd,cbsd,500) bin/cbsd
+libexec/bsdconfig/cbsd
+share/man/man8/cbsd.8.gz
