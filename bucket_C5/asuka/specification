@@ -1,0 +1,28 @@
+DEF[PORTVERSION]=	0.8.1
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		asuka
+VERSION=		${PORTVERSION}
+KEYWORDS=		www
+VARIANTS=		standard
+SDESC[standard]=	Ncurses-based Gemini / Gopher client
+HOMEPAGE=		https://git.sr.ht/~julienxx/asuka
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main cr01 cr02
+SITES[main]=		https://git.sr.ht/~julienxx/asuka/archive/
+SITES[cr01]=		CRATES/cursive:0.13.0
+SITES[cr02]=		CRATES/aho-corasick:0.7.13
+DISTFILE[1]=		${PORTVERSION}.tar.gz:main
+DISTFILE[2]=		generated:cr01
+DISTFILE[3]=		generated:cr02
+DF_INDEX=		1 2 3
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+USES=			ncurses cargo
+
+MAKE_ENV=		SSL_CERT_FILE=/raven/share/certs/ca-root-nss.crt
