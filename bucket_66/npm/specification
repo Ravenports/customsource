@@ -1,0 +1,62 @@
+DEF[PORTVERSION]=	7.0.2
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		npm
+VERSION=		${PORTVERSION}
+KEYWORDS=		www
+VARIANTS=		standard
+SDESC[standard]=	Node.js Package Manager
+HOMEPAGE=		https://www.npmjs.com/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		GITHUB/npm:cli:v${PORTVERSION}
+DISTFILE[1]=		generated:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		ART20:single
+LICENSE_FILE=		ART20:{{WRKSRC}}/LICENSE
+LICENSE_SCHEME=		solo
+
+FPC_EQUIVALENT=		www/npm
+
+BUILDRUN_DEPENDS=	bash:complete:standard
+			nodejs:complete:standard
+
+USES=			python shebangfix gmake perl:build
+SINGLE_JOB=		yes
+
+SHEBANG_GLOB=		*.py
+SHEBANG_FILES=		lib/utils/completion.sh
+			node_modules/dashdash/etc/dashdash.bash_completion.in
+
+MANDIRS=		{{PREFIX}}/lib/node_modules/npm/man
+
+post-patch:
+	${GREP} -rl "/usr/local" ${WRKSRC} | ${XARGS} \
+		${REINPLACE_CMD} -e 's|/usr/local|${LOCALBASE}|g'
+	${GREP} -rl "/usr/bin/env node" ${WRKSRC} | ${XARGS} \
+		${REINPLACE_CMD} -e 's|/usr/bin/env node|${LOCALBASE}/bin/node|'
+	${GREP} -rl "/usr/bin/env bash" ${WRKSRC} | ${XARGS} \
+		${REINPLACE_CMD} -e 's|/usr/bin/env bash|${LOCALBASE}/bin/bash|'
+	# fix python location
+	${REINPLACE_CMD} -e 's|PYTHONBIN|${PYTHON_CMD}|' \
+		${WRKSRC}/node_modules/node-gyp/lib/configure.js
+	# don't build twice
+	${REINPLACE_CMD} -e 's/install: all/install:/' ${WRKSRC}/Makefile
+	${FIND} ${WRKSRC} -name "*.bak" -type f -delete
+
+do-install:
+	${FIND} ${WRKSRC} -type f -name '*.orig' -delete
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${MAKE_ARGS} \
+		${LOCALBASE}/bin/node bin/npm-cli.js pack
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${MAKE_ARGS} \
+		${LOCALBASE}/bin/node bin/npm-cli.js \
+		install -g -f npm-${PORTVERSION}.tgz
+	# fix package.json to remove DESTDIR
+	#${REINPLACE_CMD} -i'' -e "s|/construction/npm/stage||" \
+	#	${STAGEDIR}${PREFIX}/lib/node_modules/npm/package.json
