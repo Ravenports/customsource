@@ -1,0 +1,8 @@
+%%CCLINKDIR%%/c++
+%%CCLINKDIR%%/cc
+%%CCLINKDIR%%/clang
+%%CCLINKDIR%%/clang++
+%%CCLINKDIR%%/g++
+%%CCLINKDIR%%/gcc
+bin/ccache
+share/man/man1/ccache.1.gz
