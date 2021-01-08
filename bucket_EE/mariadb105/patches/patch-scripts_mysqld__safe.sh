@@ -1,9 +1,9 @@
---- scripts/mysqld_safe.sh.orig	2020-03-25 10:13:17 UTC
+--- scripts/mysqld_safe.sh.orig	2020-11-10 13:14:59 UTC
 +++ scripts/mysqld_safe.sh
-@@ -564,11 +564,11 @@ fi
+@@ -555,11 +555,11 @@ fi
  
  if test -z "$MYSQL_HOME"
- then 
+ then
 -  if test -r "$DATADIR/my.cnf"
 +  if test -r "$DATADIR/etc/my.cnf"
    then

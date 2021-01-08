@@ -1,6 +1,6 @@
---- sql/mysqld.cc.orig	2020-03-25 10:13:17 UTC
+--- sql/mysqld.cc.orig	2020-11-10 13:14:59 UTC
 +++ sql/mysqld.cc
-@@ -3124,7 +3124,11 @@ pthread_handler_t signal_hand(void *arg
+@@ -3025,7 +3025,11 @@ pthread_handler_t signal_hand(void *arg
        }
        break;
      case SIGHUP:
@@ -12,9 +12,9 @@
        {
          int not_used;
  	mysql_print_status();		// Print some debug info
-@@ -4592,8 +4596,9 @@ static void init_ssl()
-       while ((err= ERR_get_error()))
-         sql_print_warning("SSL error: %s", ERR_error_string(err, NULL));
+@@ -4434,8 +4438,9 @@ static void init_ssl()
+         sql_print_warning("SSL error: %s",buf);
+       }
      }
 -    else
 +    else {
