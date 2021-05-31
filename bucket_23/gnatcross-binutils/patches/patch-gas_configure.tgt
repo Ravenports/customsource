@@ -1,0 +1,10 @@
+--- gas/configure.tgt.orig	2020-07-24 09:12:19 UTC
++++ gas/configure.tgt
+@@ -137,6 +137,7 @@ case ${generic_target} in
+   arc-*-elf*)				fmt=elf ;;
+   arc*-*-linux*)			fmt=elf bfd_gas=yes ;;
+ 
++  arm-android-eabi*)			fmt=elf em=armlinuxeabi ;;
+   arm-*-phoenix*)			fmt=elf ;;
+   arm-*-elf)				fmt=elf ;;
+   arm-*-eabi* | arm-*-rtems*)		fmt=elf em=armeabi ;;
