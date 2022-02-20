@@ -1,0 +1,39 @@
+DEF[PORTVERSION]=	1.2.1
+DEF[XNAME]=		driver-input-libinput
+DEF[ALTNAME]=		xf86-input-libinput
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		xorg-driver-input-libinput
+VERSION=		${PORTVERSION}
+KEYWORDS=		x11_drivers
+VARIANTS=		standard
+SDESC[standard]=	X.Org generic input driver using libinput
+HOMEPAGE=		https://www.x.org/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		XORG/individual/driver/
+DISTFILE[1]=		${ALTNAME}-${PORTVERSION}.tar.xz:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		MIT:single
+LICENSE_FILE=		MIT:{{WRKSRC}}/COPYING
+LICENSE_SCHEME=		solo
+
+FPC_EQUIVALENT=		x11-drivers/xf86-input-libinput
+
+# Only support Linux for now to which event devices are native.
+# Other platforms need unsatisfied dependencies.
+ONLY_FOR_OPSYS=		linux
+
+USES=			libtool pkgconfig
+BUILDRUN_DEPENDS=	libinput:single:standard
+			xorg-server:single:standard
+
+DISTNAME=		${ALTNAME}-${PORTVERSION}
+MUST_CONFIGURE=		gnu
+INSTALL_TARGET=		install-strip
