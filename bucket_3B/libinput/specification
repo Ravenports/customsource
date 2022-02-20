@@ -1,0 +1,39 @@
+DEF[PORTVERSION]=	1.19.3
+DEF[SOVERSION]=		10.13.0
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		libinput
+VERSION=		${PORTVERSION}
+KEYWORDS=		x11
+VARIANTS=		standard
+SDESC[standard]=	Input device management and event handling library
+HOMEPAGE=		https://www.freedesktop.org/wiki/Software/libinput/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://www.freedesktop.org/software/libinput/
+DISTFILE[1]=		libinput-${PORTVERSION}.tar.xz:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+# Included header file input.h is taken from the Linux kernel and thus GPLv2.
+# All actual libinput source is MIT licensed.
+LICENSE=		MIT:single
+LICENSE_FILE=		MIT:{{WRKSRC}}/COPYING
+LICENSE_SCHEME=		solo
+
+FPC_EQUIVALENT=		x11/libinput
+
+USES=			meson pkgconfig
+BUILD_DEPENDS=		eudev:single:standard
+BUILDRUN_DEPENDS=	libevdev:single:standard
+			mtdev:single:standard
+
+MESON_ARGS=		-Dtests=false
+			-Dlibwacom=false
+			-Ddebug-gui=false
+
+SOVERSION=		${SOVERSION}
