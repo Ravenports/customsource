@@ -1,0 +1,10 @@
+Eudev is a utility for the dynamic creation of device nodes on Linux. It 
+is a fork of systemd-udev which used to be an independent project before 
+it was absorbed by systemd. The purpose of the fork is to keep a variant 
+of udev available that does not depend on systemd or any other specific 
+init system.
+
+The project was started for Gentoo but officially abandoned for 2022. By 
+that time however there were enough downstream users so that the project 
+was instead taken over by other developers and is still under active 
+development.
