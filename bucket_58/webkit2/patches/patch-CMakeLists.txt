@@ -1,0 +1,14 @@
+--- CMakeLists.txt.orig	2021-09-01 09:16:33 UTC
++++ CMakeLists.txt
+@@ -26,6 +26,11 @@ if (ENABLE_API_TESTS)
+     enable_testing()
+ endif ()
+ 
++if (SUPPRESS_ASSERT)
++   add_definitions(-DNDEBUG=1)
++   add_definitions(-D__OPTIMIZE__)
++endif()
++
+ # -----------------------------------------------------------------------------
+ # Add module directories
+ # -----------------------------------------------------------------------------
