@@ -1,6 +1,6 @@
 --- Source/bmalloc/bmalloc/AvailableMemory.cpp.orig	2022-02-23 11:41:53 UTC
 +++ Source/bmalloc/bmalloc/AvailableMemory.cpp
-@@ -44,12 +44,12 @@
+@@ -44,11 +44,13 @@
  #import <mach/mach_error.h>
  #import <math.h>
  #elif BOS(UNIX)
@@ -9,12 +9,13 @@
  #include <algorithm>
  #include <fcntl.h>
  #elif BOS(FREEBSD)
- #include "VMAllocate.h"
++# ifndef __DragonFly__
 +#include <sys/sysinfo.h>
++# endif
+ #include "VMAllocate.h"
  #include <sys/sysctl.h>
  #include <sys/types.h>
- #include <sys/user.h>
-@@ -159,6 +159,12 @@ static size_t computeAvailableMemory()
+@@ -159,6 +161,12 @@ static size_t computeAvailableMemory()
      // Round up the memory size to a multiple of 128MB because max_mem may not be exactly 512MB
      // (for example) and we have code that depends on those boundaries.
      return ((sizeAccordingToKernel + multiple - 1) / multiple) * multiple;
@@ -27,7 +28,7 @@
  #elif BOS(FREEBSD) || BOS(LINUX)
      struct sysinfo info;
      if (!sysinfo(&info))
-@@ -210,7 +216,11 @@ MemoryStatus memoryStatus()
+@@ -210,7 +218,11 @@ MemoryStatus memoryStatus()
  
      size_t memoryFootprint = 0;
      if (!sysctl(mib, 4, &info, &infolen, nullptr, 0))
