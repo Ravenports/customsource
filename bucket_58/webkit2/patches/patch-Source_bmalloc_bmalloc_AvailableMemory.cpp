@@ -1,34 +1,31 @@
---- Source/bmalloc/bmalloc/AvailableMemory.cpp.orig	2022-02-23 11:41:53 UTC
-+++ Source/bmalloc/bmalloc/AvailableMemory.cpp
-@@ -44,11 +44,13 @@
+--- Source/bmalloc/bmalloc/AvailableMemory.cpp.orig	2022-02-23 12:41:53.294219500 +0100
++++ Source/bmalloc/bmalloc/AvailableMemory.cpp	2022-05-23 12:36:29.059839000 +0200
+@@ -44,8 +44,8 @@
  #import <mach/mach_error.h>
  #import <math.h>
  #elif BOS(UNIX)
 -#include <sys/sysinfo.h>
  #if BOS(LINUX)
++#include <sys/sysinfo.h>
  #include <algorithm>
  #include <fcntl.h>
  #elif BOS(FREEBSD)
-+# ifndef __DragonFly__
-+#include <sys/sysinfo.h>
-+# endif
- #include "VMAllocate.h"
- #include <sys/sysctl.h>
- #include <sys/types.h>
-@@ -159,6 +161,12 @@ static size_t computeAvailableMemory()
+@@ -159,7 +159,13 @@
      // Round up the memory size to a multiple of 128MB because max_mem may not be exactly 512MB
      // (for example) and we have code that depends on those boundaries.
      return ((sizeAccordingToKernel + multiple - 1) / multiple) * multiple;
+-#elif BOS(FREEBSD) || BOS(LINUX)
 +#elif defined(__DragonFly__)
 +    long pages = sysconf(_SC_PHYS_PAGES);
 +    long pageSize = sysconf(_SC_PAGE_SIZE);
 +    if (pages == -1 || pageSize == -1)
 +        return availableMemoryGuess;
 +    return pages * pageSize;
- #elif BOS(FREEBSD) || BOS(LINUX)
++#elif BOS(LINUX)
      struct sysinfo info;
      if (!sysinfo(&info))
-@@ -210,7 +218,11 @@ MemoryStatus memoryStatus()
+         return info.totalram * info.mem_unit;
+@@ -210,7 +216,11 @@
  
      size_t memoryFootprint = 0;
      if (!sysctl(mib, 4, &info, &infolen, nullptr, 0))
