@@ -9,6 +9,7 @@ DEF[JSSOVERSION50]=	0.0.0
 
 NAMEBASE=		webkit2
 VERSION=		${PORTVERSION}
+REVISION=		1
 KEYWORDS=		www
 VARIANTS=		api40 api41 api50
 SDESC[api40]=		Opensource browser engine using GTK+3 (API 4.0)
