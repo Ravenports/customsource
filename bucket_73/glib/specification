@@ -1,0 +1,91 @@
+# Glib has even/odd releases (e.g 2.60, 2.62, 2.64 ... are stable)
+# Intentionally on unstable to fix gobject-introspection on *BSD
+DEF[PORTVERSION]=	2.73.3
+DEF[LIBVERSION]=	0.7303.0
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		glib
+VERSION=		${PORTVERSION}
+KEYWORDS=		devel
+VARIANTS=		standard
+SDESC[standard]=	Some useful routines of C programming
+HOMEPAGE=		https://www.gtk.org/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		GNOME/glib/${PORTVERSION:R}
+DISTFILE[1]=		glib-${PORTVERSION}.tar.xz:main
+DIST_SUBDIR=		gnome2
+
+SPKGS[standard]=	complete primary nls
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		LGPL21+:primary
+LICENSE_FILE=		LGPL21+:{{WRKSRC}}/COPYING
+LICENSE_TERMS=		primary:{{WRKDIR}}/TERMS
+LICENSE_AWK=		TERMS:"__G_LIB_H__"
+LICENSE_SOURCE=		TERMS:{{WRKSRC}}/glib/glib.h
+LICENSE_SCHEME=		solo
+
+FPC_EQUIVALENT=		devel/glib20
+
+BUILD_DEPENDS=		xmlto:single:standard
+BUILDRUN_DEPENDS=	libffi:single:standard
+			pcre2:primary:standard
+RUN_DEPENDS=		zlib:static:standard
+
+USES=			gettext-tools gettext-runtime gmake libtool perl:build
+			pkgconfig python:build shebangfix zlib meson iconv cpe
+MESON_ARGS=		-Dselinux=disabled
+			-Dxattr=false
+			-Dlibmount=disabled
+			-Ddtrace=false
+			-Dman=true
+			-Dgtk_doc=false
+			-Db_lundef=false
+			-Dtests=false
+INSTALL_TARGET=		install-strip
+INSTALL_REQ_TOOLCHAIN=	yes
+CPE_VENDOR=		gnome
+SHEBANG_FILES=		*/*.pl
+			{{pyscripts}}
+PLIST_SUB=		LIBVERSION=${LIBVERSION}
+			RESETPREFIX={{PREFIX}}
+
+VAR_OPSYS[darwin]=	MAKE_ENV=DYLD_FALLBACK_LIBRARY_PATH="$$DYLD_FALLBACK_LIBRARY_PATH:{{WRKSRC}}/_build/glib:{{WRKSRC}}/_build/gio:{{WRKSRC}}/_build/gobject:{{WRKSRC}}/_build/gmodule"
+VAR_OPSYS[sunos]=	CFLAGS=-fPIC
+			LDFLAGS=-lintl
+			LDFLAGS=-liconv
+			LDFLAGS=-lnsl
+			LDFLAGS=-lsocket
+
+# Leaving debugging symbols in place clears up the XDG_DATA_DIRS related
+# SIGTRAP error from gnucash which manifested on 3 platforms.  It's
+# probably related to the stripping of the binaries, but its not clear
+# why this solves the issue.
+SET_DEBUGGING_ON=	yes
+
+post-patch:
+	${REINPLACE_CMD} -e 's|/usr/local|${LOCALBASE}|g ; \
+		s|/usr/share/locale/locale|${LOCALBASE}/share/locale/locale|g' \
+			${WRKSRC}/glib/gutils.c
+	${REINPLACE_CMD} -e 's|/usr/local|${LOCALBASE}|g' \
+		${WRKSRC}/gio/gunixmounts.c \
+		${WRKSRC}/gio/xdgmime/xdgmime.c \
+		${WRKSRC}/glib/tests/utils.c
+	for F in ${pyscripts}; do \
+		${CHMOD} ${BINMODE} ${WRKSRC}/$$F; \
+	done
+
+pre-configure:
+	${REINPLACE_CMD} \
+		-e 's|/docbook.sourceforge.net/|/cdn.docbook.org/|' \
+		-e "/-Werror=/d" \
+		${WRKSRC}/meson.build
+
+post-install:
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/GConf/gsettings
+	${MKDIR} ${STAGEDIR}${PREFIX}/lib/gio/modules
+	${RM} -r ${STAGEDIR}${PREFIX}/libexec
