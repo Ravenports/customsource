@@ -49,11 +49,23 @@ USERS=			cbsd
 GROUPS=			cbsd
 USERGROUP_SPKG=		single
 
-USES=			pkgconfig ssl
+USES=			pkgconfig ssl cmake
 MAKE_ARGS=		STRIP={{STRIP_CMD}}
 SINGLE_JOB=		yes
 
-post-patch:
+post-extract:
+	${INSTALL_DATA} ${FILESDIR}/bin_CMakeLists.txt \
+		${WRKSRC}/bin/CMakeLists.txt
+	${INSTALL_DATA} ${FILESDIR}/bin_cbsdsh_CM.txt \
+		${WRKSRC}/bin/cbsdsh/CMakeLists.txt
+	${MKDIR} ${WRKSRC}/bin/tool_mknodes
+	${INSTALL_DATA} ${FILESDIR}/bin_mknodes_CM.txt \
+		${WRKSRC}/bin/tool_mknodes/CMakeLists.txt
+	${MKDIR} ${WRKSRC}/bin/tool_mksyntax
+	${INSTALL_DATA} ${FILESDIR}/bin_mksyntax_CM.txt \
+		${WRKSRC}/bin/tool_mksyntax/CMakeLists.txt
+
+pre-configure:
 	${REINPLACE_CMD} \
 		-e 's|lfetch|lfetch -L${OPENSSLLIB} -lssl -lcrypto|' \
 		${WRKSRC}/Makefile
