@@ -1,4 +1,5 @@
 DEF[PORTVERSION]=	0.5.0
+DEF[SOVERSION]=		0.0.0
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		libudev-devd
@@ -18,10 +19,17 @@ SPKGS[standard]=	single
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
 
+LICENSE=		BSD2CLAUSE:single
+LICENSE_FILE=		BSD2CLAUSE:{{WRKDIR}}/LICENSE
+LICENSE_SOURCE=		BSD2CLAUSE:{{WRKSRC}}/udev.c
+LICENSE_AWK=		BSD2CLAUSE:"^$$"
+LICENSE_SCHEME=		solo
+
 FPC_EQUIVALENT=		devel/libudev-devd
 
-USES=			meson
 BUILD_DEPENDS=		evdev-proto:single:standard
 
+USES=			meson
 MESON_ARGS=		-Denable-gpl=true
 CFLAGS=			-Wno-error
+SOVERSION=		${SOVERSION}
