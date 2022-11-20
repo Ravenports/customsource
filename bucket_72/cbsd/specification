@@ -1,4 +1,4 @@
-DEF[PORTVERSION]=	12.1.13
+DEF[PORTVERSION]=	13.1.16
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		cbsd
@@ -23,6 +23,8 @@ FPC_EQUIVALENT=		sysutils/cbsd
 LICENSE=		BSD2CLAUSE:single
 LICENSE_FILE=		BSD2CLAUSE:{{WRKSRC}}/LICENSE
 LICENSE_SCHEME=		solo
+
+ONLY_FOR_OPSYS=		freebsd
 
 RUN_DEPENDS=		rsync:single:standard
 			sudo:complete:standard
@@ -49,6 +51,7 @@ USERGROUP_SPKG=		single
 
 USES=			pkgconfig ssl
 MAKE_ARGS=		STRIP={{STRIP_CMD}}
+SINGLE_JOB=		yes
 
 post-patch:
 	${REINPLACE_CMD} \
