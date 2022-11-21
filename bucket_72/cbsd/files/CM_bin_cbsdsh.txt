@@ -15,6 +15,11 @@ set (srcs
     test/test.c
 )
 
+set (libs -ledit -lm -pthread -lsqlite3 -lm)
+if (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+   set (libs -ljail ${libs})
+endif()
+
 set_source_files_properties(${genhdrs} PROPERTIES GENERATED true)
 set_source_files_properties(${gensrcs} PROPERTIES GENERATED true)
 set_source_files_properties(builtins.def.o PROPERTIES GENERATED true)
@@ -28,17 +33,17 @@ add_custom_command(
 add_custom_command(
 	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/syntax.h 
                ${CMAKE_CURRENT_BINARY_DIR}/syntax.c
-	DEPENDS ${CMAKE_BINARY_DIR}/tool_mksyntax/mksyntax
-	COMMAND ${CMAKE_BINARY_DIR}/tool_mksyntax/mksyntax
+	DEPENDS ${CMAKE_BINARY_DIR}/bin/tool_mksyntax/mksyntax
+	COMMAND ${CMAKE_BINARY_DIR}/bin/tool_mksyntax/mksyntax
 )
 
 add_custom_command(
 	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nodes.h 
                ${CMAKE_CURRENT_BINARY_DIR}/nodes.c
-	DEPENDS ${CMAKE_BINARY_DIR}/tool_mknodes/mknodes
+	DEPENDS ${CMAKE_BINARY_DIR}/bin/tool_mknodes/mknodes
                 ${CMAKE_CURRENT_SOURCE_DIR}/nodetypes
                 ${CMAKE_CURRENT_SOURCE_DIR}/nodes.c.pat
-	COMMAND ${CMAKE_BINARY_DIR}/tool_mknodes/mknodes
+	COMMAND ${CMAKE_BINARY_DIR}/bin/tool_mknodes/mknodes
                 ${CMAKE_CURRENT_SOURCE_DIR}/nodetypes
                 ${CMAKE_CURRENT_SOURCE_DIR}/nodes.c.pat
 )
@@ -63,6 +68,10 @@ add_custom_command(
 add_executable(${prog} ${srcs})
 target_compile_definitions(${prog} PUBLIC CBSD SHELL)
 target_include_directories(${prog} PUBLIC
+	${CMAKE_CURRENT_BINARY_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}/bltin
 )
+target_link_libraries(${prog} ${libs})
+
+install(TARGETS ${prog} DESTINATION bin)

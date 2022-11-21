@@ -1,0 +1,35 @@
+set (prog1 dump_cpu_topology)
+set (prog2 dump_iscsi_discovery)
+set (prog3 sipcalc)
+
+set (srcs1
+   src/dump_cpu_topology.c
+   ../lib/simplexml/simplexml.c
+)
+
+set (srcs2
+   src/dump_iscsi_discovery.c
+   ../lib/simplexml/simplexml.c
+)
+
+set (srcs3
+   src/sipcalc/sub-func.c
+   src/sipcalc/interface.c
+   src/sipcalc/sipcalc.c
+   src/sipcalc/sub-output.c
+)
+
+add_executable(${prog1} ${srcs1})
+add_executable(${prog2} ${srcs2})
+add_executable(${prog3} ${srcs3})
+
+target_include_directories(${prog1} PUBLIC
+    ${CMAKE_SOURCE_DIR}/lib/simplexml
+)
+
+target_include_directories(${prog2} PUBLIC
+    ${CMAKE_SOURCE_DIR}/lib/simplexml
+)
+
+install(TARGETS ${prog1} ${prog2} DESTINATION bin)
+install(TARGETS ${prog3} DESTINATION cbsd/misc)
