@@ -34,7 +34,7 @@ BUILDRUN_DEPENDS=	libssh2:single:standard
 			libedit:single:standard
 			fetch:single:library
 			elftoolchain:libraries:standard
-BUILD_DEPENDS=		file:single:standard
+			file:single:standard
 
 RC_SUBR=		cbsdd:single
 			cbsdrsyncd:single
@@ -50,6 +50,7 @@ GROUPS=			cbsd
 USERGROUP_SPKG=		single
 
 USES=			pkgconfig ssl cmake
+MANDIRS=		{{PREFIX}}/cbsd/man
 SINGLE_JOB=		yes
 
 post-extract:
@@ -67,10 +68,31 @@ post-extract:
 		${WRKSRC}/bin/cbsdsh/CMakeLists.txt
 	${INSTALL_DATA} ${FILESDIR}/CM_misc.txt \
 		${WRKSRC}/misc/CMakeLists.txt
+	${INSTALL_DATA} ${FILESDIR}/CM_tools.txt \
+		${WRKSRC}/tools/CMakeLists.txt
+	${INSTALL_DATA} ${FILESDIR}/CM_sbin.txt \
+		${WRKSRC}/sbin/CMakeLists.txt
 
 pre-configure:
-	${REINPLACE_CMD} \
-		-e 's|lfetch|lfetch -L${OPENSSLLIB} -lssl -lcrypto|' \
-		${WRKSRC}/Makefile
 	${REINPLACE_CMD} -e '/<sys\/elf_common.h>/d' \
 		${WRKSRC}/misc/src/elf_tables.c
+	# fix hardcoded path
+	${REINPLACE_CMD} -e 's|/usr/local|${PREFIX}|g' \
+		${WRKSRC}/bin/rexe
+
+post-install:
+	# remove empty share directories
+	${FIND} ${STAGEDIR}${PREFIX}/cbsd/share -type d -empty -delete
+	# Add symbolic link
+	${MKDIR} ${STAGEDIR}${PREFIX}/libexec/bsdconfig
+	(cd ${STAGEDIR}${PREFIX}/libexec/bsdconfig &&\
+		${LN} -sf ../../cbsd/share/bsdconfig/cbsd cbsd)
+	# Strip
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/cbsd
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/cbsd/bin/c*
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/cbsd/sbin/netmask
+	(cd ${STAGEDIR}${PREFIX}/cbsd && ${FIND} tools misc -type f | while read f; \
+	do \
+	    check=$$(file "$$f" | grep "dynamically linked,.*not stripped"); \
+	    if [ -n "$$check" ]; then ${STRIP_CMD} "$$f"; fi; \
+	done)
