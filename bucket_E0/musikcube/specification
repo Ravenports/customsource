@@ -1,0 +1,48 @@
+DEF[PORTVERSION]=	0.99.0
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		musikcube
+VERSION=		${PORTVERSION}
+KEYWORDS=		multimedia audio
+VARIANTS=		standard
+SDESC[standard]=	Terminal-based music player, audio engine & server
+HOMEPAGE=		https://musikcube.com/
+CONTACT=		Jay_Leno[jay@aarp.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		GITHUB/clangen:musikcube:${PORTVERSION}
+DISTFILE[1]=		musikcube-${PORTVERSION}.tar.gz:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		multimedia/musikcube
+
+BUILD_DEPENDS=		asio:single:standard
+BUILDRUN_DEPENDS=	boost-libraries:rest:python_default
+			ffmpeg:primary:standard
+			lame:primary:standard
+			libev:single:standard
+			libmicrohttpd:single:standard
+			libopenmpt:library:standard
+			mpg123:library:standard
+			sndio:single:standard
+			taglib:single:standard
+# flac:primary:standard
+# libvorbis:primary:standard
+
+USES=			cmake pkgconfig ssl
+
+CMAKE_ARGS=		-DLIBSSL={{PREFIX}}/libressl/lib/libssl.so
+			-DLIBCRYPTO={{PREFIX}}/libressl/lib/libcrypto.so
+
+post-patch:
+	${REINPLACE_CMD} -e 's!__PREFIX__!${PREFIX}!g' \
+		-e 's!__SSLVARIANT__!libressl!g' \
+		${PREFIX}/include/asio/ssl/detail/openssl_types.hpp
+	${REINPLACE_CMD} -e 's!openssl/!/${PREFIX}/libressl/include/openssl/!g' \
+		${PREFIX}/libressl/include/openssl/conf.h
+	${REINPLACE_CMD} -e 's!openssl/!/${PREFIX}/libressl/include/openssl/!g' \
+		${PREFIX}/libressl/include/openssl/opensslconf.h
