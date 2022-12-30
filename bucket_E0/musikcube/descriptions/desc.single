@@ -1,0 +1,3 @@
+Musikcube is a cross-platform, terminal-based audio-engine, library, 
+player and server written in C++. It can be setup as a streaming audio 
+server.

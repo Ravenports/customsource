@@ -18,10 +18,15 @@ SPKGS[standard]=	single
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
 
+LICENSE=		BSD3CLAUSE:single
+LICENSE_FILE=		BSD3CLAUSE:{{WRKSRC}}/LICENSE.txt
+LICENSE_SCHEME=		solo
+
 FPC_EQUIVALENT=		multimedia/musikcube
 
 BUILD_DEPENDS=		asio:single:standard
 BUILDRUN_DEPENDS=	boost-libraries:rest:python_default
+			curl:primary:standard
 			ffmpeg:primary:standard
 			lame:primary:standard
 			libev:single:standard
@@ -33,16 +38,20 @@ BUILDRUN_DEPENDS=	boost-libraries:rest:python_default
 # flac:primary:standard
 # libvorbis:primary:standard
 
-USES=			cmake pkgconfig ssl
+USES=			cmake ncurses pkgconfig ssl
 
 CMAKE_ARGS=		-DLIBSSL={{PREFIX}}/libressl/lib/libssl.so
 			-DLIBCRYPTO={{PREFIX}}/libressl/lib/libcrypto.so
+
+CXXFLAGS=		"-I{{PREFIX}}/libressl/include"
 
 post-patch:
 	${REINPLACE_CMD} -e 's!__PREFIX__!${PREFIX}!g' \
 		-e 's!__SSLVARIANT__!libressl!g' \
 		${PREFIX}/include/asio/ssl/detail/openssl_types.hpp
-	${REINPLACE_CMD} -e 's!openssl/!/${PREFIX}/libressl/include/openssl/!g' \
-		${PREFIX}/libressl/include/openssl/conf.h
-	${REINPLACE_CMD} -e 's!openssl/!/${PREFIX}/libressl/include/openssl/!g' \
-		${PREFIX}/libressl/include/openssl/opensslconf.h
+
+post-install:
+.for f in libmusikcore.so musikcube musikcubed
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/share/musikcube/${f}
+.endfor
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/share/musikcube/plugins/*.so
