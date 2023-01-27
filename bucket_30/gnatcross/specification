@@ -1,11 +1,14 @@
-DEF[PORTVERSION]=	EXTRACT_INFO(GCC9_VERSION)
-DEF[REVISION]=		EXTRACT_INFO(GCC9_GNATCROSS_REVISION)
-DEF[MS_SUBDIR]=		EXTRACT_INFO(GCC9_MS_SUBDIR)
-DEF[IDENTIFICATION]=	EXTRACT_INFO(GCC9_IDENTIFICATION)
-DEF[GCC_VERSION]=	EXTRACT_INFO(GCC9_VERSION)
+DEF[PORTVERSION]=	EXTRACT_INFO(GCC11_VERSION)
+DEF[REVISION]=		EXTRACT_INFO(GCC11_GNATCROSS_REVISION)
+DEF[MS_SUBDIR]=		EXTRACT_INFO(GCC11_MS_SUBDIR)
+DEF[IDENTIFICATION]=	EXTRACT_INFO(GCC11_IDENTIFICATION)
+DEF[GCC_VERSION]=	EXTRACT_INFO(GCC11_VERSION)
 DEF[FREEBSD_11]=	EXTRACT_INFO(GNATCROSS_FREEBSD_11)
 DEF[FREEBSD_12]=	EXTRACT_INFO(GNATCROSS_FREEBSD_12)
 DEF[MIDNIGHTBSD_20]=	11.4
+DEF[DRACO_TAG]=		11.3.0-rev1
+DEF[DRACO_DIR]=		patches-11.3.0
+DEF[DIST_SUBDIR]=	gcc11_${DRACO_TAG}
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		gnatcross
@@ -15,16 +18,23 @@ KEYWORDS=		lang
 VARIANTS=		FARM64_R11 FAMD64_R12 FI386_R12 SOL10 MAMD64_R20 MI386_R20
 SDESC[FARM64_R11]=	C/Ada cross-compiler, target: FreeBSD/ARM64 (R11)
 SDESC[FAMD64_R12]=	C/Ada cross-compiler, target: FreeBSD/AMD64 (R12)
-SDESC[FI386_R12]=	C/Ada cross-compiler, target: FreeBSD/I386 (R12)
+SDESC[FI386_R12]=	C/Ada cross-compiler, target: FreeBSD/I386 (R11)
 SDESC[SOL10]=		C/Ada cross-compiler, target: Solaris 10 (x86-64)
 SDESC[MAMD64_R20]=	C/Ada cross-compiler, tgt: MidnightBSD/AMD64 (R20)
 SDESC[MI386_R20]=	C/Ada cross-compiler, tgt: MidnightBSD/I386 (R20)
 HOMEPAGE=		http://www.dragonlace.net
 CONTACT=		John_Marino[draco@marino.st]
 
-DOWNLOAD_GROUPS=	main
+DOWNLOAD_GROUPS=	main draco
 SITES[main]=		GCC/${MS_SUBDIR}
+SITES[draco]=		https://raw.githubusercontent.com/jrmarino/draco/${DRACO_TAG}/generated/${DRACO_DIR}/
 DISTFILE[1]=		${IDENTIFICATION}.tar.xz:main
+DISTFILE[2]=		patch-diff-ada:draco
+DISTFILE[3]=		patch-diff-core:draco
+DISTFILE[4]=		patch-diff-cxx:draco
+DISTFILE[5]=		patch-diff-ada-testsuite:draco
+DISTFILE[6]=		patch-diff-gcc-testsuite:draco
+DIST_SUBDIR=		${DIST_SUBDIR}
 
 SPKGS[FARM64_R11]=	single
 SPKGS[FAMD64_R12]=	single
@@ -50,13 +60,21 @@ LICENSE_FILE=		GPLv3+:{{WRKSRC}}/COPYING3
 			GPLv3RLE+:{{WRKSRC}}/COPYING.RUNTIME
 LICENSE_SCHEME=		multi
 
+C_USES[freebsd]=	iconv:build
+C_USES[dragonfly]=	iconv:build
+C_USES[darwin]=		iconv:build
+
 BUILD_DEPENDS=		gmp:static:standard
 			mpfr:static:standard
 			mpc:static:standard
 
+PATCHFILES=		2 3 4 5 6
+
 # Do not set MUST_CONFIGURE to gnu (avoid LATE_CONFIGURE_ARGS)
 
-USES=			gmake libtool perl:build zlib:build iconv:build
+USES=			cpe gmake libtool perl:build zlib:build
+CPE_VENDOR=		gnu
+CPE_PRODUCT=		gcc
 MUST_CONFIGURE=		yes
 CONFIGURE_OUTSOURCE=	yes
 CONFIGURE_ARGS=		--enable-languages="c c++ ada fortran"
@@ -69,7 +87,6 @@ CONFIGURE_ARGS=		--enable-languages="c c++ ada fortran"
 			--with-gmp={{LOCALBASE}}
 			--with-mpfr={{LOCALBASE}}
 			--with-mpc={{LOCALBASE}}
-			--with-iconv={{LOCALBASE}}
 			--enable-threads=posix
 			--enable-checking=release
 			--disable-bootstrap
@@ -89,6 +106,10 @@ PLIST_SUB=		GCCVERS="${GCC_VERSION}"
 			TARGET="{{XCCTARGET}}"
 SUB_LIST=		TARGET="{{XCCTARGET}}"
 
+VAR_OPSYS[dragonfly]=	CONFIGURE_ARGS=--with-libiconv-prefix={{WRKDIR}}/fake
+VAR_OPSYS[freebsd]=	CONFIGURE_ARGS=--with-libiconv-prefix={{WRKDIR}}/fake
+BROKEN[linux]=		libcpp won't build properly on FreeBSD hosts or genmatch segfaults
+
 [FARM64R11].DESCRIPTION=		Set target to FreeBSD/ARM64 (Release 11)
 [FARM64R11].BUILDRUN_DEPENDS_ON=	gnatcross-binutils:single:FARM64_R11
 [FARM64R11].MAKEFILE_ON=		OS_LABEL4VERS="[{{OPSYS}}/{{ARCH}} x FreeBSD_11/ARM64]"
@@ -97,7 +118,7 @@ SUB_LIST=		TARGET="{{XCCTARGET}}"
 					XCCTARGET=aarch64-raven-freebsd${FREEBSD_11}
 					TARGET_SPECIFIC=#none
 
-[FAMD64R12].DESCRIPTION=		Set target to FreeBSD/AMD64 (Release 12)
+[FAMD64R12].DESCRIPTION=		Set target to FreeBSD/ARM64 (Release 12)
 [FAMD64R12].BUILDRUN_DEPENDS_ON=	gnatcross-binutils:single:FAMD64_R12
 [FAMD64R12].MAKEFILE_ON=		OS_LABEL4VERS="[{{OPSYS}}/{{ARCH}} x FreeBSD_12/AMD64]"
 					PREFIX={{LOCALBASE}}/FreeBSD12_AMD64
@@ -124,6 +145,7 @@ SUB_LIST=		TARGET="{{XCCTARGET}}"
 					--enable-multilib\
 					--enable-obsolete
 [SOL10].CONFIGURE_ENV_ON=		LD=ld.bfd
+[SOL10].BROKEN_ON=			GCC10+ does not support solaris 10
 
 [MAMD64R20].DESCRIPTION=		Set target to MidnightBSD/AMD64 (Release 2.0)
 [MAMD64R20].BUILDRUN_DEPENDS_ON=	gnatcross-binutils:single:MAMD64_R20
@@ -148,6 +170,14 @@ post-extract:
 	${HEAD} -n 19 ${WRKSRC}/gcc/gcc.h > ${WRKDIR}/TERMS
 	${HEAD} -n 31 ${WRKSRC}/gcc/ada/adaint.h >> ${WRKDIR}/TERMS
 	${HEAD} -n 18 ${WRKSRC}/libiberty/hex.c >> ${WRKDIR}/TERMS
+	# Use iconv_pic.a instead of iconv.a
+	if [ -f ${LOCALBASE}/include/iconv.h ]; then \
+	${MKDIR} ${WRKDIR}/fake/include ${WRKDIR}/fake/lib ;\
+	${INSTALL_DATA} ${LOCALBASE}/include/iconv.h \
+		${WRKDIR}/fake/include/ ;\
+	${INSTALL_DATA} ${LOCALBASE}/lib/libiconv_pic.a \
+		${WRKDIR}/fake/lib/libiconv.a ;\
+	fi
 
 post-patch:
 	# Update LINK_SPEC to add gcc-aux lib runpath in every binary
@@ -187,15 +217,12 @@ post-patch-SOL10-ON:
 	${MV} ${WRKSRC}/gcc/ada/libgnat/g-socthi.ads.orig \
 		${WRKSRC}/gcc/ada/libgnat/g-socthi.ads
 
-post-patch-MAMD64R20-ON:
-	# work around malloc detection issue
-	${REINPLACE_CMD} -e 's/#undef HAVE_ALIGNED_ALLOC/#define HAVE_ALIGNED_ALLOC 1/' \
-		${WRKSRC}/libstdc++-v3/config.h.in
-
-post-patch-MI386R20-ON:
-	# work around malloc detection issue
-	${REINPLACE_CMD} -e 's/#undef HAVE_ALIGNED_ALLOC/#define HAVE_ALIGNED_ALLOC 1/' \
-		${WRKSRC}/libstdc++-v3/config.h.in
+post-patch-linux:
+	# libcpp won't link with libc's iconv functions properly
+	# so remove iconv capability on linux-based cross compiler
+	${MV} ${WRKSRC}/libcpp/charset.c ${WRKSRC}/libcpp/charset.c.orig
+	${ECHO} "#define LIBICONV_PLUG 1" > ${WRKSRC}/libcpp/charset.c
+	${CAT} ${WRKSRC}/libcpp/charset.c.orig >> ${WRKSRC}/libcpp/charset.c
 
 do-install:
 	# Buggy makefile; seems to have forgotten this is a cross compiler
