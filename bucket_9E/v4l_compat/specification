@@ -1,0 +1,92 @@
+DEF[PORTVERSION]=	EXTRACT_INFO(LINUX_KERNEL_MAJORMIN)
+DEF[HEADERS_MAIN]=	cec cec-funcs const ivtv lirc media media-bus-format v4l2-common v4l2-controls v4l2-mediabus v4l2-subdev videodev2
+DEF[HEADERS_DVB]=	audio ca dmx frontend net osd version video
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		v4l_compat
+VERSION=		${PORTVERSION}
+KEYWORDS=		multimedia
+VARIANTS=		standard
+SDESC[standard]=	Input event device header files
+HOMEPAGE=		https://github.com/torvalds/linux/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main dvb licenses_pref licenses_except
+SITES[main]=		https://github.com/torvalds/linux/raw/v${PORTVERSION}/include/uapi/linux/
+SITES[dvb]=		https://github.com/torvalds/linux/raw/v${PORTVERSION}/include/uapi/linux/dvb/
+SITES[licenses_pref]=	https://github.com/torvalds/linux/raw/v${PORTVERSION}/LICENSES/preferred/
+SITES[licenses_except]=	https://github.com/torvalds/linux/raw/v${PORTVERSION}/LICENSES/exceptions/
+DISTFILE[1]=		cec.h:main
+DISTFILE[2]=		cec-funcs.h:main
+DISTFILE[3]=		const.h:main
+DISTFILE[4]=		ivtv.h:main
+DISTFILE[5]=		lirc.h:main
+DISTFILE[6]=		media.h:main
+DISTFILE[7]=		media-bus-format.h:main
+DISTFILE[8]=		v4l2-common.h:main
+DISTFILE[9]=		v4l2-controls.h:main
+DISTFILE[10]=		v4l2-mediabus.h:main
+DISTFILE[11]=		v4l2-subdev.h:main
+DISTFILE[12]=		videodev2.h:main
+DISTFILE[13]=		audio.h:dvb
+DISTFILE[14]=		ca.h:dvb
+DISTFILE[15]=		dmx.h:dvb
+DISTFILE[16]=		frontend.h:dvb
+DISTFILE[17]=		net.h:dvb
+DISTFILE[18]=		osd.h:dvb
+DISTFILE[19]=		version.h:dvb
+DISTFILE[20]=		video.h:dvb
+DISTFILE[21]=		BSD-3-Clause:licenses_pref
+DISTFILE[22]=		GPL-2.0:licenses_pref
+DISTFILE[23]=		LGPL-2.1:licenses_pref
+DISTFILE[24]=		Linux-syscall-note:licenses_except
+DIST_SUBDIR=		v4l_compat-${PORTVERSION}
+DF_INDEX=		1 2 3 4 5 6 7 8 9 10
+			11 12 13 14 15 16 17 18 19 20
+			21 22 23 24
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		BSD3CLAUSE:single
+			CUSTOM1:single
+			CUSTOM2:single
+LICENSE_NAME=		CUSTOM1:"GPL-2.0 WITH Linux-syscall-note"
+			CUSTOM2:"LGPL-2.1+ WITH Linux-syscall-note"
+LICENSE_FILE=		BSD3CLAUSE:{{DISTDIR}}/v4l_compat-${PORTVERSION}/BSD-3-Clause
+			CUSTOM1:{{WRKDIR}}/GPLv2-syscall
+			CUSTOM2:{{WRKDIR}}/LGPL21+-syscall
+LICENSE_TERMS=		single:{{WRKDIR}}/TERMS
+LICENSE_SCHEME=		multi
+
+FPC_EQUIVALENT=		multimedia/v4l_compat
+
+USES=			cpe
+CPE_VENDOR=		linux
+CPE_PRODUCT=		linux_kernel
+ONLY_FOR_OPSYS=		freebsd
+SKIP_BUILD=		yes
+
+do-extract:
+	(cd ${DISTDIR}/v4l_compat-${PORTVERSION} && \
+		${CAT} GPL-2.0 Linux-syscall-note > ${WRKDIR}/GPLv2-syscall && \
+		${CAT} LGPL-2.1 Linux-syscall-note > ${WRKDIR}/LGPL21+-syscall && \
+		${ECHO} "Terms extracted from 'audio.h':" > ${WRKDIR}/TERMS && \
+		${AWK} '1;/^$$/{exit}' audio.h >> ${WRKDIR}/TERMS && \
+		${ECHO} "Terms extracted from 'cec.h':" >> ${WRKDIR}/TERMS && \
+		${AWK} '1;/^$$/{exit}' cec.h >> ${WRKDIR}/TERMS)
+
+do-install:
+	${MKDIR} ${STAGEDIR}${PREFIX}/include/linux/dvb
+.for h in ${HEADERS_MAIN}
+	${INSTALL_DATA} ${DISTDIR}/v4l_compat-${PORTVERSION}/${h}.h \
+		${STAGEDIR}${PREFIX}/include/linux/
+.endfor
+.for h in ${HEADERS_DVB}
+	${INSTALL_DATA} ${DISTDIR}/v4l_compat-${PORTVERSION}/${h}.h \
+		${STAGEDIR}${PREFIX}/include/linux/dvb/
+.endfor
+	${INSTALL_DATA} ${FILESDIR}/types.h ${STAGEDIR}${PREFIX}/include/linux/
+	${INSTALL_DATA} ${FILESDIR}/videodev.h ${STAGEDIR}${PREFIX}/include/linux/
