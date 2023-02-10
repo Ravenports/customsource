@@ -1,4 +1,4 @@
-DEF[PORTVERSION]=	1.18.0-1
+DEF[PORTVERSION]=	1.18.3-1
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		forgejo
@@ -9,19 +9,37 @@ SDESC[standard]=	Painless, self-hosted Git service (GitHub-like)
 HOMEPAGE=		https://forgejo.org/
 CONTACT=		Michael_Reim[kraileth@elderlinux.org]
 
-DOWNLOAD_GROUPS=	main
+DOWNLOAD_GROUPS=	main bundles
 SITES[main]=		https://codeberg.org/forgejo/forgejo/archive/
+SITES[bundles]=		https://leaf.dragonflybsd.org/~marino/go_bundles/
 DISTFILE[1]=		v${PORTVERSION}.tar.gz:main
+DISTFILE[2]=		forgejo-vendor-${PORTVERSION}.tar.gz:bundles
+DIST_SUBDIR=		forgejo
+DF_INDEX=		1 2
 
 SPKGS[standard]=	single
 
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
 
+LICENSE=		MIT:single
+LICENSE_FILE=		MIT:{{WRKSRC}}/LICENSE
+LICENSE_SCHEME=		solo
+
 BUILD_DEPENDS=		golang:single:standard
-			nodejs:primary:standard
-			npm:single:standard
-RUN_DEPENDS=		git:primary:standard
 
 USES=			gmake
 DISTNAME=		forgejo
+MAKE_ENV=		GOFLAGS="-mod=vendor"
+			GOBIN="{{WRKDIR}}/bin"
+INSTALL_REQ_TOOLCHAIN=	yes
+
+post-extract:
+	(cd ${WRKSRC} && ${LN} -s ../vendor vendor)
+
+do-build:
+	(cd ${WRKSRC} && \
+	${SETENV} ${MAKE_ENV} go build . )
+
+post-install:
+	${INSTALL_PROGRAM} ${WRKDIR}/bin/gitea ${STAGEDIR}${PREFIX}/bin
