@@ -1,0 +1,4 @@
+lib/libobjc.a
+lib/libobjc.so
+lib/libobjc.so.%%OBJC%%
+lib/libobjc.so.%%OBJC_MAJOR%%
