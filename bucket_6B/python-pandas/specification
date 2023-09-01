@@ -1,0 +1,81 @@
+# manually maintained, it's required definition doesn't register with auto
+# generated anymore
+DEF[PORTVERSION]=	2.1.0
+# ------------------------------------------------------------------------
+
+NAMEBASE=		python-pandas
+VERSION=		${PORTVERSION}
+KEYWORDS=		python
+VARIANTS=		py310 v11
+SDESC[py310]=		Data structures for time series, statistics (3.10)
+SDESC[v11]=		Data structures for time series, statistics (3.11)
+HOMEPAGE=		https://pandas.pydata.org
+CONTACT=		Python_Automaton[python@ironwolf.systems]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		PYPI/p/pandas
+DISTFILE[1]=		pandas-${PORTVERSION}.tar.gz:main
+
+SPKGS[py310]=		single
+SPKGS[v11]=		single
+
+OPTIONS_AVAILABLE=	PY310 PY311
+OPTIONS_STANDARD=	none
+VOPTS[py310]=		PY310=ON PY311=OFF
+VOPTS[v11]=		PY310=OFF PY311=ON
+
+# License listed at PyPI
+# BSD 3-Clause License  Copyright (c) 2008-2011, AQR Capital Management,
+# LLC, Lambda Foundry, Inc. and PyData Development Team All rights
+# reserved.  Copyright (c) 2011-2023, Open source contributors.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:  * Redistributions of source code must retain the above copyright
+# notice, this list of conditions and the following disclaimer.  *
+# Redistributions in binary form must reproduce the above copyright
+# notice, this list of conditions and the following disclaimer in the
+# documentation and/or other materials provided with the distribution.
+# * Neither the name of the copyright holder nor the names of its
+# contributors may be used to endorse or promote products derived from
+# this software without specific prior written permission.  THIS
+# SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+GENERATED=		yes
+DISTNAME=		pandas-${PORTVERSION}
+
+# install_requires extracted from setup.py
+# "meson-python==0.13.1",
+# "meson==1.0.1",
+# "wheel",
+# "Cython>=0.29.33,<3",  # Note: sync with setup.py, environment.yml and asv.conf.json
+# # Note: numpy 1.25 has a backwards compatible C API by default
+# # we don't want to force users to compile with 1.25 though
+# # (Ideally, in the future, though, oldest-supported-numpy can be dropped when our min numpy is 1.25.x)
+# "oldest-supported-numpy>=2022.8.16; python_version<'3.12'",
+# "numpy>=1.22.4; python_version>='3.12'",
+# "versioneer[toml]"
+
+[PY310].USES_ON=			python:py310,wheel
+[PY310].BUILDRUN_DEPENDS_ON=		python-numpy:single:py310
+					python-versioneer:single:py310
+					python-meson-python:single:py310
+
+[PY311].USES_ON=			python:v11,wheel
+[PY311].BUILDRUN_DEPENDS_ON=		python-numpy:single:v11
+					python-versioneer:single:v11
+					python-meson-python:single:v11
+
+USES=			cpe c++:single
+CPE_VENDOR=		numfocus
+CPE_PRODUCT=		pandas
+BUILD_DEPENDS=		python-Cython:single:python_used
