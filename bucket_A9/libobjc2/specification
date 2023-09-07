@@ -1,0 +1,34 @@
+DEF[PORTVERSION]=	2.1
+DEF[TESSIL_HASH]=	757de82
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		libobjc2
+VERSION=		${PORTVERSION}
+KEYWORDS=		lang devel
+VARIANTS=		standard
+SDESC[standard]=	Replacement Obj-C runtime for modern lang features
+HOMEPAGE=		https://github.com/gnustep/libobjc2/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main tessil
+SITES[main]=		GITHUB/gnustep:libobjc2:v${PORTVERSION}
+SITES[tessil]=		GITHUB/Tessil:robin-map:${TESSIL_HASH}
+DISTFILE[1]=		generated:main
+DISTFILE[2]=		generated:tessil
+DIST_SUBDIR=		libobjc2
+DF_INDEX=		1 2
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		lang/libobjc2
+
+USES=			clang cmake
+
+LDFLAGS=		-lm
+CMAKE_ARGS=		-DLIB_INSTALL_PATH=lib
+
+post-extract:
+	${MV} ${WRKDIR}/robin-map-${TESSIL_HASH}/* ${WRKSRC}/third_party/robin-map
