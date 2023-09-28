@@ -1,0 +1,53 @@
+DEF[PORTVERSION]=	2.9.1
+# Bootstrap variant is required to work around a mutual dependency with libobjc2.
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		gnustep-make
+VERSION=		${PORTVERSION}
+KEYWORDS=		devel
+VARIANTS=		standard bootstrap
+SDESC[standard]=	GNUstep Makefile package
+SDESC[bootstrap]=	GNUstep Makefile package w/o objc support
+HOMEPAGE=		https://gnustep.github.io/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://github.com/gnustep/tools-make/archive/refs/tags/
+DISTFILE[1]=		make-${PORTVERSION:S/./_/g}.tar.gz:main
+
+SPKGS[standard]=	complete primary man
+SPKGS[bootstrap]=	complete primary man
+
+OPTIONS_AVAILABLE=	OBJC
+OPTIONS_STANDARD=	OBJC
+VOPTS[bootstrap]=	OBJC=OFF
+
+FPC_EQUIVALENT=		devel/gnustep-make
+
+LICENSE=		GPLv3+:primary
+LICENSE_FILE=		GPLv3+:{{WRKSRC}}/COPYING
+LICENSE_TERMS=		primary:{{WRKDIR}}/TERMS
+LICENSE_SOURCE=		TERMS:{{WRKSRC}}/Master/tool.make
+LICENSE_AWK=		TERMS:"^$$"
+LICENSE_SCHEME=		solo
+
+USES=			clang gmake pkgconfig shebangfix
+SHEBANG_FILES=		bake_debian_files.sh
+
+MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--with-layout=fhs
+
+DISTNAME=		tools-make-make-${PORTVERSION:S/./_/g}
+MAKEFILE=		GNUmakefile
+CONFIGURE_ENV=		INSTALL_PROGRAM="install -c"
+			INSTALL_DATA="install -c"
+
+[OBJC].DESCRIPTION=			Build with Objective-C support
+[OBJC].BUILDRUN_DEPENDS_ON=		libobjc2:primary:standard
+[OBJC].BUILD_DEPENDS_ON=		libobjc2:dev:standard
+
+[OBJC].MAKE_ARGS_ON=			--with-thread-lib=-pthread
+					--with-config-file={{PREFIX}}/etc/GNUstep/GNUstep.conf
+					--enable-objc-nonfragile-abi
+					--enable-native-objc-exceptions
+					--with-library-combo=ng-gnu-gnu
