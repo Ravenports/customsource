@@ -1,0 +1,42 @@
+DEF[PORTVERSION]=	0.8
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		avahi
+VERSION=		${PORTVERSION}
+KEYWORDS=		net
+VARIANTS=		standard
+SDESC[standard]=	Service Discovery using mDNS/DNS-SD
+HOMEPAGE=		https://www.avahi.org/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://avahi.org/download/
+DISTFILE[1]=		avahi-${PORTVERSION}.tar.gz:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		net/avahi
+
+MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--disable-mono
+			--disable-qt5
+			--disable-python
+
+BUILD_DEPENDS=		dbus:dev:standard
+			expat:dev:standard
+			gdbm:dev:standard
+			libdaemon:dev:standard
+			libevent:dev:standard
+			harfbuzz:dev:standard
+BUILDRUN_DEPENDS=	dbus:primary:standard
+			expat:primary:standard
+			gdbm:primary:standard
+			libdaemon:primary:standard
+			libevent:primary:standard
+			python-PyGObject:single:python_used
+
+USES=			gettext gmake pkgconfig
+GNOME_COMPONENTS=	glib gtk3
