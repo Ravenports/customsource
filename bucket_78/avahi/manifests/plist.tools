@@ -17,3 +17,4 @@ etc/rc.d/avahi-daemon
 etc/rc.d/avahi-dnsconfd
 sbin/avahi-daemon
 sbin/avahi-dnsconfd
+@dir lib/avahi
