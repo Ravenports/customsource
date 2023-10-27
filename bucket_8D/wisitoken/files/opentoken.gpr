@@ -1,7 +1,0 @@
-project WisiToken is
-   for Languages use ("ada");
-   for Library_Name use "wisitoken";
-   for Source_Dirs use ("../../include/wisitoken");
-   for Library_Dir use  "../../lib/wisitoken";
-   for Externally_Built use "true";
-end WisiToken;
