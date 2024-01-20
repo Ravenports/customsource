@@ -1,0 +1,8 @@
+bin/warfork
+share/warfork/basewf/libcgame.so
+share/warfork/libs/libcin.so
+share/warfork/libs/libftlib.so
+share/warfork/libs/libref_gl.so
+share/warfork/libs/libsnd_openal.so
+share/warfork/libs/libsteamlib.so
+share/warfork/libs/libui.so
