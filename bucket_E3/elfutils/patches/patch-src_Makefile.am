@@ -1,0 +1,11 @@
+--- src/Makefile.am.orig	2024-04-05 12:38:15.509707000 +0200
++++ src/Makefile.am	2024-04-05 12:38:37.598610000 +0200
+@@ -41,7 +41,7 @@
+ 
+ if BUILD_STATIC
+ libasm = ../libasm/libasm.a
+-libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) -ldl -lpthread
++libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) -lpthread
+ libelf = ../libelf/libelf.a -lz $(zstd_LIBS)
+ if LIBDEBUGINFOD
+ libdebuginfod = ../debuginfod/libdebuginfod.a -lpthread $(libcurl_LIBS)

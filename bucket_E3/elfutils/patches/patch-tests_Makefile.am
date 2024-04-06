@@ -1,0 +1,11 @@
+--- tests/Makefile.am.orig	2024-04-05 12:41:37.698093000 +0200
++++ tests/Makefile.am	2024-04-05 12:43:24.991343000 +0200
+@@ -690,7 +690,7 @@
+ 		LOG_COMPILER="$(installed_LOG_COMPILER)" check-TESTS
+ 
+ if BUILD_STATIC
+-libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) $(libebl) -ldl -lpthread
++libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) $(libebl) -lpthread
+ libelf = ../libelf/libelf.a -lz $(zstd_LIBS)
+ libasm = ../libasm/libasm.a
+ else

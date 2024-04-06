@@ -1,0 +1,54 @@
+DEF[PORTVERSION]=	0.191
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		elfutils
+VERSION=		${PORTVERSION}
+KEYWORDS=		devel
+VARIANTS=		standard
+SDESC[standard]=	Tools and libraries to work with ELF files
+HOMEPAGE=		https://sourceware.org/elfutils/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://sourceware.org/elfutils/ftp/${PORTVERSION}/
+DISTFILE[1]=		elfutils-${PORTVERSION}.tar.bz2:main
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		devel/elfutils
+
+BUILD_DEPENDS=		argp-standalone:dev:standard
+			bzip2:dev:standard
+			curl:dev:standard
+			gnulib:single:standard
+			libarchive:dev:standard
+			libmicrohttpd:dev:standard
+			xz:dev:standard
+BUILDRUN_DEPENDS=	argp-standalone:primary:standard
+			bzip2:primary:standard
+			curl:primary:standard
+			libmicrohttpd:primary:standard
+			libarchive:primary:standard
+			xz:primary:standard
+
+USES=			autoreconf bison gettext gmake iconv pkgconfig
+			sqlite ssl zlib zstd
+
+MUST_CONFIGURE=		gnu
+
+CFLAGS=			-I{{PREFIX}}/share/gnulib/lib
+			-DFREEBSD_HAS_MEMPCPY
+			-Wno-error
+			-Wno-format-nonliteral
+			-Wno-null-dereference
+			-Wno-unused-value
+
+pre-configure:
+	${CP} ${PREFIX}/share/gnulib/lib/obstack.c \
+		${PREFIX}/share/gnulib/lib/obstack_printf.c \
+		${WRKSRC}/lib
+	${CP}	${PREFIX}/share/gnulib/lib/obstack.in.h \
+		${WRKSRC}/lib/obstack.h
