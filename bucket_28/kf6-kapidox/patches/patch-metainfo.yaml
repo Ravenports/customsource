@@ -1,0 +1,12 @@
+--- metainfo.yaml.orig	2024-04-05 10:54:33 UTC
++++ metainfo.yaml
+@@ -7,6 +7,9 @@ type: functional
+ platforms:
+     - name: Linux
+     - name: FreeBSD
++    - name: DragonFly
++    - name: NetBSD
++    - name: MidnightBSD
+     - name: Windows
+     - name: macOS
+ portingAid: false

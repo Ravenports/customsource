@@ -1,0 +1,50 @@
+DEF[PORTVERSION]=	EXTRACT_INFO(KDE6_FRAMEWORKS_VERSION)
+DEF[KF6_COMPONENT]=	kapidox
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		kf6-${KF6_COMPONENT}
+VERSION=		${PORTVERSION}
+KEYWORDS=		devel
+VARIANTS=		standard
+SDESC[standard]=	KF6 scripts & data for building API documentation
+HOMEPAGE=		https://api.kde.org/frameworks/${KF6_COMPONENT}/html/index.html
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://download.kde.org/stable/frameworks/${PORTVERSION:R}/
+DISTFILE[1]=		${KF6_COMPONENT}-${PORTVERSION}.tar.xz:main
+DIST_SUBDIR=		kde6
+
+SPKGS[standard]=	complete primary dev nls
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		BSD2CLAUSE:primary
+			LGPL3+:primary
+LICENSE_FILE=		BSD2CLAUSE:{{WRKSRC}}/LICENSES/BSD-2-Clause.txt
+			LGPL3+:{{WRKSRC}}/LICENSES/LGPL-3.0-or-later.txt
+LICENSE_TERMS=		primary:{{WRKDIR}}/TERMS
+LICENSE_SCHEME=		multi
+
+FPC_EQUIVALENT=		devel/kf6-${KF6_COMPONENT}
+
+BUILD_DEPENDS=		kf6-extra-cmake-modules:primary:standard
+			qt6-qtbase:dev:standard
+BUILDRUN_DEPENDS=	kf6-kconfig:primary:standard
+			qt6-qtbase:primary:standard
+
+USES=			cmake
+
+DISTNAME=		${KF6_COMPONENT}-${PORTVERSION}
+CMAKE_ARGS=		-DCMAKE_PREFIX_PATH:PATH={{PREFIX}}/lib/qt6/cmake
+SOVERSION=		${PORTVERSION}
+
+post-extract:
+	${ECHO} "Terms extracted from 'kapidox/depdiagram/framework.py':" > ${WRKDIR}/TERMS
+	${SED} -n '/from/!p;//q' ${WRKSRC}/kapidox/depdiagram/framework.py >> ${WRKDIR}/TERMS
+	${ECHO} "Terms extracted from 'kapidox/data/htmlresource/css/customdoxygen.css':" > ${WRKDIR}/TERMS
+	${SED} -n '/root/!p;//q' ${WRKSRC}/kapidox/data/htmlresource/css/customdoxygen.css >> ${WRKDIR}/TERMS
+
+# post-stage:
+# ${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libKF6JobWidgets.so
