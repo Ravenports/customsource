@@ -8,6 +8,7 @@ share/gdb%%VER%%/python/gdb/disassembler.py
 share/gdb%%VER%%/python/gdb/frames.py
 share/gdb%%VER%%/python/gdb/printing.py
 share/gdb%%VER%%/python/gdb/prompt.py
+share/gdb%%VER%%/python/gdb/styling.py
 share/gdb%%VER%%/python/gdb/types.py
 share/gdb%%VER%%/python/gdb/unwinder.py
 share/gdb%%VER%%/python/gdb/xmethod.py
