@@ -1,0 +1,33 @@
+DEF[PORTVERSION]=	1.29.0
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		gnustep-base
+VERSION=		${PORTVERSION}
+KEYWORDS=		lang
+VARIANTS=		standard
+SDESC[standard]=	GNUstep Base Library
+HOMEPAGE=		https://github.com/gnustep/libs-base/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		ftp://ftp.gnustep.org/pub/gnustep/core/
+DISTFILE[1]=		gnustep-base-1.29.0.tar.gz:main
+DIST_SUBDIR=		gnustep
+
+SPKGS[standard]=	single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		lang/gnustep-base
+
+BUILD_DEPENDS=		gnustep-make:primary:standard
+			libobjc2:dev:standard
+BUILDRUN_DEPENDS=	libobjc2:primary:standard
+USES=			clang gold pkgconfig
+
+MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--with-installation-domain=SYSTEM
+			--disable-procfs
+CONFIGURE_ENV=		OBJCFLAGS='-fobjc-runtime=gnustep-2.0 -fblocks'
+			ac_cv_header_bfd_h=no ac_cv_lib_bfd_bfd_openr=no
