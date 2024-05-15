@@ -53,6 +53,7 @@ CONFIGURE_ENV=		ac_cv_header_bfd_h=no
 			LIBS=-lobjc
 			OBJCFLAGS='-fobjc-runtime=gnustep-2.0 -fblocks'
 SOVERSION=		${SOVERSION}
+PLIST_SUB=		SOMAJMIN=${SOVERSION:R}
 
 # see special.mk.  That code needs to be in USES=gnustep extension
 MAKEFILE=		GNUmakefile
