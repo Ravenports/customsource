@@ -1,5 +1,6 @@
 DEF[PORTVERSION]=	1.29.0
 DEF[FOLDER]=		base-${PORTVERSION:S/./_/g}
+DEF[SOVERSION]=		${PORTVERSION}
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		gnustep-base
@@ -18,7 +19,7 @@ DISTFILE[2]=		37913d006d96a6bdcb963f4ca4889888dcce6094.patch:patchsite
 DIST_SUBDIR=		gnustep
 DF_INDEX=		1 2
 
-SPKGS[standard]=	single
+SPKGS[standard]=	complete primary tools dev man
 
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
@@ -37,6 +38,8 @@ BUILDRUN_DEPENDS=	libobjc2:primary:standard
 			libffi:primary:standard
 			curl:primary:standard
 
+EXRUN[tools]=		primary
+
 USES=			clang pkgconfig gmake iconv
 GNOME_COMPONENTS=	libxml2 libxslt
 MUST_CONFIGURE=		gnu
@@ -45,8 +48,16 @@ CONFIGURE_ARGS=		--with-installation-domain=SYSTEM
 			--disable-zeroconf
 			--disable-tls
 			--disable-icu
-CONFIGURE_ENV=		OBJCFLAGS='-fobjc-runtime=gnustep-2.0 -fblocks'
-			ac_cv_header_bfd_h=no ac_cv_lib_bfd_bfd_openr=no
+CONFIGURE_ENV=		ac_cv_header_bfd_h=no
+			ac_cv_lib_bfd_bfd_openr=no
+			LIBS=-lobjc
+			OBJCFLAGS='-fobjc-runtime=gnustep-2.0 -fblocks'
+SOVERSION=		${SOVERSION}
 
 # see special.mk.  That code needs to be in USES=gnustep extension
 MAKEFILE=		GNUmakefile
+
+post-install:
+	${INSTALL_DATA} ${FILESDIR}/gdomap_if ${STAGEDIR}${PREFIX}/etc/gdomap_if
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/*
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libgnustep-base.so

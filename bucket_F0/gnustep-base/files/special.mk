@@ -1,3 +1,4 @@
+CPP=	clang-cpp
 # pulled from FreeBSD's gnustep extension
 
 #GNUSTEP_PREFIX?=		${LOCALBASE}/GNUstep

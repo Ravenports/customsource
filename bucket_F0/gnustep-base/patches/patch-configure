@@ -9,12 +9,3 @@
      *sysv*)	enable_fake_main=yes;;
    esac
  fi
-@@ -11367,7 +11369,7 @@ $as_echo "#define USE_LIBFFI 1" >>confde
-   else
-     ffi_LIBS=-lffi
-   fi
--  LIBS="$ffi_LIBS $LIBS"
-+  LIBS="$ffi_LIBS -lobjc $LIBS"
-   if test "$cross_compiling" = yes; then :
-   ffi_ok="$cross_ffi_ok"
- else
