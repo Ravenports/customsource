@@ -1,4 +1,5 @@
 DEF[PORTVERSION]=	1.29.0
+DEF[FOLDER]=		base-${PORTVERSION:S/./_/g}
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		gnustep-base
@@ -9,10 +10,13 @@ SDESC[standard]=	GNUstep Base Library
 HOMEPAGE=		https://github.com/gnustep/libs-base/
 CONTACT=		Michael_Reim[kraileth@elderlinux.org]
 
-DOWNLOAD_GROUPS=	main
-SITES[main]=		ftp://ftp.gnustep.org/pub/gnustep/core/
+DOWNLOAD_GROUPS=	main patchsite
+SITES[main]=		https://github.com/gnustep/libs-base/releases/download/${FOLDER}/
+SITES[patchsite]=	https://github.com/gnustep/libs-base/commit/
 DISTFILE[1]=		gnustep-base-1.29.0.tar.gz:main
+DISTFILE[2]=		37913d006d96a6bdcb963f4ca4889888dcce6094.patch:patchsite
 DIST_SUBDIR=		gnustep
+DF_INDEX=		1 2
 
 SPKGS[standard]=	single
 
@@ -21,13 +25,28 @@ OPTIONS_STANDARD=	none
 
 FPC_EQUIVALENT=		lang/gnustep-base
 
+EXTRACT_ONLY=		1
+PATCHFILES=		2
+PATCHFILES_STRIP=	-p1
+
 BUILD_DEPENDS=		gnustep-make:primary:standard
 			libobjc2:dev:standard
+			libffi:dev:standard
+			curl:dev:standard
 BUILDRUN_DEPENDS=	libobjc2:primary:standard
-USES=			clang gold pkgconfig
+			libffi:primary:standard
+			curl:primary:standard
 
+USES=			clang pkgconfig gmake iconv
+GNOME_COMPONENTS=	libxml2 libxslt
 MUST_CONFIGURE=		gnu
 CONFIGURE_ARGS=		--with-installation-domain=SYSTEM
 			--disable-procfs
+			--disable-zeroconf
+			--disable-tls
+			--disable-icu
 CONFIGURE_ENV=		OBJCFLAGS='-fobjc-runtime=gnustep-2.0 -fblocks'
 			ac_cv_header_bfd_h=no ac_cv_lib_bfd_bfd_openr=no
+
+# see special.mk.  That code needs to be in USES=gnustep extension
+MAKEFILE=		GNUmakefile
