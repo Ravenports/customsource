@@ -13,12 +13,12 @@ DOWNLOAD_GROUPS=	main
 SITES[main]=		GITHUB/clangen:musikcube:${PORTVERSION}
 DISTFILE[1]=		generated:main
 
-SPKGS[std]=		single
+SPKGS[std]=		set primary dev
 
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
 
-LICENSE=		BSD3CLAUSE:single
+LICENSE=		BSD3CLAUSE:primary
 LICENSE_FILE=		BSD3CLAUSE:{{WRKSRC}}/LICENSE.txt
 LICENSE_SCHEME=		solo
 
@@ -38,21 +38,15 @@ BUILDRUN_DEPENDS=	curl:primary:std
 			libmicrohttpd:primary:std
 			taglib:primary:std
 
-# USES=			cmake ncurses pkgconfig ssl:openssl30 zlib
 USES=			cmake ncurses pkgconfig ssl zlib
 
+CXXFLAGS=		-I{{OPENSSLINC}}
 CMAKE_ARGS=		-DCMAKE_INSTALL_PREFIX:PATH={{PREFIX}}
 			-DDISABLE_WIDE_NCURSES_LIB_SUFFIXES=true
 			-DLIBSSL={{PREFIX}}/libressl/lib/libssl.so
 			-DLIBCRYPTO={{PREFIX}}/libressl/lib/libcrypto.so
-# -DOPENSSL_ROOT_DIR={{OPENSSLBASE}}
-# -DOPENSSL_LIBRARIES={{OPENSSLBASE}}/lib
 
-post-patch:
-	${REINPLACE_CMD} 's|__OPENSSLLIB__|${OPENSSLLIB}|g' \
-		${WRKSRC}/CMakeLists.txt
-	${REINPLACE_CMD} -e 's!__PREFIX__!${PREFIX}!g' \
-		-e 's!__SSLVARIANT__!libressl!g' \
-		${PREFIX}/include/asio/ssl/detail/openssl_types.hpp
-# #	${REINPLACE_CMD} 's|openssl/|${OPENSSLINC}/openssl/|g' \
-# #		${PREFIX}/include/asio/ssl/detail/openssl_types.hpp
+post-install:
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/share/musikcube/libmusikcore.so
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/share/musikcube/plugins/*.so
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/share/musikcube/musikcube*
