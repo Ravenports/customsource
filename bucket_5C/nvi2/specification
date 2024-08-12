@@ -5,8 +5,8 @@ DEF[RELEASE_TAG]=	v${PORTVERSION}
 NAMEBASE=		nvi2
 VERSION=		${PORTVERSION}
 KEYWORDS=		editors
-VARIANTS=		standard
-SDESC[standard]=	Updated implementation of the ex/vi text editor
+VARIANTS=		std
+SDESC[std]=		Updated implementation of the ex/vi text editor
 HOMEPAGE=		https://github.com/lichray/nvi2/
 CONTACT=		nobody
 
@@ -14,7 +14,7 @@ DOWNLOAD_GROUPS=	main
 SITES[main]=		GITHUB/lichray:nvi2:${RELEASE_TAG}
 DISTFILE[1]=		generated:main
 
-SPKGS[standard]=	complete primary man
+SPKGS[std]=		set primary man
 
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
@@ -25,7 +25,7 @@ LICENSE_SCHEME=		solo
 
 FPC_EQUIVALENT=		editors/nvi2
 
-BUILD_DEPENDS=		db4:dev:standard
+BUILD_DEPENDS=		db4:dev:std
 
 BROKEN[all]=		db4 1.85 compat mode doesn't support bfname
 

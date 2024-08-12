@@ -5,8 +5,8 @@ DEF[SOVERSION]=		1.6.3
 NAMEBASE=		eudev
 VERSION=		${PORTVERSION}
 KEYWORDS=		sysutils
-VARIANTS=		standard
-SDESC[standard]=	Init system agnostic device manager for Linux
+VARIANTS=		std
+SDESC[std]=		Init system agnostic device manager for Linux
 HOMEPAGE=		https://github.com/eudev-project/eudev
 CONTACT=		Michael_Reim[kraileth@elderlinux.org]
 
@@ -14,7 +14,7 @@ DOWNLOAD_GROUPS=	main
 SITES[main]=		GITHUB/eudev-project:eudev:v${PORTVERSION}
 DISTFILE[1]=		generated:main
 
-SPKGS[standard]=	single
+SPKGS[std]=		single
 
 OPTIONS_AVAILABLE=	none
 OPTIONS_STANDARD=	none
@@ -29,8 +29,8 @@ LICENSE_SOURCE=		TERMS:{{WRKSRC}}/src/udev/udev.h
 LICENSE_SCHEME=		multi
 
 USES=			autoreconf libtool pkgconfig
-BUILD_DEPENDS=		gperf:primary:standard
-			linux-api-headers:single:standard
+BUILD_DEPENDS=		gperf:primary:std
+			linux-api-headers:single:std
 
 MUST_CONFIGURE=		gnu
 
