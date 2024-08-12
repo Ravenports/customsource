@@ -1,0 +1,58 @@
+DEF[PORTVERSION]=	3.0.4
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		musikcube
+VERSION=		${PORTVERSION}
+KEYWORDS=		multimedia audio
+VARIANTS=		std
+SDESC[std]=		Terminal-based music player, server & more
+HOMEPAGE=		https://musikcube.com/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		GITHUB/clangen:musikcube:${PORTVERSION}
+DISTFILE[1]=		generated:main
+
+SPKGS[std]=		single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		BSD3CLAUSE:single
+LICENSE_FILE=		BSD3CLAUSE:{{WRKSRC}}/LICENSE.txt
+LICENSE_SCHEME=		solo
+
+FPC_EQUIVALENT=		multimedia/musikcube
+
+BUILD_DEPENDS=		asio:single:std
+			curl:dev:std
+			ffmpeg6:dev:std
+			lame:dev:std
+			libev:dev:std
+			libmicrohttpd:dev:std
+			taglib:dev:std
+BUILDRUN_DEPENDS=	curl:primary:std
+			lame:primary:std
+			libev:primary:std
+			ffmpeg6:primary:std
+			libmicrohttpd:primary:std
+			taglib:primary:std
+
+# USES=			cmake ncurses pkgconfig ssl:openssl30 zlib
+USES=			cmake ncurses pkgconfig ssl zlib
+
+CMAKE_ARGS=		-DCMAKE_INSTALL_PREFIX:PATH={{PREFIX}}
+			-DDISABLE_WIDE_NCURSES_LIB_SUFFIXES=true
+			-DLIBSSL={{PREFIX}}/libressl/lib/libssl.so
+			-DLIBCRYPTO={{PREFIX}}/libressl/lib/libcrypto.so
+# -DOPENSSL_ROOT_DIR={{OPENSSLBASE}}
+# -DOPENSSL_LIBRARIES={{OPENSSLBASE}}/lib
+
+post-patch:
+	${REINPLACE_CMD} 's|__OPENSSLLIB__|${OPENSSLLIB}|g' \
+		${WRKSRC}/CMakeLists.txt
+	${REINPLACE_CMD} -e 's!__PREFIX__!${PREFIX}!g' \
+		-e 's!__SSLVARIANT__!libressl!g' \
+		${PREFIX}/include/asio/ssl/detail/openssl_types.hpp
+# #	${REINPLACE_CMD} 's|openssl/|${OPENSSLINC}/openssl/|g' \
+# #		${PREFIX}/include/asio/ssl/detail/openssl_types.hpp
