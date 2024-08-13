@@ -1,8 +1,6 @@
 bin/musikcube
-bin/musikcubed
 share/musikcube/libmusikcore.so
 share/musikcube/musikcube
-share/musikcube/musikcubed
 share/musikcube/locales/cs_CZ.json
 share/musikcube/locales/de_DE.json
 share/musikcube/locales/en_US.json
@@ -16,7 +14,6 @@ share/musikcube/locales/zh_CN.json
 share/musikcube/plugins/libffmpegdecoder.so
 share/musikcube/plugins/libhttpdatastream.so
 share/musikcube/plugins/libnullout.so
-share/musikcube/plugins/libserver.so
 share/musikcube/plugins/libstockencoders.so
 share/musikcube/plugins/libsupereqdsp.so
 share/musikcube/plugins/libtaglibreader.so
