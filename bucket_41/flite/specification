@@ -1,0 +1,28 @@
+DEF[PORTVERSION]=	2.2
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		flite
+VERSION=		${PORTVERSION}
+KEYWORDS=		audio
+VARIANTS=		std
+SDESC[std]=		Small run-time speech synthesis engine
+HOMEPAGE=		https://github.com/festvox/flite/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		GITHUB/festvox:flite:v${PORTVERSION}
+DISTFILE[1]=		generated:main
+
+SPKGS[std]=		single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		audio/flite
+
+BUILD_DEPENDS=		alsa-lib:dev:std
+BUILDRUN_DEPENDS=	alsa-lib:primary:std
+
+USES=			gmake
+
+MUST_CONFIGURE=		gnu
