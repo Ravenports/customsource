@@ -37,6 +37,7 @@ BUILD_DEPENDS=		alsa-lib:dev:std
 			libopenmpt:dev:std
 			libvorbis:dev:std
 			mpg123:dev:std
+			mpg123:primary:std
 			portaudio:primary:std
 			sndio:dev:std
 			taglib:dev:std
@@ -53,6 +54,8 @@ BUILDRUN_DEPENDS=	curl:primary:std
 EXRUN[server]=		primary
 			libmicrohttpd:primary:std
 EXRUN[in_openmpt]=	libopenmpt:primary:std
+			mpg123:primary:std
+			zlib:primary:std
 EXRUN[out_alsa]=	alsa-lib:primary:std
 EXRUN[out_pipewire]=	pipewire:primary:std
 EXRUN[out_portaudio]=	portaudio:primary:std
