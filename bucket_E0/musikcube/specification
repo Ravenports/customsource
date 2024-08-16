@@ -26,7 +26,7 @@ FPC_EQUIVALENT=		multimedia/musikcube
 
 # missing plugins: libgme, pulseaudio
 BUILD_DEPENDS=		alsa-lib:dev:std
-			asio:single:std
+			asio:dev:std
 			curl:dev:std
 			ffmpeg6:dev:std
 			flac:dev:std
