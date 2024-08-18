@@ -1,0 +1,46 @@
+DEF[PORTVERSION]=	EXTRACT_INFO(LINUX_UTILS_VERSION)
+DEF[DLFOLDER]=		2.40
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		flock
+VERSION=		${PORTVERSION}
+KEYWORDS=		sysutils
+VARIANTS=		std
+SDESC[std]=		Manage locks from shell scripts
+HOMEPAGE=		https://www.kernel.org/pub/linux/utils/util-linux/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v${DLFOLDER}/
+DISTFILE[1]=		util-linux-${PORTVERSION}.tar.xz:main
+
+SPKGS[std]=		set primary man
+
+OPTIONS_AVAILABLE=	BSD
+OPTIONS_STANDARD=	BSD
+OPT_ON[freebsd]=	BSD
+OPT_ON[netbsd]=		BSD
+OPT_ON[midnightbsd]=	BSD
+OPT_ON[dragonfly]=	BSD
+
+FPC_EQUIVALENT=		sysutils/flock
+
+USES=			pkgconfig libtool:build
+MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--disable-nls
+			--disable-liblastlog2
+DISTNAME=		util-linux-${PORTVERSION}
+
+[BSD].DESCRIPTION=			Apply changes for BSD platforms
+[BSD].CFLAGS_ON=			-D_WITH_CPU_SET_T
+
+do-build:
+	${MAKE} -C ${WRKSRC} flock
+
+do-install:
+	${INSTALL_PROGRAM} ${WRKSRC}/flock ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_MAN} ${WRKSRC}/sys-utils/flock.1 \
+		${STAGEDIR}${PREFIX}/share/man/man1
+	${MKDIR} ${STAGEDIR}${PREFIX}/etc/bash_completion.d
+	${INSTALL_DATA} ${WRKSRC}/bash-completion/flock \
+		${STAGEDIR}${PREFIX}/etc/bash_completion.d

@@ -1,0 +1,2 @@
+bin/flock
+etc/bash_completion.d/flock
