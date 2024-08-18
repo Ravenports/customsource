@@ -1,7 +1,4 @@
-lib/libKF5JobWidgets.so.%%SOMAJOR%%
-lib/libKF5JobWidgets.so.%%SOVERSION%%
-share/dbus-1/interfaces/kf5_org.kde.JobView.xml
-share/dbus-1/interfaces/kf5_org.kde.JobViewServer.xml
-share/dbus-1/interfaces/kf5_org.kde.JobViewV2.xml
-share/qlogging-categories5/kjobwidgets.categories
-share/qlogging-categories5/kjobwidgets.renamecategories
+lib/libKF6Parts.so.%%SOVERSION%%
+lib/libKF6Parts.so.%%SOMAJOR%%
+share/qlogging-categories6/kparts.categories
+share/kdevappwizard/templates/kparts6-app.tar.bz2

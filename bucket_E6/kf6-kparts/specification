@@ -68,7 +68,7 @@ BUILDRUN_DEPENDS=	kf6-kbookmarks:primary:std
 			qt6-qtbase:primary:std
 			qt6-qtdeclarative:primary:std
 
-USES=			cmake gettext
+USES=			cmake gettext gmake
 XORG_COMPONENTS=	x11
 
 DISTNAME=		${KF6_COMPONENT}-${PORTVERSION}
@@ -81,7 +81,5 @@ post-extract:
 	${ECHO} "Terms extracted from 'src/kde_terminal_interface.h':" >> ${WRKDIR}/TERMS
 	${SED} -n '/ifndef/!p;//q' ${WRKSRC}/src/kde_terminal_interface.h >> ${WRKDIR}/TERMS
 
-# post-stage:
-# ${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libKF6JobWidgets.so
-
-# Add to list
+post-stage:
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libKF6Parts.so
