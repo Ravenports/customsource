@@ -1,0 +1,156 @@
+DEF[PORTVERSION]=	127.0.6533.119
+DEF[FPC_TAG]=		v${PORTVERSION}
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		chromium
+VERSION=		${PORTVERSION}
+KEYWORDS=		www
+VARIANTS=		std
+SDESC[std]=		Open source web browser from Google
+HOMEPAGE=		https://www.chromium.org/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main fpcpatch
+SITES[main]=		https://commondatastorage.googleapis.com/chromium-browser-official/
+SITES[fpcpatch]=	GITHUB/jrmarino:chromium:${FPC_TAG}
+DISTFILE[1]=		chromium-${PORTVERSION}.tar.xz:main
+DISTFILE[2]=		generated:fpcpatch
+DF_INDEX=		1 2
+
+SPKGS[std]=		set primary nls
+
+OPTIONS_AVAILABLE=	BSD DEBUG CODECS CUPS DRIVER PIPEWIRE SNDIO
+OPTIONS_STANDARD=	BSD DEBUG CODECS CUPS DRIVER PIPEWIRE SNDIO
+OPT_ON[dragonfly]=	BSD
+OPT_ON[freebsd]=	BSD
+OPT_ON[midnightbsd]=	BSD
+OPT_ON[all]=		CODECS CUPS DRIVER PIPEWIRE SNDIO
+
+FPC_EQUIVALENT=		www/chromium
+
+ONLY_FOR_OPSYS=		freebsd dragonfly midnightbsd linux
+
+BUILD_DEPENDS=		bash:primary:std
+# #			rust-bindgen:single:std
+			nasm:primary:std
+			gperf:primary:std
+			nodejs:primary:std
+			evdev-proto:single:std
+			usbids:single:std
+			libva:dev:std
+			qt5-qtbase:dev:std
+			mesa:dev:std
+			python-html5lib:single:python_default
+			python-Jinja2:single:python_default
+			python-ply:single:python_default
+			at-spi2-core:dev:std
+			speech-dispatcher:dev:std
+			flac:dev:std
+			opus:dev:std
+			speex:dev:std
+			dbus:dev:std
+			dbus-glib:dev:std
+			libevent:dev:std
+			libffi:dev:std
+			icu:dev:std
+			jsoncpp:dev:std
+			pciutils:dev:std
+			nspr:dev:std
+			re2:dev:std
+			cairo:dev:std
+			libdrm:dev:std
+			libexif:dev:std
+			dav1d:dev:std
+			openh264:dev:std
+			harfbuzz:dev:std
+			libgcrypt:dev:std
+			libsecret:dev:std
+			nss:dev:std
+			expat:dev:std
+			wayland:dev:std
+			libxkbcommon:dev:std
+			webp:dev:std
+			krb:dev:std
+BUILDRUN_DEPENDS=	qt5-qtbase:primary:std
+			krb:primary:std
+			webp:primary:std
+			libxkbcommon:primary:std
+			wayland:primary:std
+			expat:primary:std
+			nss:primary:std
+			libsecret:primary:std
+			libgcrypt:primary:std
+			harfbuzz:primary:std
+			harfbuzz:icu:std
+			openh264:primary:std
+			dav1d:primary:std
+			libexif:primary:std
+			libdrm:primary:std
+			cairo:primary:std
+			re2:primary:std
+			nspr:primary:std
+			pciutils:primary:std
+			jsoncpp:primary:std
+			icu:primary:std
+			libffi:primary:std
+			libevent:primary:std
+			dbus-glib:primary:std
+			dbus:primary:std
+			speex:primary:std
+			opus:primary:std
+			flac:primary:std
+			speech-dispatcher:primary:std
+			at-spi2-core:primary:std
+			mesa:drivers:std
+			libva:primary:std
+
+RUN_DEPENDS=		fonts-noto-ttf:single:std
+			xdg-utils:set:std
+
+USES=			cpe png jpeg freetype fontconfig perl:build
+			gmake clang pkgconfig desktop-utils:primary
+			shebangfix
+XORG_COMPONENTS=	x11 xcb xcomposite xcursor xext xdamage xfixes xi
+			xrandr xrender xscrnsaver xtst xshmfence
+GNOME_COMPONENTS=	glib libxml2 libxslt gtk3 dconf atk
+CPE_VENDOR=		google
+CPE_PRODUCT=		chrome
+SHEBANG_FILES=		chrome/tools/build/linux/chrome-wrapper
+			buildtools/linux64/clang-format
+BUILD_TARGET=		chrome
+
+[BSD].DESCRIPTION=			Adjustments for BSD platforms
+[BSD].BUILD_DEPENDS_ON=			libepoll-shim:dev:std
+[BSD].BUILDRUN_DEPENDS_ON=		libepoll-shim:primary:std
+
+[DEBUG].MAKEFILE_ON=			BUILDTYPE=Debug
+[DEBUG].MAKEFILE_OFF=			BUILDTYPE=Release
+
+[CODECS].DESCRIPTION=			Compile and enable patented codecs like H.264
+[CODECS].MAKEFILE_ON=			FFMPEG_BRAND="Chrome"
+					GN_ARGS+=proprietary_codecs=true
+[CODECS].MAKEFILE_OFF=			FFMPEG_BRAND="Chromium"
+					GN_ARGS+=proprietary_codecs=false
+
+[CUPS].DESCRIPTION=			Add CUPS printer support
+[CUPS].BUILD_DEPENDS_ON=		cups:dev:std
+[CUPS].BUILDRUN_DEPENDS_ON=		cups:primary:std
+[CUPS].MAKEFILE_ON=			GN_ARGS+=use_cups=true
+[CUPS].MAKEFILE_OFF=			GN_ARGS+=use_cups=false
+
+[DRIVER].DESCRIPTION=			Included chromedriver
+[DRIVER].MAKE_ARGS_ON=			chromedriver
+
+[PIPEWIRE].DESCRIPTION=			Screen capture via PipeWire
+[PIPEWIRE].BUILD_DEPENDS_ON=		pipewire:dev:std
+[PIPEWIRE].BUILDRUN_DEPENDS_ON=		pipewire:primary:std
+[PIPEWIRE].MAKEFILE_ON=			GN_ARGS+=rtc_use_pipewire=true
+					GN_ARGS+=rtc_link_pipewire=true
+[PIPEWIRE].MAKEFILE_OFF=		GN_ARGS+=rtc_use_pipewire=false
+					GN_ARGS+=rtc_link_pipewire=false
+
+[SNDIO].DESCRIPTION=			Add SNDIO sound support
+[SNDIO].BUILD_DEPENDS_ON=		sndio:dev:std
+[SNDIO].BUILDRUN_DEPENDS_ON=		sndio:primary:std
+[SNDIO].MAKEFILE_ON=			GN_ARGS+=use_sndio=true
+[SNDIO].MAKEFILE_OFF=			GN_ARGS+=use_sndio=false
