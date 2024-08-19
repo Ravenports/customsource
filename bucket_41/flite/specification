@@ -30,6 +30,8 @@ LICENSE_SCHEME=		solo
 BUILD_DEPENDS=		alsa-lib:dev:std
 BUILDRUN_DEPENDS=	alsa-lib:primary:std
 
+EXRUN[tools]=		primary
+
 USES=			cpe gmake
 
 MUST_CONFIGURE=		gnu
