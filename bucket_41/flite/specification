@@ -1,5 +1,6 @@
-DEF[PORTVERSION]=	2.1
-DEF[SOVERSION]=		2.1
+DEF[PORTVERSION]=	2.2
+DEF[TAG]=		v${PORTVERSION}
+DEF[SOVERSION]=		2.2
 DEF[SOMAJOR]=		1
 # ----------------------------------------------------------------------------
 
@@ -12,10 +13,8 @@ HOMEPAGE=		https://github.com/festvox/flite/
 CONTACT=		Michael_Reim[kraileth@elderlinux.org]
 
 DOWNLOAD_GROUPS=	main
-# SITES[main]=		GITHUB/festvox:flite:v${PORTVERSION}
-# DISTFILE[1]=		generated:main
-SITES[main]=		http://www.festvox.org/flite/packed/flite-${PORTVERSION}/
-DISTFILE[1]=		flite-${PORTVERSION}-release.tar.bz2:main
+SITES[main]=		GITHUB/festvox:flite:${TAG}
+DISTFILE[1]=		generated:main
 
 SPKGS[std]=		set primary dev tools man docs
 
@@ -35,7 +34,6 @@ USES=			cpe gmake
 
 MUST_CONFIGURE=		gnu
 CONFIGURE_ARGS=		--enable-shared=yes
-DISTNAME=		flite-${PORTVERSION}-release
 PLIST_SUB=		SOVERSION=${SOVERSION}
 			SOMAJOR=${SOMAJOR}
 

@@ -1,4 +1,4 @@
---- main/Makefile.orig	2017-10-21 14:01:07 UTC
+--- main/Makefile.orig	2020-08-13 00:17:09 UTC
 +++ main/Makefile
 @@ -49,7 +49,7 @@ ALL = shared_libs \
        $(BINDIR)/flite$(EXEEXT) \
@@ -9,7 +9,7 @@
  
  VOICES=$(VOXES)
  VOICELIBS=$(VOICES:%=flite_%)
-@@ -85,7 +85,7 @@ else
+@@ -97,7 +97,7 @@ else
  shared_libs: nothing
  endif
  
@@ -18,7 +18,7 @@
  
  flite_lang_list: 
  	rm -f flite_lang_list.c
-@@ -133,15 +133,15 @@ $(BINDIR)/flite_${VOICE}: flite_main.o f
+@@ -145,15 +145,15 @@ $(BINDIR)/flite_${VOICE}: flite_main.o f
  
  install:
  #       The basic binaries
