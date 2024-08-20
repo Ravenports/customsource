@@ -49,3 +49,13 @@ GN_ARGS+=	symbol_level=0
 WANTSPACE=	"14 GB"
 MAKE_ARGS+=	-C out/Release
 .endif 
+
+FFMPEG_BDIR=	${WRKSRC}/third_party/ffmpeg/build.${FFMPEG_TARGET}.freebsd/${FFMPEG_BRAND}
+FFMPEG_CDIR=	${WRKSRC}/third_party/ffmpeg/chromium/config/${FFMPEG_BRAND}/freebsd/${FFMPEG_TARGET}
+
+# rust
+RUSTC_VERSION!=	rustc -V 2>/dev/null || true
+MAKE_ENV+=	RUSTC_BOOTSTRAP=1
+GN_ARGS+=	enable_rust=true \
+		rust_sysroot_absolute="${LOCALBASE}" \
+		rustc_version="${RUSTC_VERSION}"

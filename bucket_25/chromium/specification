@@ -31,7 +31,8 @@ FPC_EQUIVALENT=		www/chromium
 ONLY_FOR_OPSYS=		freebsd dragonfly midnightbsd linux
 
 BUILD_DEPENDS=		bash:primary:std
-# #			rust-bindgen:single:std
+			bindgen-cli:single:std
+			rust:single:std
 			nasm:primary:std
 			gperf:primary:std
 			nodejs:primary:std
@@ -69,11 +70,11 @@ BUILD_DEPENDS=		bash:primary:std
 			expat:dev:std
 			wayland:dev:std
 			libxkbcommon:dev:std
-			webp:dev:std
-			krb:dev:std
+			WebP:dev:std
+			krb5:dev:std
 BUILDRUN_DEPENDS=	qt5-qtbase:primary:std
-			krb:primary:std
-			webp:primary:std
+			krb5:primary:std
+			WebP:primary:std
 			libxkbcommon:primary:std
 			wayland:primary:std
 			expat:primary:std
@@ -107,6 +108,8 @@ BUILDRUN_DEPENDS=	qt5-qtbase:primary:std
 RUN_DEPENDS=		fonts-noto-ttf:single:std
 			xdg-utils:set:std
 
+EXTRACT_DIRTY=		2
+
 USES=			cpe png jpeg freetype fontconfig perl:build
 			gmake clang pkgconfig desktop-utils:primary
 			shebangfix
@@ -118,6 +121,8 @@ CPE_PRODUCT=		chrome
 SHEBANG_FILES=		chrome/tools/build/linux/chrome-wrapper
 			buildtools/linux64/clang-format
 BUILD_TARGET=		chrome
+
+SKIP_BUILD=		yes
 
 [BSD].DESCRIPTION=			Adjustments for BSD platforms
 [BSD].BUILD_DEPENDS_ON=			libepoll-shim:dev:std
@@ -154,3 +159,11 @@ BUILD_TARGET=		chrome
 [SNDIO].BUILDRUN_DEPENDS_ON=		sndio:primary:std
 [SNDIO].MAKEFILE_ON=			GN_ARGS+=use_sndio=true
 [SNDIO].MAKEFILE_OFF=			GN_ARGS+=use_sndio=false
+
+pre-patch:
+	# apply freebsd patches
+	${FIND} ${WRKDIR}/chromium_2 -type f -name "patch-*" -print0 |\
+	${XARGS} -0 -I {} ${PATCH} -d ${PATCH_WRKSRC} ${PATCH_ARGS} -i {}
+
+do-install:
+	# do nothing
