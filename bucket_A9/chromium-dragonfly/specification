@@ -1,8 +1,8 @@
-DEF[PORTVERSION]=	127.0.6533.119
+DEF[PORTVERSION]=	120.0.6099.129
 DEF[FPC_TAG]=		v${PORTVERSION}
 # ----------------------------------------------------------------------------
 
-NAMEBASE=		chromium
+NAMEBASE=		chromium-dragonfly
 VERSION=		${PORTVERSION}
 KEYWORDS=		www
 VARIANTS=		std
@@ -10,14 +10,17 @@ SDESC[std]=		Open source web browser from Google
 HOMEPAGE=		https://www.chromium.org/
 CONTACT=		nobody
 
-DOWNLOAD_GROUPS=	main fpcpatch
+DOWNLOAD_GROUPS=	main fpcpatch leaf
 SITES[main]=		https://commondatastorage.googleapis.com/chromium-browser-official/
-SITES[fpcpatch]=	GITHUB/jrmarino:chromium:${FPC_TAG}
+SITES[leaf]=		https://leaf.dragonflybsd.org/~marino/raven-distfiles/chromium/dragonfly-${PORTVERSION}/
+SITES[fpcpatch]=	GITHUB/jrmarino:chromium-freebsd:${FPC_TAG}
 DISTFILE[1]=		chromium-${PORTVERSION}.tar.xz:main
 DISTFILE[2]=		generated:fpcpatch
+DISTFILE[3]=		patch-all:leaf
+DIST_SUBDIR=		chromium
 DF_INDEX=		1 2
 
-SPKGS[std]=		set primary nls
+SPKGS[std]=		set primary nls man
 
 OPTIONS_AVAILABLE=	BSD DEBUG CODECS CUPS DRIVER PIPEWIRE SNDIO
 OPTIONS_STANDARD=	BSD DEBUG CODECS CUPS DRIVER PIPEWIRE SNDIO
@@ -29,6 +32,9 @@ OPT_ON[all]=		CODECS CUPS DRIVER PIPEWIRE SNDIO
 FPC_EQUIVALENT=		www/chromium
 
 ONLY_FOR_OPSYS=		freebsd dragonfly midnightbsd linux
+KAIJU=			yes
+
+PATCHFILES=		3
 
 BUILD_DEPENDS=		bash:primary:std
 			bindgen-cli:single:std
@@ -108,8 +114,6 @@ BUILDRUN_DEPENDS=	qt5-qtbase:primary:std
 RUN_DEPENDS=		fonts-noto-ttf:single:std
 			xdg-utils:set:std
 
-EXTRACT_DIRTY=		2
-
 USES=			cpe png jpeg freetype fontconfig perl:build
 			gmake clang pkgconfig desktop-utils:primary
 			shebangfix
@@ -121,7 +125,7 @@ CPE_PRODUCT=		chrome
 SHEBANG_FILES=		chrome/tools/build/linux/chrome-wrapper
 			buildtools/linux64/clang-format
 BUILD_TARGET=		chrome
-
+DISTNAME=		chromium-${PORTVERSION}
 SKIP_BUILD=		yes
 
 [BSD].DESCRIPTION=			Adjustments for BSD platforms
@@ -162,7 +166,7 @@ SKIP_BUILD=		yes
 
 pre-patch:
 	# apply freebsd patches
-	${FIND} ${WRKDIR}/chromium_2 -type f -name "patch-*" -print0 |\
+	${FIND} ${WRKDIR}/chromium-freebsd-${PORTVERSION} -type f -name "patch-*" -print0 |\
 	${XARGS} -0 -I {} ${PATCH} -d ${PATCH_WRKSRC} ${PATCH_ARGS} -i {}
 
 do-install:
