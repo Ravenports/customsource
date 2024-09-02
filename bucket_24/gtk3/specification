@@ -1,0 +1,118 @@
+DEF[PORTVERSION]=	EXTRACT_INFO(GTK3_PORT_VERSION)
+DEF[LIBVERSION]=	0.2411.32
+DEF[GTK_VERSION]=	EXTRACT_INFO(GTK3_VERSION)
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		gtk3
+VERSION=		${PORTVERSION}
+REVISION=		1
+KEYWORDS=		x11_toolkits
+VARIANTS=		std
+SDESC[std]=		Gimp Toolkit for X11 GUI
+HOMEPAGE=		https://www.gtk.org/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		GNOME/gtk+/${PORTVERSION:R}
+DISTFILE[1]=		gtk+-${PORTVERSION}.tar.xz:main
+DIST_SUBDIR=		gnome3
+
+SPKGS[std]=		set primary dev nls icon_cache
+
+OPTIONS_AVAILABLE=	DBUS CUPS CLOUDPRINT COLORD BROADWAY INTROSPECTION WAYLAND EPOLLSHIM
+OPTIONS_STANDARD=	DBUS BROADWAY INTROSPECTION WAYLAND EPOLLSHIM
+OPT_ON[all]=		DBUS BROADWAY INTROSPECTION WAYLAND
+OPT_ON[freebsd]=	EPOLLSHIM
+OPT_ON[midnightbsd]=	EPOLLSHIM
+OPT_ON[dragonfly]=	EPOLLSHIM
+OPT_ON[netbsd]=		EPOLLSHIM
+
+FPC_EQUIVALENT=		x11-toolkits/gtk30
+
+BUILD_DEPENDS=		harfbuzz:dev:std
+			libepoxy:dev:std
+BUILDRUN_DEPENDS=	libepoxy:primary:std
+
+# Technically EXRUN[dev] is conditional based on option
+# However Ravenadm doesn't currently have an option-based EXRUN
+EXRUN[primary]=		gtk3:icon_cache:std
+EXRUN[icon_cache]=	gdk-pixbuf:primary:std
+EXRUN[dev]=		cairo:dev:std
+			pango:dev:std
+			xorg-xrandr:dev:std
+			xorg-xcursor:dev:std
+			xorg-xcomposite:dev:std
+			xorg-xdamage:dev:std
+			xorg-xinerama:dev:std
+			libepoxy:dev:std
+			gdk-pixbuf:dev:std
+
+USES=			pkgconfig meson schemas:primary
+			perl:build python:build cpe
+GNOME_COMPONENTS=	cairo gdkpixbuf pango
+XORG_COMPONENTS=	xext x11 xinerama xi xrandr xcursor xfixes
+			xdamage xcomposite
+CPE_VENDOR=		gtk
+CPE_PRODUCT=		gtk\+
+MESON_ARGS=		-Dx11_backend=true
+			-Dtests=false
+			-Dexamples=false
+CPPFLAGS=		-fno-omit-frame-pointer
+SUB_FILES=		scripts-primary.ucl
+			triggers-icon_cache.ucl
+SUB_LIST=		GTK_VERSION=${GTK_VERSION}
+PLIST_SUB=		LIBVERSION=${LIBVERSION}
+			GTK_VERSION=${GTK_VERSION}
+DISTNAME=		gtk+-${PORTVERSION}
+
+GLIB_SCHEMAS=		org.gtk.Demo.gschema.xml
+			org.gtk.Settings.ColorChooser.gschema.xml
+			org.gtk.Settings.Debug.gschema.xml
+			org.gtk.Settings.FileChooser.gschema.xml
+
+VAR_OPSYS[sunos]=	LDFLAGS=-lsocket
+			LDFLAGS=-lintl
+			CPPFLAGS=-DO_CLOEXEC=0
+
+[BROADWAY].DESCRIPTION=			Backend for HTML5 and websocket support
+[CLOUDPRINT].DESCRIPTION=		Support for printing to cloud
+[DBUS].DESCRIPTION=			AT-SPI ATK bridge support (requires dbus)
+[EPOLLSHIM].DESCRIPTION=		Platform depends on libepoll-shim
+[INTROSPECTION].DESCRIPTION=		Build with introspection files
+[WAYLAND].DESCRIPTION=			Build with Wayland backend
+
+[DBUS].GNOME_COMPONENTS_ON=		atk
+
+[BROADWAY].CONFIGURE_ARGS_ON=		-Dbroadway_backend=true
+
+[CUPS].BROKEN_ON=			CUPS option not supported yet
+[CLOUDPRINT].BROKEN_ON=			CLOUDPRINT option not supported yet
+[COLORD].BROKEN_ON=			COLORD option not supported yet
+
+[CLOUDPRINT].CONFIGURE_ARGS_ON=		-Dcloudproviders=true
+[CLOUDPRINT].BUILD_DEPENDS_ON=		json-glib:dev:std
+[CLOUDPRINT].BUILDRUN_DEPENDS_ON=	librest:single:std
+					json-glib:primary:std
+[CUPS].CONFIGURE_ARGS_ON=		-Dprint_backends=cups,file,lpr
+[CUPS].CONFIGURE_ARGS_OFF=		-Dprint_backends=file,lpr
+[CUPS].BUILDRUN_DEPENDS_ON=		cups:single:std
+
+[EPOLLSHIM].BUILDRUN_DEPENDS_ON=	libepoll-shim:primary:std
+[EPOLLSHIM].BUILD_DEPENDS_ON=		libepoll-shim:dev:std
+
+[INTROSPECTION].CONFIGURE_ARGS_OFF=	-Dintrospection=false
+[INTROSPECTION].GNOME_COMPONENTS_ON=	introspection
+
+[WAYLAND].CONFIGURE_ARGS_OFF=		-Dwayland_backend=false
+[WAYLAND].CONFIGURE_ARGS_ON=		-Dwayland_backend=true
+[WAYLAND].BUILD_DEPENDS_ON=		libxkbcommon:dev:std
+					wayland:dev:std
+					wayland:tools:std
+					wayland-protocols:single:std
+[WAYLAND].BUILDRUN_DEPENDS_ON=		libxkbcommon:primary:std
+					wayland:primary:std
+
+post-install:
+	${MKDIR} ${STAGEDIR}${PREFIX}/lib/gtk-3.0/modules
+	${MKDIR} ${STAGEDIR}${PREFIX}/lib/gtk-3.0/${GTK_VERSION}/engines
+	${MKDIR} ${STAGEDIR}${PREFIX}/lib/gtk-3.0/${GTK_VERSION}/loaders
