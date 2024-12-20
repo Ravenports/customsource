@@ -1,0 +1,47 @@
+DEF[PORTVERSION]=	1.4.1
+DEF[SOVERSION]=		1.4
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		fltk
+VERSION=		${PORTVERSION}
+KEYWORDS=		x11_toolkits
+VARIANTS=		std
+SDESC[std]=		Light-weight cross-platform C++ GUI toolkit
+HOMEPAGE=		https://www.fltk.org/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://github.com/fltk/fltk/releases/download/release-${PORTVERSION}/
+DISTFILE[1]=		fltk-${PORTVERSION}-source.tar.bz2:main
+
+SPKGS[std]=		set primary dev examples man
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		LGPL20:primary
+LICENSE_FILE=		LGPL20:stock
+LICENSE_TERMS=		primary:{{WRKDIR}}/TERMS
+LICENSE_AWK=		TERMS:"^--------------"
+LICENSE_SOURCE=		TERMS:{{WRKSRC}}/COPYING
+LICENSE_SCHEME=		solo
+
+FPC_EQUIVALENT=		x11-toolkits/fltk
+
+BUILD_DEPENDS=		libGLU:dev:std
+			libglvnd:dev:std
+BUILDRUN_DEPENDS=	libGLU:primary:std
+
+USES=			gmake jpeg libtool pkgconfig png zlib
+XORG_COMPONENTS=	x11 xcursor xext xfixes xft xinerama
+MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--enable-shared
+			--docdir={{STD_EXAMPLESDIR}}
+SOVERSION=		${SOVERSION}
+
+post-install:
+	${MKDIR} ${STAGEDIR}${STD_EXAMPLESDIR}
+	${MV} ${STAGEDIR}${STD_DOCDIR}/examples/* ${STAGEDIR}${STD_EXAMPLESDIR}
+	${RM} -r ${STAGEDIR}${STD_DOCDIR}
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/fluid
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/*.so

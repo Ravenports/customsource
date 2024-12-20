@@ -1,0 +1,29 @@
+--- configure.orig	2024-12-20 21:03:48.741643000 +0100
++++ configure	2024-12-20 21:06:09.188952000 +0100
+@@ -5252,7 +5252,7 @@
+ 
+ fi
+      ;; #(
+-  linux*|*bsd*) :
++  linux*|*bsd*|dragonfly*) :
+ 
+         DSONAME="libfltk.so.$FL_DSO_VERSION"
+         FLDSONAME="libfltk_forms.so.$FL_DSO_VERSION"
+@@ -10393,7 +10393,7 @@
+ 
+ 
+ case "$host_os" in #(
+-  *bsd* | darwin*) :
++  *bsd* | darwin* | dragonfly*) :
+ 
+     # *BSD
+     CAT1EXT=0
+@@ -10426,7 +10426,7 @@
+ then :
+ 
+     case "$host_os" in #(
+-  *bsd* | darwin* | linux*) :
++  *bsd* | darwin* | linux* | dragonfly*) :
+ 
+         # *BSD, Darwin, and Linux
+         mandir="\${prefix}/share/man"

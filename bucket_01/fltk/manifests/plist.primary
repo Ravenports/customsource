@@ -1,0 +1,7 @@
+bin/fltk-config
+bin/fltk-options
+bin/fluid
+lib/libfltk.so.%%SOVERSION%%
+lib/libfltk_forms.so.%%SOVERSION%%
+lib/libfltk_gl.so.%%SOVERSION%%
+lib/libfltk_images.so.%%SOVERSION%%
