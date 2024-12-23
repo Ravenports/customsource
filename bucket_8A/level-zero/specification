@@ -1,0 +1,37 @@
+DEF[PORTVERSION]=	1.19.2
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		level-zero
+VERSION=		${PORTVERSION}
+KEYWORDS=		devel
+VARIANTS=		std
+SDESC[std]=		OneAPI Level Zero Specification Headers and Loader
+HOMEPAGE=		https://github.com/oneapi-src/level-zero/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		GITHUB/oneapi-src:level-zero:v${PORTVERSION}
+DISTFILE[1]=		generated:main
+
+SPKGS[std]=		single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		devel/level-zero
+
+BUILD_DEPENDS=		fmt:dev:std
+			spdlog:dev:std
+BUILDRUN_DEPENDS=	fmt:primary:std
+			spdlog:primary:std
+
+USES=			cmake
+
+CMAKE_ARGS=		-DSYSTEM_SPDLOG:BOOL=ON
+			-Wno-dev
+
+CXXFLAGS=		-DSPDLOG_FMT_EXTERNAL
+LDFLAGS=		-lfmt
+
+post-patch:
+	${ECHO_CMD} ${PORTVERSION:E} > ${WRKSRC}/VERSION_PATCH
