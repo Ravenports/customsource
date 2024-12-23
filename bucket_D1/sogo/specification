@@ -1,0 +1,69 @@
+DEF[PORTVERSION]=	5.11.2
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		sogo
+VERSION=		${PORTVERSION}
+KEYWORDS=		www
+VARIANTS=		std
+SDESC[std]=		Scalable groupware server using open standards
+HOMEPAGE=		https://sogo.nu/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://packages.sogo.nu/sources/
+DISTFILE[1]=		SOGo-${PORTVERSION}.tar.gz:main
+DIST_SUBDIR=		gnustep
+
+SPKGS[std]=		single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		www/sogo
+
+DISTNAME=		SOGo-${PORTVERSION}
+
+BUILD_DEPENDS=		curl:dev:std
+			gnustep-base:dev:std
+			gnustep-base:tools:std
+			gnustep-make:primary:std
+			gnutls:dev:std
+			libobjc2:dev:std
+			libsodium:dev:std
+			libzip:dev:std
+			memcached:dev:std
+			oath-toolkit:dev:std
+			sope:dev:std
+			ytnef:dev:std
+BUILDRUN_DEPENDS=	curl:primary:std
+			gnustep-base:primary:std
+			gnutls:primary:std
+			libsodium:primary:std
+			libzip:primary:std
+			memcached:primary:std
+			oath-toolkit:primary:std
+			sope:primary:std
+			ytnef:primary:std
+
+USES=			clang gettext gmake pkgconfig ssl
+
+MUST_CONFIGURE=		yes
+CONFIGURE_ARGS=		--disable-debug
+			--disable-strip
+			--enable-mfa
+MAKEFILE=		GNUmakefile
+
+CPPFLAGS=		-Wno-error=int-conversion
+			-Wno-error=incompatible-function-pointer-types
+MAKE_ENV=		OBJCFLAGS="-Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types"
+
+post-patch:
+	${GREP} -rlF '/etc/sogo' ${WRKSRC} \
+		| ${XARGS} ${REINPLACE_CMD} 's#/etc/sogo#${PREFIX}/etc/sogo#g'
+	${REINPLACE_CMD} -e 's|/usr/lib/GNUstep/|${LOCALBASE}/GNUstep/Local/Library|g' ${WRKSRC}/Apache/SOGo.conf
+	${REINPLACE_CMD} -e 's|srcBuffer\[stringLength\]|srcBuffer\[stringLength+1\]|g' \
+		${WRKSRC}/SoObjects/SOGo/NSData+Crypto.m
+	${RM} ${WRKSRC}/Scripts/*.bak
+
+do-configure:
+	cd ${WRKSRC} ; . ${GNUSTEP_MAKEFILES}/GNUstep.sh ; ./configure ${CONFIGURE_ARGS}
