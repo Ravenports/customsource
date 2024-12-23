@@ -1,0 +1,59 @@
+# Stable: 4.16.x, 4.18.x
+DEF[PORTVERSION]=	4.20.0
+DEF[SOVERSION]=		0.0.0
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		xfce4-session
+VERSION=		${PORTVERSION}
+KEYWORDS=		x11
+VARIANTS=		std
+SDESC[std]=		Session manager for the Xfce DE
+HOMEPAGE=		https://docs.xfce.org/xfce/xfce4-session/start
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://archive.xfce.org/src/xfce/xfce4-session/${PORTVERSION:R}/
+DISTFILE[1]=		xfce4-session-${PORTVERSION}.tar.bz2:main
+DIST_SUBDIR=		xfce
+
+SPKGS[std]=		set primary man nls
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		GPLv2+:primary
+LICENSE_FILE=		GPLv2+:{{WRKSRC}}/COPYING
+LICENSE_TERMS=		primary:{{WRKDIR}}/TERMS
+LICENSE_SOURCE=		TERMS:{{WRKSRC}}/xfce4-session/sm-layer.h
+LICENSE_AWK=		TERMS:"^$$"
+LICENSE_SCHEME=		solo
+
+FPC_EQUIVALENT=		x11-wm/xfce4-session
+
+BUILD_DEPENDS=		harfbuzz:dev:std
+			libwnck:dev:std
+			libxfce4ui:dev:std
+			libxfce4windowing:dev:std
+			upower:dev:std
+BUILDRUN_DEPENDS=	dbus-glib:primary:std
+			libwnck:primary:std
+			libxfce4ui:primary:std
+			libxfce4windowing:primary:std
+			upower:primary:std
+			xorg-iceauth:primary:std
+RUN_DEPENDS=		consolekit:primary:std
+
+USES=			gmake iconv libtool pkgconfig fontconfig:build
+XORG_COMPONENTS=	x11 sm
+GNOME_COMPONENTS=	glib intltool gtk3
+
+MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--enable-nls
+			--enable-polkit
+			--with-xsession-prefix={{PREFIX}}
+INSTALL_REQ_TOOLCHAIN=	yes
+SOVERSION=		${SOVERSION}
+
+VAR_OPSYS[freebsd]=	CONFIGURE_ARGS=--with-backend=freebsd
+VAR_OPSYS[dragonfly]=	CONFIGURE_ARGS=--with-backend=freebsd
+VAR_OPSYS[midnightbsd]=	CONFIGURE_ARGS=--with-backend=freebsd

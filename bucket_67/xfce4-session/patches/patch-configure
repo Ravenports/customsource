@@ -1,0 +1,23 @@
+--- configure.orig	2024-12-23 17:52:20.082259000 +0100
++++ configure	2024-12-23 17:54:45.192358000 +0100
+@@ -22599,6 +22599,8 @@
+     with_backend=freebsd ;; #(
+   *-openbsd*) :
+     with_backend=openbsd ;; #(
++  *-*netbsd*) :
++    with_backend=netbsd ;; #(
+   *-solaris*) :
+     with_backend=solaris ;; #(
+   *) :
+@@ -22629,6 +22631,11 @@
+ if test x$with_backend = xsolaris; then
+ 
+ printf "%s\n" "#define BACKEND_TYPE_SOLARIS 1" >>confdefs.h
++
++fi
++if test x$with_backend = xnetbsd; then
++
++printf "%s\n" "#define BACKEND_TYPE_NETBSD 1" >>confdefs.h
+ 
+ fi
+ 
