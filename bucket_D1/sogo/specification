@@ -24,38 +24,42 @@ FPC_EQUIVALENT=		www/sogo
 DISTNAME=		SOGo-${PORTVERSION}
 
 BUILD_DEPENDS=		curl:dev:std
+			cyrus-sasl:dev:std
 			gnustep-base:dev:std
 			gnustep-base:tools:std
 			gnustep-make:primary:std
 			gnutls:dev:std
+			libmemcached:dev:std
 			libobjc2:dev:std
 			libsodium:dev:std
 			libzip:dev:std
 			memcached:dev:std
 			oath-toolkit:dev:std
+			openldap:dev:std
 			sope:dev:std
 			ytnef:dev:std
 BUILDRUN_DEPENDS=	curl:primary:std
+			cyrus-sasl:primary:std
 			gnustep-base:primary:std
 			gnutls:primary:std
+			libmemcached:primary:std
 			libsodium:primary:std
 			libzip:primary:std
 			memcached:primary:std
 			oath-toolkit:primary:std
+			openldap:client:std
 			sope:primary:std
+			sope:ldap:std
 			ytnef:primary:std
 
 USES=			clang gettext gmake pkgconfig ssl
+GNOME_COMPONENTS=	libxml2
 
 MUST_CONFIGURE=		yes
 CONFIGURE_ARGS=		--disable-debug
 			--disable-strip
 			--enable-mfa
 MAKEFILE=		GNUmakefile
-
-CPPFLAGS=		-Wno-error=int-conversion
-			-Wno-error=incompatible-function-pointer-types
-MAKE_ENV=		OBJCFLAGS="-Wno-error=int-conversion -Wno-error=incompatible-function-pointer-types"
 
 post-patch:
 	${GREP} -rlF '/etc/sogo' ${WRKSRC} \
@@ -64,6 +68,7 @@ post-patch:
 	${REINPLACE_CMD} -e 's|srcBuffer\[stringLength\]|srcBuffer\[stringLength+1\]|g' \
 		${WRKSRC}/SoObjects/SOGo/NSData+Crypto.m
 	${RM} ${WRKSRC}/Scripts/*.bak
+	${LN} -s ${PREFIX}/${SSL_VARIANT}/include/openssl ${PREFIX}/include/openssl
 
 do-configure:
 	cd ${WRKSRC} ; . ${GNUSTEP_MAKEFILES}/GNUstep.sh ; ./configure ${CONFIGURE_ARGS}
