@@ -1,8 +1,0 @@
-share/man/cat1/fltk-config.0
-share/man/cat1/fltk-options.0
-share/man/cat1/fluid.0
-share/man/cat3/fltk.0
-share/man/man1/fltk-config.1
-share/man/man1/fltk-options.1
-share/man/man1/fluid.1
-share/man/man3/fltk.3
