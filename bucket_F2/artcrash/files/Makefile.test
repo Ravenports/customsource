@@ -1,0 +1,22 @@
+PREFIX?=	${PREFIX}
+
+# rvn install glib gcc13 glibmm
+# rvn install -E glib~dev~std
+# rvn install libsigcxx
+# rvn install -E libsigcxx~dev~std
+
+# Glib::ustring::compose segfaults with these:
+# CXX=/raven/gcc14/bin/c++
+# CXX=/raven/bin/clang++
+
+CFLAGS+= -I$(PREFIX)/include/glib-2.0 \
+	-I$(PREFIX)/lib/glib-2.0/include \
+	-I$(PREFIX)/include/glibmm-2.68 \
+	-I$(PREFIX)/lib/glibmm-2.68/include \
+	-I$(PREFIX)/include/sigc++-3.0 \
+	-I$(PREFIX)/lib/sigc++-3.0/include
+
+LDFLAGS=-L$(PREFIX)/lib -lglibmm-2.68 -lglib-2.0 # -liconv
+
+all: test.cc
+	$(CXX) $(CFLAGS) $(LDFLAGS) -o test test.cc 

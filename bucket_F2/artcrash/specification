@@ -1,0 +1,38 @@
+DEF[PORTVERSION]=	1
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		artcrash
+VERSION=		${PORTVERSION}
+KEYWORDS=		devel
+VARIANTS=		std
+SDESC[std]=		Test issue 346
+HOMEPAGE=		none
+CONTACT=		John_Testor[bogus@gmail.com]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		none
+
+SPKGS[std]=		single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+BUILD_DEPENDS=		libsigcxx:dev:std
+			gdb:primary:std
+# #BUILDRUN_DEPENDS=	libsigcxx:primary:std
+
+# USES=			iconv
+GNOME_COMPONENTS=	glib glibmm
+SET_DEBUGGING_ON=	yes
+
+do-extract:
+	${MKDIR} ${WRKSRC}
+	${INSTALL_DATA} ${FILESDIR}/test.cc ${WRKSRC}
+	${INSTALL_DATA} ${FILESDIR}/Makefile.test ${WRKSRC}/Makefile
+
+do-install:
+	${MKDIR} ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_PROGRAM} ${WRKSRC}/test ${STAGEDIR}${PREFIX}/bin
+
+do-test:
+	${STAGEDIR}${PREFIX}/bin/test
