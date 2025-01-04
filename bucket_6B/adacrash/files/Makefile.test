@@ -1,0 +1,13 @@
+GNATMAKE=/raven/gcc14/bin/gnatmake
+
+all: stb
+
+stb:
+	mkdir -p objpie objnop
+	${GNATMAKE} stb -D objnop -o stb-no-pie -g -bargs -E -largs -no-pie 
+
+	# disable (libgnat.a needs to be compiled as pie)
+	# ${GNATMAKE} stb -D objpie -o stb-pie    -g -fPIE -bargs -E -largs -pie
+
+install:
+	${BSD_INSTALL_PROGRAM} stb-* ${DESTDIR}${PREFIX}/bin

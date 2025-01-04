@@ -1,0 +1,32 @@
+DEF[PORTVERSION]=	1
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		adacrash
+VERSION=		${PORTVERSION}
+KEYWORDS=		devel
+VARIANTS=		std
+SDESC[std]=		Tests ada stack dump
+HOMEPAGE=		none
+CONTACT=		John_Testor[bogus@gmail.com]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		none
+
+SPKGS[std]=		single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+BUILD_DEPENDS=		gcc14:set:std
+
+SET_DEBUGGING_ON=	yes
+
+do-extract:
+	${MKDIR} ${WRKSRC}
+	${INSTALL_DATA} ${FILESDIR}/stb.adb ${WRKSRC}
+	${INSTALL_DATA} ${FILESDIR}/Makefile.test ${WRKSRC}/Makefile
+
+do-test:
+	/usr/bin/file -b ${STAGEDIR}${PREFIX}/bin/stb-no-pie
+	echo
+	${STAGEDIR}${PREFIX}/bin/stb-no-pie
