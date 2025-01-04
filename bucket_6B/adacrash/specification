@@ -28,5 +28,7 @@ do-extract:
 
 do-test:
 	/usr/bin/file -b ${STAGEDIR}${PREFIX}/bin/stb-no-pie
-	echo
+	@echo
 	${STAGEDIR}${PREFIX}/bin/stb-no-pie
+	/raven/toolchain/bin/strip ${WRKSRC}/stb-no-pie
+	${WRKSRC}/stb-no-pie
