@@ -3,8 +3,7 @@ DEF[SO_LIBVLC]=		5.6.1
 DEF[SO_LIBVLCCORE]=	9.0.1
 DEF[SO_LIBVLCVDPAU]=	0.0.0
 DEF[SO_LIBXCBE]=	0.0.0
-DEF[PLUGINS1]=		access access_output audio_filter audio_mixer audio_output codec control demux keystore logger lua meta_engine misc mux packetizer services_discovery spu
-DEF[PLUGINS2]=		stream_filter stream_out text_renderer vaapi vdpau video_chroma video_filter video_output video_splitter visualization
+DEF[PLUGINS]=		access access_output audio_filter audio_mixer audio_output codec control demux gui keystore logger lua meta_engine misc mux notify packetizer services_discovery spu stream_extractor stream_filter stream_out text_renderer vaapi vdpau video_chroma video_filter video_output video_splitter visualization
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		vlc
@@ -19,7 +18,10 @@ DOWNLOAD_GROUPS=	main
 SITES[main]=		http://download.videolan.org/pub/videolan/vlc/${PORTVERSION}/
 DISTFILE[1]=		vlc-${PORTVERSION}.tar.xz:main
 
-SPKGS[std]=		set primary dev man nls docs
+SPKGS[std]=		set primary dev man nls docs a52 alsa aom ass avahi bluray caca chromap dav1d
+			dbus dirac dvbpsi dvdnav dvdread faad ffmpeg flac gcrypt gnutls kate mad mkv
+			mod mpeg2 mpg123 notify ogg opus oss samplerate secret sndio soxr speex theora
+			twolame upnp vorbis vpx x264 x265
 
 OPTIONS_AVAILABLE=	BSD
 OPTIONS_STANDARD=	BSD
@@ -47,9 +49,10 @@ BUILD_DEPENDS=		a52dec:dev:std
 			dav1d:dev:std
 			dbus:dev:std
 			evdev-proto:single:std
+			faad2:dev:std
 			ffmpeg5:dev:std
 			flac:dev:std
-			fluidsynth:dev:std
+# #			fluidsynth:dev:std
 			fribidi:dev:std
 			glib:dev:std
 			gnutls:dev:std
@@ -83,13 +86,15 @@ BUILD_DEPENDS=		a52dec:dev:std
 			libsoxr:dev:std
 			libtheora:dev:std
 			libupnp:dev:std
+			libvdpau:dev:std
 			libvorbis:dev:std
 			libvpx:dev:std
 			libxkbcommon:dev:std
-			liveMedia:dev:std
+# #			liveMedia:dev:std
 			minizip:dev:std
 			mpg123:dev:std
 			openssl30:dev:std
+			opus:dev:std
 			orc:dev:std
 			protobuf:dev:std
 			qt5-qtbase:dev:std
@@ -107,57 +112,22 @@ BUILD_DEPENDS=		a52dec:dev:std
 			x264:dev:std
 			x265:dev:std
 			xorg-macros:single:std
-BUILDRUN_DEPENDS=	a52dec:primary:std
-			alsa-lib:primary:std
-			aom:primary:std
-			avahi:primary:std
-			bzip2:primary:std
-			chromaprint:primary:std
-			dav1d:primary:std
-			dbus:primary:std
-			ffmpeg5:primary:std
-			flac:primary:std
-			flac:cxx:std
-			fluidsynth:primary:std
+BUILDRUN_DEPENDS=	bzip2:primary:std
+# #			fluidsynth:primary:std
 			fribidi:primary:std
 			glib:primary:std
-			gnutls:primary:std
 			harfbuzz:primary:std
 			libarchive:primary:std
-			libass:primary:std
-			libbluray:primary:std
-			libcaca:primary:std
 			libcddb:primary:std
 			libdrm:primary:std
-			libdvbpsi:primary:std
 			libdvdcss:primary:std
-			libdvdnav:primary:std
-			libdvdread:primary:std
-			libebml:primary:std
 			libexecinfo:primary:std
-			libgcrypt:primary:std
 			libglvnd:primary:std
 			libidn:primary:std
-			libkate:primary:std
-			libmad:primary:std
-			libmatroska:primary:std
-			libmodplug:primary:std
-			libmpeg2:primary:std
-			libnotify:primary:std
-			libogg:primary:std
-			libsamplerate:primary:std
-			libsecret:primary:std
-			libsndfile:primary:std
-			libsoxr:primary:std
-			libtheora:primary:std
-			libupnp:primary:std
-			libvorbis:primary:std
-			libvpx:primary:std
+			libvdpau:primary:std
 			libxkbcommon:primary:std
-			liveMedia:primary:std
-			liveMedia:tools:std
+# #			liveMedia:primary:std
 			minizip:primary:std
-			mpg123:primary:std
 			orc:primary:std
 			protobuf:primary:std
 			qt5-qtbase:primary:std
@@ -165,39 +135,166 @@ BUILDRUN_DEPENDS=	a52dec:primary:std
 			qt5-qtx11extras:primary:std
 			qt5-qtxmlpatterns:primary:std
 			readline:primary:std
-			schroedinger:primary:std
-			sndio:primary:std
-			speexdsp:primary:std
-			speex:primary:std
-			taglib:primary:std
-			twolame:primary:std
-			video4linux:primary:std
-			x264:primary:std
-			x265:primary:std
+# #			taglib:primary:std
+# #			video4linux:primary:std
 
-USES=			desktop-utils:primary gettext gmake iconv jpeg libtool lua:tools
-			png pkgconfig ssl sqlite zlib zstd xz expat freetype fontconfig bison
-XORG_COMPONENTS=	x11 ice xcb xcb-util xcb-util-image xcb-util-keysyms xcb-util-wm xcb-render-util xorgproto sm xpm xinerama xext
+USES=			bison desktop-utils:primary expat freetype fontconfig gettext
+			gmake iconv jpeg libtool lua:tools png pkgconfig ssl zlib
+XORG_COMPONENTS=	ice sm x11 xcb xcb-render-util xcb-util xcb-util-image
+			xcb-util-keysyms xcb-util-wm xext xinerama xorgproto xpm
 SDL_COMPONENTS=		sdl1 image1
 GNOME_COMPONENTS=	cairo gtk3 librsvg libxml2
 
-# For some reason liveMedia ("live555") is not picked up by configure
-# This needs to be investigated at some point
-# Disable video4linux and taglib for now; otherwise VLC the build fails
+# For some reason fluidsynth and opencv are not picked up by configure; this needs to be
+# investigated at some point.
+# video4linux, taglib and liveMedia ("live555") disabled for now; otherwise the build fails.
+# libva support disabled because ffmpeg is built without it - so no acceleration for now.
+# ncurses disabled since we don't have cursesw anymore.
 MUST_CONFIGURE=		gnu
 CONFIGURE_ARGS=		--enable-a52
+			--disable-aa
+			--enable-alsa
+			--enable-aom
+			--enable-archive
+			--disable-aribb25
+			--disable-aribsub
+			--disable-asdcp
+			--enable-avahi
+			--enable-avcodec
+			--enable-avformat
+			--enable-bluray
+			--disable-bpg
+			--enable-caca
+			--enable-chromaprint
+			--disable-chromecast
+			--disable-crystalhd
+			--enable-css
+			--disable-daala
+			--enable-dav1d
+			--disable-dc1394
+			--disable-dca
+			--disable-decklink
+			--disable-dv1394
+			--enable-dbus
+			--enable-dvbpsi
+			--enable-dvdnav
+			--enable-dvdread
+			--disable-dsm
+			--disable-evas
+			--enable-faad
+			--disable-fdkaac
+			--enable-flac
+			--disable-fluidlite
+			--disable-fluidsynth
+			--enable-fontconfig
+			--disable-freerdp
+			--enable-freetype
+			--enable-fribidi
+			--enable-gles2
+			--disable-gme
+			--enable-gnutls
+			--disable-goom
+			--disable-gst-decode
+			--enable-harfbuzz
+			--disable-jack
+			--enable-jpeg
+			--enable-kate
+			--enable-kwallet
+			--enable-libass
+			--enable-libcddb
+			--enable-libgcrypt
+			--enable-libmpeg2
+			--disable-libplacebo
+			--enable-libtar
+# #			--enable-libva
+			--enable-libxml2
+			--disable-linsys
+			--disable-lirc
 			--enable-lua
-# #			--enable-live555
+			--disable-live555
+			--enable-mad
+			--enable-matroska
+			--disable-merge-ffmpeg
+			--disable-mfx
+			--disable-microdns
+			--disable-mmal
+			--enable-mod
+			--enable-mpg123
+			--disable-mpc
+			--disable-mtp
+			--disable-ncurses
+			--disable-nfs
+			--enable-nls
+			--enable-notify
+			--enable-ogg
+			--enable-oggspots
+			--disable-omxil
+			--disable-omxil-vout
+			--disable-opencv
+			--enable-optimizations
+			--enable-opus
+			--enable-oss
+			--enable-png
+			--enable-postproc
+			--disable-projectm
+			--disable-pulse
 			--enable-qt
+			--enable-realrtsp
+			--disable-rpi-omxil
+			--enable-samplerate
+			--enable-schroedinger
+			--enable-screen
+			--enable-sdl-image
+			--enable-secret
+			--disable-sftp
+			--disable-shine
+			--disable-shout
+			--disable-sid
+			--enable-skins2
+			--disable-smb2
+			--disable-smbclient
+			--enable-sndio
+			--enable-sout
+			--enable-soxr
+			--disable-spatialaudio
+			--enable-speex
+			--disable-srt
+			--enable-svg
+			--enable-svgdec
+			--enable-swscale
+			--disable-taglib
+			--enable-telx
+			--enable-theora
+			--disable-tiger
+			--disable-tremor
+			--enable-twolame
+			--enable-udev
+			--disable-update-check
+			--enable-upnp
+			--disable-v4l2
+			--enable-vcd
+			--enable-vdpau
+			--enable-vlc
+			--enable-vlm
+			--disable-vnc
+			--enable-vorbis
+			--enable-vpx
+			--disable-vsxu
+			--disable-wayland
+			--disable-wma-fixed
+			--disable-x262
+			--enable-x264
+			--enable-x26410b
+			--enable-x265
 			--enable-xcb
 			--enable-xvideo
+			--disable-zvbi
 			--with-x
-			--disable-v4l2
-			--disable-taglib
 			ac_cv_search_pthread_rwlock_init=-pthread
 			LUAC={{LUAC_CMD}} LUA_CFLAGS="-I{{LUA_INCDIR}}"
 			LUA_LIBS="-L{{LUA_LIBDIR}} -llua-{{LUA_VER}}"
 			BUILDCC="{{CC}}"
+CONFIGURE_ENV=		LIVE555_CFLAGS="-I{{LOCALBASE}}/include/liveMedia -I{{LOCALBASE}}/include/UsageEnvironment -I{{LOCALBASE}}/include/groupsock -I{{LOCALBASE}}/include/BasicUsageEnvironment" LIVE555_LIBS="-L{{LOCALBASE}}/lib -lliveMedia -lgroupsock -lBasicUsageEnvironment -lUsageEnvironment -L{{OPENSSLLIB}} -lssl -lcrypto"
 
 INSTALL_REQ_TOOLCHAIN=	yes
 PLIST_SUB=		SO_LIBVLC=${SO_LIBVLC}
@@ -208,6 +305,48 @@ PLIST_SUB=		SO_LIBVLC=${SO_LIBVLC}
 			SO_LIBVLCVDPAU_MAJ=${SO_LIBVLCVDPAU:R:R}
 			SO_LIBXCBE=${SO_LIBXCBE}
 			SO_LIBXCBE_MAJ=${SO_LIBXCBE:R:R}
+
+EXRUN[a52]=		primary a52dec:primary:std
+EXRUN[alsa]=		primary alsa-lib:primary:std
+EXRUN[aom]=		primary aom:primary:std
+EXRUN[ass]=		primary libass:primary:std
+EXRUN[avahi]=		primary avahi:primary:std
+EXRUN[bluray]=		primary libbluray:primary:std
+EXRUN[caca]=		primary libcaca:primary:std
+EXRUN[chromap]=		primary chromaprint:primary:std
+EXRUN[dav1d]=		primary dav1d:primary:std
+EXRUN[dbus]=		primary dbus:primary:std
+EXRUN[dirac]=		primary schroedinger:primary:std
+EXRUN[dvbpsi]=		primary libdvbpsi:primary:std
+EXRUN[dvdnav]=		primary libdvdnav:primary:std
+EXRUN[dvdread]=		primary libdvdread:primary:std
+EXRUN[faad]=		primary faad2:primary:std
+EXRUN[ffmpeg]=		primary ffmpeg5:primary:std
+EXRUN[flac]=		primary flac:primary:std flac:cxx:std
+# EXRUN[fluidsynth]=	primary fluidsynth:primary:std libsndfile:primary:std
+EXRUN[gcrypt]=		primary libgcrypt:primary:std
+EXRUN[gnutls]=		primary gnutls:primary:std
+EXRUN[kate]=		primary libkate:primary:std
+EXRUN[mad]=		primary libmad:primary:std
+EXRUN[mkv]=		primary libebml:primary:std libmatroska:primary:std
+EXRUN[mod]=		primary libmodplug:primary:std
+EXRUN[mpeg2]=		primary libmpeg2:primary:std
+EXRUN[mpg123]=		primary mpg123:primary:std
+EXRUN[notify]=		primary libnotify:primary:std
+EXRUN[ogg]=		primary libogg:primary:std
+EXRUN[opus]=		primary opus:primary:std
+EXRUN[samplerate]=	primary libsndfile:primary:std libsamplerate:primary:std
+EXRUN[secret]=		primary libsecret:primary:std
+EXRUN[sndio]=		primary sndio:primary:std
+EXRUN[soxr]=		primary libsoxr:primary:std
+EXRUN[speex]=		primary speexdsp:primary:std speex:primary:std
+EXRUN[theora]=		primary libtheora:primary:std
+EXRUN[twolame]=		primary libsndfile:primary:std twolame:primary:std
+EXRUN[upnp]=		primary libupnp:primary:std
+EXRUN[vorbis]=		primary libvorbis:primary:std
+EXRUN[vpx]=		primary libvpx:primary:std
+EXRUN[x264]=		primary x264:primary:std
+EXRUN[x265]=		primary x265:primary:std
 
 [BSD].DESCRIPTION=			Support BSD platform
 [BSD].BUILD_DEPENDS_ON=			libepoll-shim:dev:std
@@ -235,10 +374,7 @@ post-install:
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libvlccore.so
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/vlc/libvlc_vdpau.so
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/vlc/libvlc_xcb_events.so
-.for p in ${PLUGINS1}
-	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/vlc/plugins/${p}/*.so
-.endfor
-.for p in ${PLUGINS2}
+.for p in ${PLUGINS}
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/vlc/plugins/${p}/*.so
 .endfor
 	${RM} ${PREFIX}/lib/pkgconfig/Qt5*
