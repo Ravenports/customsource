@@ -1,2 +1,0 @@
-share/man/man1/xfce4-session-logout.1
-share/man/man1/xfce4-session.1

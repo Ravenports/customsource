@@ -1,2 +1,0 @@
-share/man/man1/vlc-wrapper.1
-share/man/man1/vlc.1
