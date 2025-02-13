@@ -1,0 +1,41 @@
+DEF[PORTVERSION]=	2.2.2
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		ncdu
+VERSION=		${PORTVERSION}
+KEYWORDS=		sysutils
+VARIANTS=		std
+SDESC[std]=		Disk usage analyzer with an ncurses interface
+HOMEPAGE=		https://dev.yorhel.nl/ncdu
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://dev.yorhel.nl/download/
+DISTFILE[1]=		ncdu-${PORTVERSION}.tar.gz:main
+
+SPKGS[std]=		set primary man
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		sysutils/ncdu
+
+LICENSE=		MIT:primary
+LICENSE_FILE=		MIT:{{WRKSRC}}/COPYING
+LICENSE_SCHEME=		solo
+
+BUILD_DEPENDS=		zig:single:std
+
+USES=			ncurses pkgconfig
+
+pre-build:
+	${CP} ${LOCALBASE}/include/ncurses/ncurses.h ${LOCALBASE}/include/ncurses.h
+
+do-build:
+	(cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} zig build -Drelease-safe=true \
+		-Dcpu=baseline --prefix-include-dir "${LOCALBASE}/include" \
+		--prefix ${STAGEDIR}${PREFIX})
+
+do-install:
+	(cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} zig install -Drelease-safe=true \
+		-Dcpu=baseline --prefix ${STAGEDIR}${PREFIX})
