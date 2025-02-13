@@ -1,0 +1,40 @@
+From 77b1349342b652e6064d523b2a37de22618fb95d Mon Sep 17 00:00:00 2001
+From: Emmanuel Vadot <manu@FreeBSD.org>
+Date: Tue, 7 Jun 2022 11:22:30 +0200
+Subject: [PATCH] FreeBSD: Drop unneeded code
+
+FreeBSD have modesetting for a long time now, remove unneeded check
+
+Signed-off-by: Emmanuel Vadot <manu@FreeBSD.org>
+---
+ src/amdgpu_probe.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
+
+--- src/amdgpu_probe.c.orig
++++ src/amdgpu_probe.c
+@@ -88,22 +88,6 @@ static Bool amdgpu_device_matches(const drmDevicePtr device,
+ 
+ static Bool amdgpu_kernel_mode_enabled(ScrnInfoPtr pScrn)
+ {
+-#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+-	AMDGPUEntPtr pAMDGPUEnt = AMDGPUEntPriv(pScrn);
+-	const char *busIdString = pAMDGPUEnt->busid;
+-	int ret = drmCheckModesettingSupported(busIdString);
+-
+-	if (ret) {
+-		if (xf86LoadKernelModule("amdgpukms"))
+-			ret = drmCheckModesettingSupported(busIdString);
+-	}
+-	if (ret) {
+-		xf86DrvMsgVerb(pScrn->scrnIndex, X_INFO, 0,
+-			       "[KMS] drm report modesetting isn't supported.\n");
+-		return FALSE;
+-	}
+-
+-#endif
+ 	xf86DrvMsgVerb(pScrn->scrnIndex, X_INFO, 0,
+ 		       "[KMS] Kernel modesetting enabled.\n");
+ 	return TRUE;
+-- 
+GitLab
+

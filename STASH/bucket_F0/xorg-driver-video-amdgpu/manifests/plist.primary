@@ -1,0 +1,2 @@
+lib/xorg/modules/drivers/amdgpu_drv.so
+share/X11/xorg.conf.d/10-amdgpu.conf
