@@ -1,0 +1,81 @@
+DEF[PORTVERSION]=	7.87.0
+DEF[SOVERSION]=		4.8.0
+DEF[DOCS]=		FAQ INSTALL KNOWN_BUGS MAIL-ETIQUETTE THANKS TODO options-in-versions
+# MANUAL
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		flatcurl
+VERSION=		${PORTVERSION}
+KEYWORDS=		ftp net www
+VARIANTS=		std
+SDESC[std]=		Tool and library for transferring data with URLs
+HOMEPAGE=		https://curl.haxx.se/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		http://curl.haxx.se/download/
+DISTFILE[1]=		curl-${PORTVERSION}.tar.xz:main
+
+SPKGS[std]=		set primary manpages examples docs
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+LICENSE=		MIT:primary
+LICENSE_FILE=		MIT:{{WRKSRC}}/COPYING
+LICENSE_SCHEME=		solo
+
+RUN_DEPENDS=		nss:caroot:std
+BUILD_DEPENDS=		libressl:single:static
+# BUILDRUN_DEPENDS=	libnghttp2:single:std
+
+FPC_EQUIVALENT=		ftp/curl
+
+# libtool
+USES=			cpe gmake shebangfix execinfo
+# #			perl:build pkgconfig
+MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--disable-werror
+			--disable-shared
+			--disable-imap
+			--disable-pop3
+# #			--disable-rtsp
+			--disable-smtp
+			--with-ca-bundle={{LOCALBASE}}/share/certs/ca-root-nss.crt
+			--enable-cookies
+			--without-nghttp2
+			--with-ssl={{LOCALBASE}}/libressl
+			--enable-pthreads
+			--enable-threaded-resolver
+CONFIGURE_ENV=		LOCALBASE={{LOCALBASE}}
+# LDFLAGS=		-L{{LOCALBASE}}/libressl/lib
+CPPFLAGS=		-I{{LOCALBASE}}/libressl/include
+TEST_TARGET=		test
+CPE_VENDOR=		haxx
+CPE_PRODUCT=		libcurl
+SHEBANG_FILES=		*/*.pl
+SOVERSION=		${SOVERSION}
+DISTNAME=		curl-${PORTVERSION}
+
+pre-configure:
+	# ${REINPLACE_CMD} -e '/^SUBDIRS = / s|$$| docs scripts|; /^DIST_SUBDIRS = / s| docs scripts||; /cd docs &&/d' \
+		${WRKSRC}/Makefile.in
+	# ${REINPLACE_CMD} -e 's|\(flags_dbg_off=\)".*"|\1""|; s|\(flags_opt_off=\)".*"|\1""|' \
+		${WRKSRC}/configure
+	# ${REINPLACE_CMD} -e 's|include <gssapi.h>|include <gssapi/gssapi.h>|' \
+		${WRKSRC}/lib/curl_gssapi.h ${WRKSRC}/lib/urldata.h
+	# fix libcurl.pc
+	# ${REINPLACE_CMD} -e '/^Libs.private:/ s|:|: -L${OPENSSLLIB}|' \
+		${WRKSRC}/libcurl.pc.in
+
+post-install:
+	${MKDIR} ${STAGEDIR}${STD_DOCDIR}/libcurl \
+		${STAGEDIR}${STD_EXAMPLESDIR}
+	(cd ${WRKSRC}/docs/ && \
+		${INSTALL_DATA} ${DOCS} *.md ${STAGEDIR}${STD_DOCDIR}/)
+	(cd ${WRKSRC}/docs/libcurl/ && ${INSTALL_DATA} \
+		*.m4 ${STAGEDIR}${STD_DOCDIR}/libcurl/)
+	(cd ${WRKSRC}/docs/examples/ && ${INSTALL_DATA} \
+		README.md Makefile.example *.c *.cpp \
+		${STAGEDIR}${STD_EXAMPLESDIR}/)
+	${RM} ${STAGEDIR}${PREFIX}/lib/libcurl.la
