@@ -1,0 +1,28 @@
+DEF[PORTVERSION]=	0.9.9
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		gnudatalanguage
+VERSION=		${PORTVERSION}
+KEYWORDS=		science lang math
+VARIANTS=		std
+SDESC[std]=		IDL compatible incremental compiler
+HOMEPAGE=		https://github.com/gnudatalanguage/gdl
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		GITHUB/gnudatalanguage:gdl:v${PORTVERSION}
+DISTFILE[1]=		generated:main
+
+SPKGS[std]=		set primary examples
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+FPC_EQUIVALENT=		science/gnudatalanguage
+
+BUILDRUN_DEPENDS=	tiff:primary:std
+			libgeotiff:single:std
+			wxWidgets:primary:std
+
+USES=			cmake png pkgconfig readline
+XORG_COMPONENTS=	x11 sm ice xext
