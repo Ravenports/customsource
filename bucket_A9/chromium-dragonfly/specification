@@ -6,19 +6,21 @@ NAMEBASE=		chromium-dragonfly
 VERSION=		${PORTVERSION}
 KEYWORDS=		www
 VARIANTS=		std
-SDESC[std]=		Open source web browser from Google
+SDESC[std]=		Open-source web browser from Google
 HOMEPAGE=		https://www.chromium.org/
 CONTACT=		nobody
 
-DOWNLOAD_GROUPS=	main fpcpatch leaf
+DOWNLOAD_GROUPS=	main fpcpatch leaf external
 SITES[main]=		https://commondatastorage.googleapis.com/chromium-browser-official/
 SITES[leaf]=		https://leaf.dragonflybsd.org/~marino/raven-distfiles/chromium/dragonfly-${PORTVERSION}/
 SITES[fpcpatch]=	GITHUB/jrmarino:chromium-freebsd:${FPC_TAG}
+SITES[external]=	https://nerd.hu/distfiles/
 DISTFILE[1]=		chromium-${PORTVERSION}.tar.xz:main
 DISTFILE[2]=		generated:fpcpatch
-DISTFILE[3]=		patch-all:leaf
+DISTFILE[3]=		chrome-linux-${PORTVERSION}-llvm16.profdata.tar.xz:external
+DISTFILE[4]=		patch-all:leaf
 DIST_SUBDIR=		chromium
-DF_INDEX=		1 2
+DF_INDEX=		1 2 3
 
 SPKGS[std]=		set primary nls man
 
@@ -34,9 +36,13 @@ FPC_EQUIVALENT=		www/chromium
 ONLY_FOR_OPSYS=		freebsd dragonfly midnightbsd linux
 KAIJU=			yes
 
-PATCHFILES=		3
+PATCHFILES=		4
 
-BUILD_DEPENDS=		bash:primary:std
+SUB_FILES=		chromium-browser.desktop chrome
+SUB_LIST=		COMMENT="Open-source web browser from Google"
+
+BUILD_DEPENDS=		lld:primary:std
+			bash:primary:std
 			bindgen-cli:single:std
 			rust:single:std
 			nasm:primary:std
@@ -114,9 +120,9 @@ BUILDRUN_DEPENDS=	qt5-qtbase:primary:std
 RUN_DEPENDS=		fonts-noto-ttf:single:std
 			xdg-utils:set:std
 
-USES=			cpe png jpeg freetype fontconfig perl:build
-			gmake clang pkgconfig desktop-utils:primary
-			shebangfix
+USES=			cpe png jpeg freetype fontconfig gmake ninja clang
+			pkgconfig desktop-utils:primary shebangfix
+			python:build perl:build
 XORG_COMPONENTS=	x11 xcb xcomposite xcursor xext xdamage xfixes xi
 			xrandr xrender xscrnsaver xtst xshmfence
 GNOME_COMPONENTS=	glib libxml2 libxslt gtk3 dconf atk
@@ -126,7 +132,7 @@ SHEBANG_FILES=		chrome/tools/build/linux/chrome-wrapper
 			buildtools/linux64/clang-format
 BUILD_TARGET=		chrome
 DISTNAME=		chromium-${PORTVERSION}
-SKIP_BUILD=		yes
+CONFIGURE_ENV=		PKG_CONFIG_PATH="{{LOCALBASE}}/lib/qt5/pkgconfig"
 
 [BSD].DESCRIPTION=			Adjustments for BSD platforms
 [BSD].BUILD_DEPENDS_ON=			libepoll-shim:dev:std
@@ -136,13 +142,14 @@ SKIP_BUILD=		yes
 [DEBUG].MAKEFILE_OFF=			BUILDTYPE=Release
 
 [CODECS].DESCRIPTION=			Compile and enable patented codecs like H.264
-[CODECS].MAKEFILE_ON=			FFMPEG_BRAND="Chrome"
+[CODECS].MAKEFILE_ON=			FFMPEG_BRAND=Chrome
 					GN_ARGS+=proprietary_codecs=true
-[CODECS].MAKEFILE_OFF=			FFMPEG_BRAND="Chromium"
+[CODECS].MAKEFILE_OFF=			FFMPEG_BRAND=Chromium
 					GN_ARGS+=proprietary_codecs=false
 
 [CUPS].DESCRIPTION=			Add CUPS printer support
 [CUPS].BUILD_DEPENDS_ON=		cups:dev:std
+					cups:tools:std
 [CUPS].BUILDRUN_DEPENDS_ON=		cups:primary:std
 [CUPS].MAKEFILE_ON=			GN_ARGS+=use_cups=true
 [CUPS].MAKEFILE_OFF=			GN_ARGS+=use_cups=false
@@ -169,5 +176,111 @@ pre-patch:
 	${FIND} ${WRKDIR}/chromium-freebsd-${PORTVERSION} -type f -name "patch-*" -print0 |\
 	${XARGS} -0 -I {} ${PATCH} -d ${PATCH_WRKSRC} ${PATCH_ARGS} -i {}
 
+pre-configure:
+	# sandbox stuff
+	${MKDIR} ${WRKSRC}/sandbox/policy/dragonfly
+	${CP} ${WRKSRC}/sandbox/policy/freebsd/sandbox_freebsd.h \
+		${WRKSRC}/sandbox/policy/dragonfly/sandbox_dragonfly.h
+	${CP} ${WRKSRC}/sandbox/policy/freebsd/sandbox_freebsd.cc \
+		${WRKSRC}/sandbox/policy/dragonfly/sandbox_dragonfly.cc
+	${REINPLACE_CMD} -e "s|FreeBSD|DragonFly|g" \
+		-e "s|freebsd\/sandbox_freebsd.h|dragonfly\/sandbox_dragonfly.h|g" \
+		${WRKSRC}/sandbox/policy/dragonfly/sandbox_dragonfly.h \
+		${WRKSRC}/sandbox/policy/dragonfly/sandbox_dragonfly.cc
+
+	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} ${PYTHON_CMD} \
+		./build/linux/unbundle/replace_gn_files.py --system-libraries \
+		dav1d flac fontconfig freetype harfbuzz-ng icu libdrm libevent libpng \
+		libusb libwebp libxml libxslt openh264 opus snappy || ${FALSE}
+	# Chromium uses an unreleased version of FFmpeg, so configure it
+	${CP} -R \
+		${WRKSRC}/third_party/ffmpeg/chromium/config/Chrome/linux/ \
+		${WRKSRC}/third_party/ffmpeg/chromium/config/Chrome/dragonfly
+	cd ${WRKSRC}/third_party/ffmpeg && \
+		${PYTHON_CMD} chromium/scripts/build_ffmpeg.py ${OPSYS:tl} ${FFMPEG_TARGET} \
+		--config-only --branding=${FFMPEG_BRAND}
+
+	# Setup nodejs dependency
+	${MKDIR} ${WRKSRC}/third_party/node/${OPSYS:tl}/node-${OPSYS:tl}/bin
+	${LN} -sf ${LOCALBASE}/bin/node ${WRKSRC}/third_party/node/${OPSYS:tl}/node-${OPSYS:tl}/bin/node
+
+	# Setup buildtools/
+	${MKDIR} ${WRKSRC}/buildtools/${OPSYS:tl}
+	${LN} -sf ${WRKSRC}/buildtools/linux64/clang-format ${WRKSRC}/buildtools/${OPSYS:tl}
+	${LN} -sf ${WRKSRC}/out/${BUILDTYPE}/gn ${WRKSRC}/buildtools/${OPSYS:tl}
+	${LN} -sf /usr/bin/strip ${WRKSRC}/buildtools/${OPSYS:tl}/strip
+
+	${REINPLACE_CMD} -e "s|clang60|clang|g" \
+		-e "s|clang\+\+60|clang++|g" \
+		${WRKSRC}/build/toolchain/gcc_toolchain.gni
+
+	cd ${FFMPEG_BDIR} && gmake ffversion.h
+	${MKDIR} ${FFMPEG_CDIR}
+.for _e in config.h config.asm config_components.h libavcodec libavformat libavutil
+	-${CP} -pR ${FFMPEG_BDIR}/${_e} ${FFMPEG_CDIR}
+.endfor
+
+
+do-configure:
+	# GN generator bootstrapping and generating ninja files
+	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} \
+		CC=clang CXX=clang++ CPP=clang-cpp LD=ld.lld \
+		READELF=${READELF} AR=llvm-ar NM=llvm-nm ${PYTHON_CMD} \
+		./tools/gn/bootstrap/bootstrap.py ${GN_BOOTSTRAP_FLAGS}
+	cd ${WRKSRC} && ${SETENV} ${CONFIGURE_ENV} host_os=dragonfly ./out/${BUILDTYPE}/gn \
+		gen --args='${GN_ARGS}' out/${BUILDTYPE}
+
 do-install:
-	# do nothing
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/chromium
+	${INSTALL_MAN} ${WRKSRC}/chrome/app/resources/manpage.1.in \
+		${STAGEDIR}${PREFIX}/share/man/man1/chrome.1
+	${SED} -i "" -e 's,\@\@PACKAGE\@\@,chromium,g;s,\@\@MENUNAME\@\@,Chromium Web Browser,g' \
+		${STAGEDIR}${PREFIX}/share/man/man1/chrome.1
+	${INSTALL_DATA} ${WRKSRC}/chrome/app/theme/chromium/product_logo_22_mono.png \
+		${WRKSRC}/chrome/app/theme/chromium/product_logo_22.png
+.for s in 22 24 48 64 128 256
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps
+	${INSTALL_DATA} ${WRKSRC}/chrome/app/theme/chromium/product_logo_${s}.png \
+		${STAGEDIR}${PREFIX}/share/icons/hicolor/${s}x${s}/apps/chrome.png
+.endfor
+	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/*.png ${STAGEDIR}${PREFIX}/share/chromium
+	${INSTALL_DATA} ${WRKSRC}/out/${BUILDTYPE}/*.pak ${STAGEDIR}${PREFIX}/share/chromium
+.for d in protoc mksnapshot
+	${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/${d} ${STAGEDIR}${PREFIX}/share/chromium
+.endfor
+	${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/chrome \
+		${STAGEDIR}${PREFIX}/share/chromium
+	cd ${WRKSRC}/out/${BUILDTYPE} && \
+		${COPYTREE_SHARE} "locales resources" ${STAGEDIR}${PREFIX}/share/chromium
+	${MKDIR} ${STAGEDIR}${DESKTOPDIR}
+	${INSTALL_DATA} ${WRKDIR}/chromium-browser.desktop \
+		${STAGEDIR}${DESKTOPDIR}
+	${INSTALL_SCRIPT} ${WRKDIR}/chrome ${STAGEDIR}${PREFIX}/bin
+	${INSTALL_SCRIPT} ${WRKSRC}/chrome/tools/build/linux/chrome-wrapper \
+		${STAGEDIR}${PREFIX}/share/chromium
+
+	# ANGLE, EGL, Vk
+.for f in libEGL.so libGLESv2.so libVkICD_mock_icd.so
+	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/${f} ${STAGEDIR}${PREFIX}/share/chromium
+.endfor
+	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libvulkan.so.1 \
+		${STAGEDIR}${PREFIX}/share/chromium/libvulkan.so
+
+.if ${BUILDTYPE} == Debug
+	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libVkLayer_khronos_validation.so \
+		${STAGEDIR}${PREFIX}/share/chromium
+.endif
+
+	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/libvk_swiftshader.so \
+		${STAGEDIR}${PREFIX}/share/chromium
+
+
+post-install-DEBUG-ON:
+	${INSTALL_LIB} ${WRKSRC}/out/${BUILDTYPE}/*.so \
+		${STAGEDIR}${PREFIX}/share/chromium
+	${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/character_data_generator \
+		${STAGEDIR}${PREFIX}/share/chromium
+
+post-install-DRIVER-ON:
+	${INSTALL_PROGRAM} ${WRKSRC}/out/${BUILDTYPE}/chromedriver.unstripped \
+		${STAGEDIR}${PREFIX}/bin/chromedriver

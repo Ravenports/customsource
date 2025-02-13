@@ -1,3 +1,5 @@
+GN_BOOTSTRAP_FLAGS=	--no-clean --no-rebuild --skip-generate-buildfiles
+
 GN_ARGS+=	clang_use_chrome_plugins=false \
 		enable_backup_ref_ptr_support=false \
 		enable_hangout_services_extension=true \
@@ -50,8 +52,9 @@ WANTSPACE=	"14 GB"
 MAKE_ARGS+=	-C out/Release
 .endif 
 
-FFMPEG_BDIR=	${WRKSRC}/third_party/ffmpeg/build.${FFMPEG_TARGET}.freebsd/${FFMPEG_BRAND}
-FFMPEG_CDIR=	${WRKSRC}/third_party/ffmpeg/chromium/config/${FFMPEG_BRAND}/freebsd/${FFMPEG_TARGET}
+FFMPEG_BDIR=	${WRKSRC}/build.${FFMPEG_TARGET}.${OPSYS:tl}/${FFMPEG_BRAND}
+FFMPEG_CDIR=	${WRKSRC}/third_party/ffmpeg/chromium/config/${FFMPEG_BRAND}/${OPSYS:tl}/${FFMPEG_TARGET}
+FFMPEG_TARGET=	x64
 
 # rust
 RUSTC_VERSION!=	rustc -V 2>/dev/null || true
@@ -59,3 +62,9 @@ MAKE_ENV+=	RUSTC_BOOTSTRAP=1
 GN_ARGS+=	enable_rust=true \
 		rust_sysroot_absolute="${LOCALBASE}" \
 		rustc_version="${RUSTC_VERSION}"
+
+# FreeBSD Chromium Api Key
+# Set up Google API keys, see http://www.chromium.org/developers/how-tos/api-keys .
+# Note: these are for FreeBSD use ONLY. For your own distribution,
+# please get your own set of keys.
+GN_ARGS+=	google_api_key="AIzaSyBsp9n41JLW8jCokwn7vhoaMejDFRd1mp8"
