@@ -1,0 +1,47 @@
+--- dist/Makefile.in.orig	2010-04-12 20:25:22 UTC
++++ dist/Makefile.in
+@@ -11,7 +11,7 @@ exec_prefix=@exec_prefix@
+ bindir=	@bindir@
+ includedir=@includedir@
+ libdir=	@libdir@
+-docdir=	$(prefix)/docs
++docdir=	$(prefix)/../share/docs/db4
+ 
+ dmode=	755
+ emode=	555
+@@ -942,11 +942,7 @@ install_include:
+ 	    $(CHMOD) $(dmode) $(DESTDIR)$(includedir))
+ 	@cd $(DESTDIR)$(includedir) && $(RM) $(INCDOT)
+ 	@for f in $(INCDOT); do \
+-	    for d in . $(srcdir)/stl ; do \
+-	        test -f $$d/$$f && \
+-	            $(CP) -p $$d/$$f $(DESTDIR)$(includedir) ; \
+-	    done ; \
+-	    $(CHMOD) $(fmode) $(DESTDIR)$(includedir)/$$f ; \
++	    $(BSD_INSTALL_DATA) $$f $(DESTDIR)$(includedir) ; \
+ 	done
+ 
+ uninstall_include:
+@@ -958,7 +954,7 @@ install_lib:
+ 	    ($(MKDIR) -p $(DESTDIR)$(libdir) && \
+ 	    $(CHMOD) $(dmode) $(DESTDIR)$(libdir))
+ 	@cd $(DESTDIR)$(libdir) && $(RM) $(LIB_INSTALL_FILE_LIST)
+-	@$(INSTALLER) @INSTALL_LIBS@ $(DESTDIR)$(libdir)
++	@libtool --mode=install $(BSD_INSTALL_LIB) @INSTALL_LIBS@ $(DESTDIR)$(libdir)
+ 	@(cd $(DESTDIR)$(libdir) && \
+ 	    test -f $(libso) && $(LN) -s $(libso) $(libso_default); \
+ 	    test -f $(libso) && $(LN) -s $(libso) $(libso_major); \
+@@ -984,11 +980,8 @@ install_utilities:
+ 	    ($(MKDIR) -p $(DESTDIR)$(bindir) && \
+ 	    $(CHMOD) $(dmode) $(DESTDIR)$(bindir))
+ 	@for i in $(UTIL_PROGS); do \
+-		test -f $$i.exe && i=$$i.exe || i=$$i; \
+-		$(RM) $(DESTDIR)$(bindir)/$$i; \
+-		$(INSTALLER) $$i $(DESTDIR)$(bindir)/$$i; \
+-		$(STRIP) $(DESTDIR)$(bindir)/$$i; \
+-		$(CHMOD) $(emode) $(DESTDIR)$(bindir)/$$i; \
++		target="${DESTDIR}${bindir}/`echo $$i | sed '${transform}'`"; \
++		libtool --mode=install $(BSD_INSTALL_PROGRAM) $$i $$target; \
+ 	done
+ 
+ uninstall_utilities:

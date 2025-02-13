@@ -1,0 +1,7 @@
+db4/include/db.h
+db4/include/db_185.h
+db4/include/db_cxx.h
+db4/lib/libdb.a
+db4/lib/libdb.so
+db4/lib/libdb_cxx.a
+db4/lib/libdb_cxx.so
