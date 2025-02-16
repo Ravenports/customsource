@@ -1,5 +1,5 @@
 DEF[PORTVERSION]=	1.0
-DEF[TAG]=		345d6bf
+DEF[TAG]=		b94c2e6
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		ravensys-vuln
