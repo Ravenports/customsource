@@ -1,5 +1,5 @@
 DEF[PORTVERSION]=	1.0
-DEF[TAG]=		b94c2e6
+DEF[TAG]=		v0.5
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		ravensys-vuln
@@ -26,6 +26,9 @@ LICENSE_SCHEME=		solo
 INFRASTRUCTURE=		yes
 
 RUN_DEPENDS=		mariadb114:server:std
-USES=			python
+
+SUB_FILES=		messages-single.ucl
+
+USES=			python:run
 
 MAKE_ARGS=		PORTNAME={{NAMEBASE}}
