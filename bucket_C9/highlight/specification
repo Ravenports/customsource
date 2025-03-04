@@ -1,0 +1,41 @@
+DEF[PORTVERSION]=	25.0.0
+DEF[TAG]=		v${PORTVERSION}
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		highlight
+VERSION=		${PORTVERSION}
+KEYWORDS=		ada
+VARIANTS=		std
+SDESC[std]=		Syntax Highlighter
+HOMEPAGE=		none
+CONTACT=		John_Testor[bogus@gmail.com]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		GITHUB/AdaCore:libadalang:${TAG}
+DISTFILE[1]=		generated:main
+
+SPKGS[std]=		single
+
+OPTIONS_AVAILABLE=	none
+OPTIONS_STANDARD=	none
+
+BUILD_DEPENDS=		libadalang:dev:std
+			libiconv:dev:std
+BUILDRUN_DEPENDS=	libadalang:primary:std
+			gnatcoll-bindings:iconv:std
+
+USES=			gmake gprbuild
+
+BUILD_WRKSRC=		{{WRKSRC}}/contrib/highlight
+CONFIGURE_WRKSRC=	{{WRKSRC}}/contrib/highlight
+INSTALL_WRKSRC=		{{WRKSRC}}/contrib/highlight
+INSTALL_REQ_TOOLCHAIN=	yes
+
+do-build:
+	${SETENV} ${MAKE_ENV} gprbuild -XLIBRARY_TYPE=static -p -j0 -P ${BUILD_WRKSRC}/highlight.gpr
+
+do-install:
+	${SETENV} ${MAKE_ENV} gprinstall -XLIBRARY_TYPE=static \
+		--prefix=${STAGEDIR}${PREFIX} \
+		--no-manifests \
+		-p -P ${INSTALL_WRKSRC}/highlight.gpr

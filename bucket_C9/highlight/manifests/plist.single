@@ -1,0 +1,13 @@
+bin/ada2web
+bin/highlight
+include/highlight/ada2web.adb
+include/highlight/colors.ads
+include/highlight/example.adb
+include/highlight/highlight.adb
+include/highlight/highlighter.adb
+include/highlight/highlighter.ads
+include/highlight/html.adb
+include/highlight/html.ads
+include/highlight/term256.adb
+include/highlight/term256.ads
+share/gpr/highlight.gpr
