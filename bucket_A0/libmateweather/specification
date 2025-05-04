@@ -37,6 +37,7 @@ USES=			gettext gmake gtk-doc iconv libtool pkgconfig
 GNOME_COMPONENTS=	glib gtk3 libxml2
 
 MUST_CONFIGURE=		gnu
+CONFIGURE_ARGS=		--with-zoneinfo-dir=/usr/share/zoneinfo
 INSTALL_TARGET=		install-strip
 SOVERSION=		${SOVERSION}
 GLIB_SCHEMAS=		org.mate.weather.gschema.xml
