@@ -93,6 +93,7 @@ MESON_ARGS=		-Daa=enabled
 			-Dprint=true
 			-Dbug-report-url="https://ravenports.com/"
 			-Dgi-docgen=enabled
+			-Dshmem-type=posix
 CPE_VENDOR=		gimp
 CPE_PRODUCT=		gimp
 # SHEBANG_FILES=		plug-ins/pygimp/plug-ins/*.py
@@ -109,4 +110,5 @@ SOVERSION=		${SOVERSION}
 [LINUX].MAKEFILE_OFF=			VAR1="-lexecinfo -lm"
 
 post-extract:
+	${CP} ${FILESDIR}/cp-plug-in-subfolder.py ${WRKSRC}/build/meson/
 	glib-compile-schemas ${LOCALBASE}/share/glib-2.0/schemas
