@@ -106,9 +106,6 @@ BUILD_DEPENDS=		ctpl:dev:std
 BUILDRUN_DEPENDS=	geany:primary:std
 			vte:primary:std
 
-USES=			clang gettext libtool pkgconfig ssl:build
-GNOME_COMPONENTS=	glib gtk3 intltool
-
 EXRUN[geanyctags]=	ctags:primary:std
 EXRUN[geanygendoc]=	ctpl:primary:std
 EXRUN[geanylua]=	lua51:primary:std
@@ -123,3 +120,8 @@ EXRUN[spellcheck]=	enchant:primary:std
 EXRUN[updatechecker]=	libsoup-2.4:primary:std
 EXRUN[webhelper]=	webkit2:primary:api40
 EXRUN[workbench]=	libgit2:primary:std
+
+USES=			gettext libtool pkgconfig ssl:build
+GNOME_COMPONENTS=	glib gtk3 intltool
+CFLAGS=			-Wno-deprecated-declarations
+INSTALL_REQ_TOOLCHAIN=	yes
