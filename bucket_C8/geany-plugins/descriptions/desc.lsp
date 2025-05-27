@@ -1,3 +1,0 @@
-LSP Client is a language server protocol client plugin that allows to run 
-multiple language servers for various programming languages, making their 
-functionality accessible to Geany.
