@@ -1,4 +1,4 @@
---- libgimpconfig/gimpconfigwriter.c.orig	2025-03-23 22:47:58 UTC
+--- libgimpconfig/gimpconfigwriter.c.orig	2025-05-17 22:51:03 UTC
 +++ libgimpconfig/gimpconfigwriter.c
 @@ -148,11 +148,8 @@ gimp_config_writer_new_from_file (GFile
    dir = g_file_get_parent (file);

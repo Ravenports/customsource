@@ -1,4 +1,4 @@
-DEF[PORTVERSION]=	3.0.2
+DEF[PORTVERSION]=	3.0.4
 DEF[SOVERSION]=		0.1000.${PORTVERSION:E}
 # ----------------------------------------------------------------------------
 
@@ -88,12 +88,17 @@ MESON_ARGS=		-Daa=enabled
 			-Dalsa=disabled
 			-Dappdata-test=disabled
 			-Dicc-directory="{{LOCALBASE}}/share/color/icc"
+			-Dlinux-input=disabled
 			-Denable-console-bin=true
 			-Denable-multiproc=true
 			-Dprint=true
 			-Dbug-report-url="https://ravenports.com/"
 			-Dgi-docgen=enabled
 			-Dshmem-type=posix
+			-Dcheck-update=no
+			-Dheadless-tests=disabled
+			-Dappdata-test=disabled
+			-Dgudev=disabled
 CPE_VENDOR=		gimp
 CPE_PRODUCT=		gimp
 # SHEBANG_FILES=		plug-ins/pygimp/plug-ins/*.py
