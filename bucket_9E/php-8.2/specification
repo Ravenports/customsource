@@ -49,8 +49,6 @@ BUILD_DEPENDS=		autoconf:primary:std
 			enchant:set:std
 			libffi:set:std
 			tidy:set:std
-			WebP:set:std
-			xorg-xpm:set:std
 			oniguruma:set:std
 			unixODBC:set:std
 			freetds:set:std
@@ -63,8 +61,7 @@ EXRUN[dba]=		db4:primary:std
 EXRUN[enchant]=		enchant:primary:std
 EXRUN[ftp]=		ssl
 EXRUN[ffi]=		libffi:primary:std
-EXRUN[gd]=		WebP:primary:std
-			xorg-xpm:primary:std
+EXRUN[gd]=		libGD:primary:std
 EXRUN[gettext]=		gettext:primary:std
 EXRUN[gmp]=		gmp:primary:std
 # EXRUN[iconv]=		iconv
@@ -83,9 +80,8 @@ EXRUN[zlib]=		zlib:primary:std
 SUB_FILES=		scripts-dev.ucl
 SUB_LIST=		SUFFIX=${SUFFIX}
 
-USES=			cpe gmake pkgconfig zlib pcre2 mbsdfix
-			jpeg:build png:build freetype:build bz2:build curl:build
-			pcre:build ssl:build gettext:build iconv:build
+USES=			cpe gmake pkgconfig zlib iconv pcre2 mbsdfix
+			curl:build pcre:build ssl:build gettext:build bz2:build
 			pgsql:client,build sqlite:build readline:build
 CPE_PRODUCT=		php
 GNOME_COMPONENTS=	libxml2
@@ -98,18 +94,36 @@ CONFIGURE_ARGS=		--with-layout=GNU
 			--with-libxml
 			--localstatedir=/var
 			--with-config-file-scan-dir={{PREFIX}}/etc/php${SUFFIX}
+			--with-bz2={{LOCALBASE}}
 			--with-db4={{LOCALBASE}}/db4
-			--with-mysqli={{LOCALBASE}}/bin/mysql_config
+			--with-curl={{LOCALBASE}}
+			--with-enchant={{LOCALBASE}}
+			--with-external-gd
+# #			--with-gettext={{LOCALBASE}}
+			--with-gmp={{LOCALBASE}}
+# #			--with-intl={{LOCALBASE}}
 			--with-mysqli=mysqlnd
+			--with-pcre-dir={{LOCALBASE}}
 			--with-pdo-mysql=mysqlnd
 			--with-pdo-odbc=unixODBC,{{LOCALBASE}}
 			--with-unixODBC={{LOCALBASE}}
+			--with-zlib-dir={{LOCALBASE}}
 			--sysconfdir={{PREFIX}}/etc/php${SUFFIX}
 			--libdir={{PREFIX}}/lib/php${SUFFIX}
 			--datadir={{PREFIX}}/share/php${SUFFIX}
+			--enable-bcmath
+			--enable-calendar
+			--enable-dba
+			--enable-dom
+			--enable-exif
+# #			--enable-ffi
+			--enable-fileinfo
+			--enable-filter
+			--enable-ftp
+			--enable-mbstring
 			--enable-mysqlnd
 			--enable-gd-jis-conv
-			--enable-gd-native-ttf
+# #			--enable-gd-native-ttf
 			--program-suffix=${SUFFIX}
 			{{ICONV_CONFIGURE_BASE:S/libiconv/iconv/}}
 CONFIGURE_ENV=		ac_cv_decimal_fp_supported="no"

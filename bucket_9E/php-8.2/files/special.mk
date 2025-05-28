@@ -7,8 +7,6 @@ PHP_EXT_DIR=	20220829
 PRIOR_session=	18
 PRIOR_opcache=	10
 
-CONFIGURE_ARGS+= ${EXTENSIONS:C/^/--enable-/}
-
 add-phpext-desc:
 .  for S in ${EXTENSIONS}
 	@${ECHO} "This ${NAMEBASE} subpackage contains the ${S} extension." > ${_DESC_FILE}.${S}
