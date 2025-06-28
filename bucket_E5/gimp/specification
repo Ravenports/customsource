@@ -1,5 +1,5 @@
 DEF[PORTVERSION]=	3.0.4
-DEF[SOVERSION]=		0.1000.${PORTVERSION:E}
+DEF[SOVERSION]=		0.0.4
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		gimp
@@ -72,7 +72,7 @@ BUILDRUN_DEPENDS=	libmypaint:primary:std
 			appstream-glib:primary:std
 			gsettings-desktop-schemas:primary:std
 
-USES=			cpe meson jpeg iconv pkgconfig shebangfix
+USES=			cpe meson jpeg iconv pkgconfig
 			freetype execinfo xz bz2 zlib tiff ssl:build
 			gnome-icons:primary desktop-utils:primary python
 GNOME_COMPONENTS=	cairo gtk3 intltool librsvg introspection
@@ -101,7 +101,6 @@ MESON_ARGS=		-Daa=enabled
 			-Dgudev=disabled
 CPE_VENDOR=		gimp
 CPE_PRODUCT=		gimp
-# SHEBANG_FILES=		plug-ins/pygimp/plug-ins/*.py
 SOVERSION=		${SOVERSION}
 
 [LINUX].DESCRIPTION=			Build variations for Linux
