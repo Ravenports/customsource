@@ -1,0 +1,125 @@
+DEF[PORTVERSION]=	25.1.2
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		xlibre-xserver
+VERSION=		${PORTVERSION}
+KEYWORDS=		x11_servers
+VARIANTS=		std virtual xephyr nest
+SDESC[std]=		XLibre X11 server and related programs
+SDESC[virtual]=		XLibre virtual framebuffer server
+SDESC[nest]=		XLibre nesting X11 server
+SDESC[xephyr]=		XLibre X11 server based on kdrive
+HOMEPAGE=		https://github.com/X11Libre/xserver/
+CONTACT=		Michael_Reim[kraileth@elderlinux.org]
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://github.com/X11Libre/xserver/archive/refs/tags/
+DISTFILE[1]=		xlibre-xserver-${PORTVERSION}.tar.gz:main
+
+SPKGS[std]=		set primary man dev docs
+SPKGS[virtual]=		set primary man
+SPKGS[nest]=		set primary man
+SPKGS[xephyr]=		set primary man
+
+# UDEV (emulated or real) is required to make use of evdev-based drivers
+# (xorg-driver-input-evdev and xorg-driver-input-libinput). Only available
+# on platforms that support event devices (i. e. which expose /dev/input/*).
+#
+# Linux dropped support for classic input drivers (xorg-driver-input-keyboard
+# and xorg-driver-input-mouse). FreeBSD and MidnightBSD can use either.
+# NetBSD does not support evdev as of rel 9.3. DragonFly should, but untested.
+
+OPTIONS_AVAILABLE=	XLIBRE VIRTUAL XEPHYR NEST UDEV ROOTLESS
+OPTIONS_STANDARD=	XLIBRE UDEV
+VOPTS[virtual]=		XLIBRE=OFF VIRTUAL=ON XEPHYR=OFF NEST=OFF UDEV=OFF ROOTLESS=OFF
+VOPTS[xephyr]=		XLIBRE=OFF VIRTUAL=OFF XEPHYR=ON NEST=OFF UDEV=OFF ROOTLESS=OFF
+VOPTS[nest]=		XLIBRE=OFF VIRTUAL=OFF XEPHYR=OFF NEST=ON UDEV=OFF ROOTLESS=OFF
+OPT_ON[all]=		XLIBRE
+OPT_ON[dragonfly]=	UDEV ROOTLESS
+OPT_ON[freebsd]=	UDEV ROOTLESS
+OPT_ON[linux]=		UDEV ROOTLESS
+OPT_ON[midnightbsd]=	UDEV ROOTLESS
+OPT_ON[netbsd]=		ROOTLESS
+
+LICENSE=		MIT:primary
+LICENSE_FILE=		MIT:{{WRKSRC}}/COPYING
+LICENSE_SCHEME=		solo
+
+FPC_EQUIVALENT=		x11-servers/xlibre-server
+
+DISTNAME=		xserver-xlibre-xserver-${PORTVERSION}
+
+BUILD_DEPENDS=		libdrm:dev:std
+			libepoxy:dev:std
+			libglvnd:dev:std
+			libmd:dev:std
+			mesa:dev:std
+			mesa:drivers:std
+			xorg-xcvt:dev:std
+			xorg-xkbcomp:dev:std
+BUILDRUN_DEPENDS=	libdrm:primary:std
+			libepoxy:primary:std
+			libglvnd:primary:std
+			libmd:primary:std
+			xorg-xcvt:primary:std
+			xorg-xkbcomp:primary:std
+
+USES=			bsd:epoll,gudev meson pkgconfig
+
+MESON_ARGS=		-Dxkb_dir="{{LOCALBASE}}/share/X11/xkb"
+			-Ddefault_font_path="{{fontlist:ts,}}"
+			-Dxcsecurity=true
+			-Ddtrace=false
+			-Dhal=false
+			-Dudev_kms=false
+			-Dxwin=false
+			-Dxquartz=false
+			-Dsystemd_logind=false
+			-Dxselinux=false
+			-Dfallback_input_driver=libinput
+			-Dxkb_dir={{LOCALBASE}}/share/X11/xkb
+			-Dxkb_output_dir=/var/lib/xkb
+
+C_USES[freebsd]=	clang
+
+[XLIBRE].DESCRIPTION=			Build as standard X server (don't change setting!)
+[VIRTUAL].DESCRIPTION=			Build as virtual framebuffer server
+[XEPHYR].DESCRIPTION=			Build as kdrive-based X server
+[NEST].DESCRIPTION=			Build as nesting X server
+[UDEV].DESCRIPTION=			Use udev for autoconfiguration of input devices
+[ROOTLESS].DESCRIPTION=			Use seatd to not require X to run as root
+
+[XLIBRE].BUILD_DEPENDS_ON=		xmlto:primary:std
+					xorg-sgml-doctools:single:std
+[XLIBRE].BUILDRUN_DEPENDS_ON=		mesa:drivers:std
+
+[ROOTLESS].BUILD_DEPENDS_ON=		basu:dev:std
+					seatd:dev:std
+[ROOTLESS].BUILDRUN_DEPENDS_ON=		seatd:primary:std
+
+[NEST].CONFIGURE_ARGS_ON=		-Dxnest=true
+[NEST].CONFIGURE_ARGS_OFF=		-Dxnest=false
+[VIRTUAL].CONFIGURE_ARGS_ON=		-Dxvfb=true
+[VIRTUAL].CONFIGURE_ARGS_OFF=		-Dxvfb=false
+[XEPHYR].CONFIGURE_ARGS_ON=		-Dxephyr=true
+[XEPHYR].CONFIGURE_ARGS_OFF=		-Dxephyr=false
+[XLIBRE].CONFIGURE_ARGS_ON=		-Ddocs=true
+					-Ddevel-docs=true
+					-Dglamor=true
+					-Dxorg=true
+					-Dlog_dir=/var/log
+					-Dsuid_wrapper=true
+[XLIBRE].CONFIGURE_ARGS_OFF=		-Ddocs=false
+					-Ddevel-docs=false
+					-Dglamor=false
+					-Dxorg=false
+
+[XLIBRE].XORG_COMPONENTS_ON=		fontutil pciaccess pixman xfont2 xkbfile xshmfence xcb-util xcb-util-image
+[NEST].XORG_COMPONENTS_ON=		fontutil pixman xfont2 xkbfile xshmfence xcb-util xcb-util-wm
+[VIRTUAL].XORG_COMPONENTS_ON=		fontutil pixman xcb-util xcb-util-image xfont2 xkbfile xshmfence
+[XEPHYR].XORG_COMPONENTS_ON=		fontutil pixman xfont2 xkbfile xshmfence xcb-render-util xcb-util xcb-util-image xcb-util-wm xcb-util-keysyms
+
+[UDEV].BUILD_DEPENDS_ON=		libudev-devd:dev:std
+[UDEV].BUILDRUN_DEPENDS_ON=		libudev-devd:primary:std
+[UDEV].CONFIGURE_ARGS_ON=		-Dudev=true
+[UDEV].CONFIGURE_ARGS_OFF=		-Dudev=false
