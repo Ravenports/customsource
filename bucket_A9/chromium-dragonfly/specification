@@ -1,5 +1,6 @@
-DEF[PORTVERSION]=	120.0.6099.129
+DEF[PORTVERSION]=	128.0.6613.137
 DEF[FPC_TAG]=		v${PORTVERSION}
+DEF[NERD_LLVM]=		llvm17
 # ----------------------------------------------------------------------------
 
 NAMEBASE=		chromium-dragonfly
@@ -17,7 +18,7 @@ SITES[fpcpatch]=	GITHUB/jrmarino:chromium-freebsd:${FPC_TAG}
 SITES[external]=	https://nerd.hu/distfiles/
 DISTFILE[1]=		chromium-${PORTVERSION}.tar.xz:main
 DISTFILE[2]=		generated:fpcpatch
-DISTFILE[3]=		chrome-linux-${PORTVERSION}-llvm16.profdata.tar.xz:external
+DISTFILE[3]=		chrome-linux-${PORTVERSION}-${NERD_LLVM}.profdata.tar.xz:external
 DISTFILE[4]=		patch-all:leaf
 DIST_SUBDIR=		chromium
 DF_INDEX=		1 2 3
