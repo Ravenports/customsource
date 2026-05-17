@@ -1,4 +1,3 @@
-bin/ada2web
 bin/highlight
 include/highlight/ada2web.adb
 include/highlight/colors.ads

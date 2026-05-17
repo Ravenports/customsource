@@ -1,3 +1,4 @@
+# see: https://github.com/AdaCore/libadalang/issues/973
 DEF[PORTVERSION]=	26.0.0
 DEF[TAG]=		v${PORTVERSION}
 # ----------------------------------------------------------------------------
@@ -23,6 +24,7 @@ BUILD_DEPENDS=		libadalang:dev:std
 			libiconv:dev:std
 BUILDRUN_DEPENDS=	libadalang:primary:std
 			gnatcoll-bindings:iconv:std
+			gdb:set:std
 
 USES=			gmake gprbuild
 
@@ -30,9 +32,11 @@ BUILD_WRKSRC=		{{WRKSRC}}/contrib/highlight
 CONFIGURE_WRKSRC=	{{WRKSRC}}/contrib/highlight
 INSTALL_WRKSRC=		{{WRKSRC}}/contrib/highlight
 INSTALL_REQ_TOOLCHAIN=	yes
+SET_DEBUGGING_ON=	yes
 
 do-build:
-	${SETENV} ${MAKE_ENV} gprbuild -XLIBRARY_TYPE=static -p -j0 -P ${BUILD_WRKSRC}/highlight.gpr
+	${SETENV} ${MAKE_ENV} gprbuild -XLIBRARY_TYPE=static -p -j0 \
+		-P ${BUILD_WRKSRC}/highlight.gpr -bargs -E
 
 do-install:
 	${SETENV} ${MAKE_ENV} gprinstall -XLIBRARY_TYPE=static \
