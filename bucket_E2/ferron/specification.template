@@ -25,14 +25,12 @@ LICENSE=		MIT:single
 LICENSE_FILE=		MIT:{{WRKSRC}}/LICENSE
 LICENSE_SCHEME=		solo
 
-ONLY_FOR_OPSYS=		linux freebsd
-
 USES=			cargo clang cmake:build
 
 MAKE_ENV=		LIBCLANG_PATH={{PREFIX}}/lib
 
 do-install:
-	cd ${WRKSRC} && ${CARGO_CARGO_RUN} install --path ferron --root \
+	cd ${WRKSRC} && ${CARGO_CARGO_RUN} install --path bin --root \
 		"${STAGEDIR}${PREFIX}" --verbose
 	${RM} ${STAGEDIR}${PREFIX}/.crates2.json
 	${RM} ${STAGEDIR}${PREFIX}/.crates.toml
