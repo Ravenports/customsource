@@ -1153,7 +1153,7 @@ LICENSE=		MIT:single
 LICENSE_FILE=		MIT:{{WRKSRC}}/LICENSE
 LICENSE_SCHEME=		solo
 
-USES=			cargo clang cmake:build
+USES=			cargo clang cmake:build cclibs:single
 
 MAKE_ENV=		LIBCLANG_PATH={{PREFIX}}/lib
 
