@@ -1,0 +1,7 @@
+
+[net]
+offline = true
+
+[patch."https://github.com/DorianNiemiecSVRJS/monoio"]
+monoio = {path = "/construction/ferron/monoio-7955c1356585d7ebd45d67f5932620c09ac0a701/crates/monoio"}
+monoio-macros = {path = "/construction/ferron/monoio-7955c1356585d7ebd45d67f5932620c09ac0a701/crates/monoio-macros"}
