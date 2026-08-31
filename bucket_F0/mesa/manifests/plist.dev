@@ -1,0 +1,6 @@
+include/gbm.h
+include/gbm_backend_abi.h
+include/GL/internal/dri_interface.h
+lib/libgbm.so
+lib/pkgconfig/dri.pc
+lib/pkgconfig/gbm.pc

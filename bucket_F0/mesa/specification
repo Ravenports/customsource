@@ -1,0 +1,165 @@
+DEF[PORTVERSION]=	26.2.1
+DEF[CLANGBASE]=		clang
+DEF[LLVMBASE]=		llvm
+DEF[SOVERSION]=		${PORTVERSION}
+# ----------------------------------------------------------------------------
+
+NAMEBASE=		mesa
+VERSION=		${PORTVERSION}
+KEYWORDS=		graphics
+VARIANTS=		std
+SDESC[std]=		Mesa 3D Graphics Library
+HOMEPAGE=		https://www.mesa3d.org/
+CONTACT=		nobody
+
+DOWNLOAD_GROUPS=	main
+SITES[main]=		https://archive.mesa3d.org/
+			https://mesa.freedesktop.org/archive/
+DISTFILE[1]=		mesa-${PORTVERSION}.tar.xz:main
+
+SPKGS[std]=		set primary drivers dev
+
+# WAYLAND only for DF and can't be used due to circularly dep
+# from graphviz (mesa)
+OPTIONS_AVAILABLE=	X86_DRIVERS ARM_DRIVERS LLVMPIPE WAYLAND
+OPTIONS_STANDARD=	X86_DRIVERS ARM_DRIVERS LLVMPIPE
+OPT_ON[x86_64]=		X86_DRIVERS
+OPT_ON[i386]=		X86_DRIVERS
+OPT_ON[aarch64]=	ARM_DRIVERS
+OPT_ON[netbsd]=		LLVMPIPE//i386|x86_64
+OPT_ON[freebsd]=	LLVMPIPE//i386|x86_64
+OPT_ON[dragonfly]=	LLVMPIPE//i386|x86_64
+OPT_ON[midnightbsd]=	LLVMPIPE//i386|x86_64
+OPT_ON[linux]=		LLVMPIPE//i386|x86_64
+OPT_ON[sunos]=		LLVMPIPE
+
+LICENSE=		MIT:primary
+			CUSTOM1:primary
+LICENSE_FILE=		MIT:{{WRKDIR}}/LICENSE_MIT
+			CUSTOM1:{{WRKDIR}}/LICENSE_SGI
+LICENSE_NAME=		CUSTOM1:"SGI Free Software License B"
+LICENSE_AWK=		MIT:"^$$"
+			CUSTOM1:"^$$"
+LICENSE_SOURCE=		MIT:{{WRKSRC}}/include/GL/gl.h
+			CUSTOM1:{{WRKSRC}}/src/glx/eval.c
+LICENSE_SCHEME=		multi
+
+FPC_EQUIVALENT=		graphics/mesa-libs
+
+BUILD_DEPENDS=		libdrm:dev:std
+			libelf:dev:std
+			libelf:primary:std
+			libglvnd:dev:std
+			libva:dev:std
+			python-Mako:single:python_used
+			python-PyYAML:single:python_used
+			python-packaging:single:python_used
+			xorg-pciaccess:dev:std
+BUILDRUN_DEPENDS=	libdrm:primary:std
+			xorg-pciaccess:primary:std
+
+EXRUN[drivers]=		mesa:primary:std
+			libelf:primary:std
+
+USES=			cpe bison gettext:build gmake meson pkgconfig
+			zstd zlib expat shebangfix
+			python:build c++:primary,drivers
+XORG_COMPONENTS=	x11 xdamage xext xfixes xshmfence xxf86vm xv xrandr xcb
+CPE_VENDOR=		mesa3d
+MESON_ARGS=		-Dplatforms=x11{{WAYPLAT}}
+			-Dzstd=enabled
+			-Dgallium-drivers={{GALLIUM_DRIVERS:tW:tl:C/[[:space:]]/,/g}}
+			-Dlibunwind=disabled
+			-Dgles1=disabled
+			-Dgles2=disabled
+			-Dglx=auto
+			-Dopengl=true
+			-Degl=disabled
+			-Dvulkan-drivers={{VULKAN_DRIVERS:tW:tl:C/[[:space:]]/,/g}}
+
+# There are issues that need to be fixed to use TLS model "initial-exec"
+# So stick with "global-dynamic"'s model for now. kan@ is working on a
+# patch for rtld. We might want to backport global-dynamic or
+# pthread_setspecific which it uses now by default. But since this
+# configure switch is going away ...
+# https://lists.freebsd.org/pipermail/freebsd-arch/2016-February/017699.html
+
+INSTALL_TARGET=		install-strip
+INSTALL_REQ_TOOLCHAIN=	yes
+SHEBANG_OLD_PYTHON=	/usr/bin/env[[:space:]]python2
+			/usr/bin/python2
+			/bin/env[[:space:]]python
+SHEBANG_FILES=		src/gallium/*/*/*.py
+			src/gallium/tools/trace/*.py
+			src/gallium/drivers/svga/svgadump/svga_dump.py
+			src/mesa/main/get_*.py
+			src/util/format_srgb.py
+			src/amd/*/*.py
+			src/intel/genxml/gen_pack_header.py
+CONFIGURE_ENV=		ax_cv_check_cflags___Wno_initializer_overrides=no
+CFLAGS=			-Wno-pointer-sign
+SOVERSION=		${SOVERSION}
+
+VAR_OPSYS[sunos]=	CPPFLAGS=-D__EXTENSIONS__=1
+			CPPFLAGS=-Wno-unused-function
+			CXXFLAGS=-Drestrict=__restrict__
+			CFLAGS=-D_POSIX_PTHREAD_SEMANTICS
+			CFLAGS=-Wno-incompatible-pointer-types
+			LDFLAGS=-lsocket
+			LDFLAGS=-lnsl
+			LDFLAGS=-Wl,-z,rescan
+
+[X86_DRIVERS].DESCRIPTION=		Build drivers for i386 and x86_64 architectures
+[ARM_DRIVERS].DESCRIPTION=		Build drivers for aarch64 architecture
+[LLVMPIPE].DESCRIPTION=			Build LLVM-based drivers and libraries
+[WAYLAND].DESCRIPTION=			Build Vulkan drivers for Wayland platform
+
+[LLVMPIPE].BUILD_DEPENDS_ON=		libclc:single:std
+					opencl-headers:single:std
+					ocl-icd:dev:std
+					${LLVMBASE}:tools:std
+					${LLVMBASE}:dev:std
+					${CLANGBASE}:set:std
+					spirv-tools:set:std
+					spirv-llvm-translator:set:std
+[LLVMPIPE].BUILDRUN_DEPENDS_ON=		${LLVMBASE}:primary:std
+					ocl-icd:primary:std
+[LLVMPIPE].RUN_DEPENDS_ON=		${CLANGBASE}:dynlibs:std
+[LLVMPIPE].MAKEFILE_ON=			GALLIUM_DRIVERS+={{GALLIUM_X86_LLVM}}
+					GALLIUM_DRIVERS+={{GALLIUM_ALL_LLVM}}
+					MESON_ARGS+=-Dllvm=enabled
+					MESON_ARGS+=-Dgallium-va=enabled
+[LLVMPIPE].MAKEFILE_OFF=		MESON_ARGS+=-Dllvm=disabled
+
+[X86_DRIVERS].MAKEFILE_ON=		GALLIUM_DRIVERS+={{GALLIUM_X86}}
+					VULKAN_DRIVERS+={{VULKAN_DRIVERS_X86}}
+[ARM_DRIVERS].MAKEFILE_ON=		GALLIUM_DRIVERS+={{GALLIUM_ARM64}}
+
+[WAYLAND].BUILD_DEPENDS_ON=		wayland-protocols:single:std
+					wayland:dev:std
+[WAYLAND].BUILDRUN_DEPENDS_ON=		wayland:primary:std
+[WAYLAND].MAKEFILE_ON=			WAYPLAT=,wayland
+					VULKAN_DRIVERS+=INTEL
+					VULKAN_DRIVERS_X86+=RADEON
+
+post-extract:
+	${AWK} '/Copyright/,/DEALINGS/' ${WRKSRC}/include/GL/glext.h \
+		> ${WRKDIR}/LICENSE_KHRONOS
+
+pre-patch-linux:
+	# qsort fixes for BSD break linux
+	${RM} ${PATCHDIR}/patch-meson.build
+
+pre-configure:
+	${REINPLACE_CMD} \
+		-e '/SYSCONFDIR/ s|/etc|${PREFIX}/etc|g' \
+		-e '/DATADIR/ s|/usr/share|${PREFIX}/share|g' \
+		${WRKSRC}/src/util/xmlconfig.c
+
+post-install:
+	${RM} ${STAGEDIR}${PREFIX}/lib/libGL.so*
+	${RM} ${STAGEDIR}${PREFIX}/include/GL/g*.h
+	${RM} ${STAGEDIR}${PREFIX}/lib/pkgconfig/gl.pc
+	${RM} -r ${STAGEDIR}${PREFIX}/include/KHR
+	${INSTALL_DATA} ${FILESDIR}/01-freebsd.conf \
+		${STAGEDIR}${PREFIX}/share/drirc.d

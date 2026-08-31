@@ -1,0 +1,21 @@
+The Mesa project began as an open-source implementation of the OpenGL
+specification - a system for rendering interactive 3D graphics.
+
+Over the years the project has grown to implement more graphics APIs,
+including OpenGL ES (versions 1, 2, 3), OpenCL, OpenMAX, VDPAU, VA API,
+XvMC and Vulkan.
+
+A variety of device drivers allows the Mesa libraries to be used in many
+different environments ranging from software emulation to complete
+hardware acceleration for modern GPUs.
+
+Mesa ties into several other open-source projects: the Direct Rendering
+Infrastructure and X.org to provide OpenGL support on Linux, FreeBSD
+and other operating systems.
+
+This package contains the Mesa OpenGL libraries for GLX and EGL clients.
+These include libOSMesa and libglesv2 as well as the utility libraries
+libglapi and gbm.  The OSMesa library is an Off-Screen version of Mesa
+in order to do off-screen rendering in other packages like VTK.
+Offscreen rendering is useful for a number of things, such as batch
+processing, parallel processing, and remote processing.
