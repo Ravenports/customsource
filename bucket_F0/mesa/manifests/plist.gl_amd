@@ -1,0 +1,8 @@
+%%LLVMPIPE-ON%%lib/dri/r600_dri.so
+%%LLVMPIPE-ON%%lib/dri/r600_drv_video.so
+%%LLVMPIPE-ON%%lib/dri/radeonsi_dri.so
+%%LLVMPIPE-ON%%lib/dri/radeonsi_drv_video.so
+%%X86_DRIVERS-ON%%lib/dri/r300_dri.so
+share/drirc.d/00-r300-defaults.conf
+share/drirc.d/00-r600-defaults.conf
+share/drirc.d/00-radeonsi-defaults.conf

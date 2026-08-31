@@ -1,0 +1,5 @@
+This subpackage contains Vulkan graphic drivers for GPUs used on ARM and 
+mobile platforms:
+
+* Turnip (Qualcomm Adreno 6xx+)
+* V3DV (Broadcom VideoCore VI in Raspberry Pi 4)

@@ -1,0 +1,5 @@
+This subpackage contains the OpenGL graphic drivers for AMD GPUs:
+
+* R300
+* R600
+* Radeonsi

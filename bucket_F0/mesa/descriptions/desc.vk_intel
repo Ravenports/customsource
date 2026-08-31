@@ -1,0 +1,4 @@
+This subpackage contains the Vulkan graphic drivers for Intel GPUs:
+
+* ANV (Intel Core 8th gen or later with Vulkan 1.3 support)
+* Hasvk (Intel Core 4th to 7th gen with legacy Vulkan support)

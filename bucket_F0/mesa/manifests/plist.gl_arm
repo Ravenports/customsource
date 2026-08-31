@@ -1,0 +1,5 @@
+%%ARM_DRIVERS-ON%%lib/dri/kgsl_dri.so
+%%ARM_DRIVERS-ON%%lib/dri/msm_dri.so
+%%ARM_DRIVERS-ON%%lib/dri/vc4_dri.so
+lib/dri/hdlcd_dri.so
+lib/dri/mali-dp_dri.so

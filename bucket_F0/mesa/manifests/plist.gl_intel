@@ -1,0 +1,5 @@
+%%LLVMPIPE-ON%%lib/dri/iris_dri.so
+%%X86_DRIVERS-ON%%lib/dri/crocus_dri.so
+%%X86_DRIVERS-ON%%lib/dri/i915_dri.so
+share/drirc.d/00-crocus-defaults.conf
+share/drirc.d/00-iris-defaults.conf

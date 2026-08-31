@@ -1,0 +1,10 @@
+This subpackage contains OpenGL drivers for small display controllers and specialty panels:
+
+* GM12U320 - Generalplus GM12U320 projector controller
+* hx8357d - HannStar hx8357d display controller
+* ili9163, ili9225, ili9341, ili9486 - ILI9xxx series display controllers
+* mi0283qt - MI0283QT display module
+* panel-mipi-dbi - MIPI DBI interface panels
+* repaper_dri.so - Repaper e-paper display driver
+* ssd130x - SSD130x OLED displays
+* st7586, st7735r - ST display controllers

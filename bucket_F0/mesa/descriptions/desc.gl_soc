@@ -1,0 +1,20 @@
+This subpackage contains OpenGL drivers for embedded System-on-Chip platforms:
+
+* Apple Silicon - Apple M1/M2/M3 series GPUs
+* ARM Armada - Marvell Armada SoCs
+* Exynos - Samsung Exynos mobile APs
+* i.MX - NXP i.MX 6/7/8 series (imx-dcss, imx-drm, imx-lcdif)
+* Ingenic JZ47xx - Ingenic XBurst CPUs
+* Kirin - HiSilicon Kirin mobile SoCs
+* Komeda - MediaTek Komeda GPU display units
+* MCDE - ST-Ericsson Mobile Display Controller Engine
+* Mediatek - Mediatek mobile APs
+* Meson - Amlogic Meson S905, GXL, etc.
+* MXSFB - NXP i.MX23/28 framebuffer
+* PL111 - ARM PL111 CRT LCD Controller
+* R-Car - Renesas R-Car H2/M3/H3
+* RZ/G2L - Renesas RZ/G2L ultra-low-power MPs
+* Rockchip - Rockchip RK3xxx series
+* STM - STMicroelectronics STM32 MCUs/MPUs (sti_drm, stm_drm)
+* Sun4I - Allwinner A10/A20/Hx series
+* ZynqMP - Xilinx Zynq UltraScale+ MPSoC

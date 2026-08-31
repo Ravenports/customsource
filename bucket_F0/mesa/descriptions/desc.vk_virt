@@ -1,0 +1,2 @@
+Vulkan driver for virtualized environments with virtio GPU support, 
+enabling hardware-accelerated graphics in VMs.

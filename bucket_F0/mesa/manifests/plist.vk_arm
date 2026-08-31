@@ -1,0 +1,6 @@
+%%VK_DRIVERS-ON%%lib/libvulkan_broadcom.so
+%%VK_DRIVERS-ON%%lib/libvulkan_freedreno.so
+%%VK_DRIVERS-ON%%share/drirc.d/00-turnip-defaults.conf
+%%VK_DRIVERS-ON%%share/drirc.d/00-v3dv-defaults.conf
+%%VK_DRIVERS-ON%%share/vulkan/icd.d/broadcom_icd.x86_64.json
+%%VK_DRIVERS-ON%%share/vulkan/icd.d/freedreno_icd.x86_64.json

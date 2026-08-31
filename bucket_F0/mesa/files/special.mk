@@ -1,8 +1,8 @@
 # common between x86/x86-64/arm64
-GALLIUM_DRIVERS+=	SOFTPIPE NOUVEAU SVGA VIRGL #ZINK
+GALLIUM_DRIVERS+=	SOFTPIPE NOUVEAU SVGA VIRGL ZINK
 
 # LLVMPIPE is supported on arm64, but currently the specification
-# defines it as x86-only.  Once ARM64 is support, update this.
+# defines it as x86-only. Once ARM64 is support, update this.
 
 #### MOST OF THESE NO LONGER BUILD ####
 

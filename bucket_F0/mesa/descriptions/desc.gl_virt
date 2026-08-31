@@ -1,0 +1,4 @@
+This subpackage contains the OpenGL graphic drivers for virtual machines:
+
+* VMWare driver
+* VirtIO graphics driver

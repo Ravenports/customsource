@@ -1,0 +1,6 @@
+%%VK_DRIVERS-ON%%lib/libvulkan_intel.so
+%%VK_DRIVERS-ON%%lib/libvulkan_intel_hasvk.so
+%%VK_DRIVERS-ON%%share/drirc.d/00-anv-defaults.conf
+%%VK_DRIVERS-ON%%share/drirc.d/00-hasvk-defaults.conf
+%%VK_DRIVERS-ON%%share/vulkan/icd.d/intel_hasvk_icd.x86_64.json
+%%VK_DRIVERS-ON%%share/vulkan/icd.d/intel_icd.x86_64.json

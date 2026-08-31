@@ -1,0 +1,5 @@
+lib/dri/virtio_gpu_dri.so
+lib/dri/virtio_gpu_drv_video.so
+lib/dri/vmwgfx_dri.so
+share/drirc.d/00-virtio_gpu-defaults.conf
+share/drirc.d/00-vmwgfx-defaults.conf

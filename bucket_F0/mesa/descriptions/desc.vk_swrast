@@ -1,0 +1,2 @@
+Software rasterizer driver (llvmpipe), providing Vulkan rendering when no 
+GPU acceleration is available. Uses LLVM for software emulation.

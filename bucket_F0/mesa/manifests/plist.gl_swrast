@@ -1,0 +1,3 @@
+lib/dri/kms_swrast_dri.so
+lib/dri/swrast_dri.so
+lib/dri/vkms_dri.so

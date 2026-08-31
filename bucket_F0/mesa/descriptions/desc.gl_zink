@@ -1,0 +1,3 @@
+This subpackage contains the Zink driver, providing OpenGL rendering on 
+top of Vulkan. This allows OpenGL applications to run on systems with 
+Vulkan support but no native OpenGL driver.

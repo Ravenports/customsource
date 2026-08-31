@@ -1,0 +1,6 @@
+This subpackage contains the OpenGL graphic drivers for GPUs used on the 
+ARM platform:
+
+* Qualcomm Adreno
+* Qualcomm Snapdragon
+* Broadcom VideoCore IV

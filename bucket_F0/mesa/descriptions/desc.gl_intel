@@ -1,0 +1,5 @@
+This subpackage contains the OpenGL graphic drivers for Intel GPUs:
+
+* Iris (Intel Core 8th gen or later)
+* Crocus (Intel Core 4th to 7th gen)
+* i915 (Intel Core 3rd gen)

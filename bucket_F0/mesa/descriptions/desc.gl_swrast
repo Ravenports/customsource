@@ -1,0 +1,2 @@
+Software rasterizer drivers (softpipe-based), providing OpenGL rendering 
+when no GPU acceleration is available.

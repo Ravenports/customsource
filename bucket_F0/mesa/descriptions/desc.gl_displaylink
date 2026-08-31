@@ -1,0 +1,3 @@
+This subpackage contains the USB DisplayLink OpenGL driver:
+
+* udl_dri.so - DisplayLink USB video adapter support
